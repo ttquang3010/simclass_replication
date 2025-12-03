@@ -3,46 +3,54 @@ import json
 import os
 import glob
 import time
+from dotenv import load_dotenv # Import load_dotenv
 
 # ==========================================
 # 1. CONFIGURATION
 # ==========================================
-# Replace "YOUR_API_KEY" with your actual key (use the same key as the previous file)
-GOOGLE_API_KEY = "AIzaSyDLKsILJJD7IM0mpV9f_lxnN0DgnfY4MoA" 
-# Find the latest log file based on the pattern (replace if needed)
-LOG_FILE_PATTERN = "simulation_log_structured_*.jsonl"
+# Load environment variables from .env file
+load_dotenv() 
+
+# --- UPDATED LOG PATTERN ---
+# Match the new log filename format from the multi-agent simulator
+LOG_FILE_PATTERN = "simulation_log_multi_agent_*.jsonl" 
 OUTPUT_LABELED_FILE = "fias_labeled_results.jsonl"
-# --- MODEL UPDATE AS REQUESTED ---
+
 MODEL_NAME = "gemini-2.0-flash"
 
-if GOOGLE_API_KEY == "YOUR_API_KEY":
-    if "GOOGLE_API_KEY" in os.environ:
-        genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-    else:
-        # Error if key is not provided
-        raise ValueError("API Key is not provided. Please enter GOOGLE_API_KEY.")
+# --- API KEY HANDLING (Load from environment variables) ---
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "YOUR_API_KEY_NOT_SET")
+
+if GOOGLE_API_KEY == "YOUR_API_KEY_NOT_SET":
+    print("WARNING: GOOGLE_API_KEY not found in .env or environment variables. Please check your setup.")
+    # Raise an exception if the key is not set to prevent API calls from failing
+    raise Exception("GOOGLE_API_KEY not set.")
 else:
     genai.configure(api_key=GOOGLE_API_KEY)
+
 
 # ==========================================
 # 2. FIAS ANALYST AGENT (Step 4.1)
 # ==========================================
 
+# Updated prompt to explicitly handle Vietnamese text input
 FIAS_ANALYST_SYSTEM_PROMPT = """[ROLE] You are an Educational Analyst responsible for categorizing classroom interactions using the Flanders Interaction Analysis System (FIAS).
-[TASK] Analyze the provided turn of dialogue and classify its type using exactly ONE number from 1 to 9. Do NOT output any explanation, text, or markdown formatting, only the single digit.
+[CONTEXT] The classroom simulation takes place in **Vietnamese**, with English technical terms explained.
+[TASK] Analyze the provided turn of dialogue (in Vietnamese) and classify its type using exactly ONE number from 1 to 9. Do NOT output any explanation, text, or markdown formatting, only the single digit.
+
 [FIAS CODES - Refined based on SimClass and original Flanders principles]
 1: Accepts Feeling (Teacher): Requires clear labeling of the student's feeling (rare event).
-2: Praise or Encouragement (Teacher): Praise or encouragement. Avoid coding habitual routine superficial exclamations of praise. Code more than once if extended praise is given.
-3: Accepts or Uses Ideas of Student (Teacher): Responds to, acknowledges, modifies (e.g., "That's right, modifying the learning rate will prevent overfitting"), applies (e.g., "We can apply your suggestion to the Decision Tree model"), compares, or summarizes the student's idea. Code more than once if an extended response is given. Caution: Be careful not to let it become Lecturing (Code 5) or Asking Question (Code 4).
-4: Asks Questions (Teacher): Teacher poses a question and expects an answer (not a rhetorical question). DO NOT code if the purpose is to bring others into the discussion (e.g., "What do you think Joe?").
-5: Lecturing (Teacher): Delivering the main content (from script), expressing opinions, giving facts (e.g., "The key concept of a CNN is weight sharing"), injecting thoughts, and off-handed comments. This is the most common category for most Teacher talk.
-6: Giving Directions (Teacher): Instructions or commands intended to produce compliance. Includes questions during drill exercises. Avoid confusion with announcements (Code 5).
-7: Criticizing or Justifying Authority (Teacher): Criticizing or justifying authority (N/A in this Sim).
-8: Student Response (Student): Direct (and expected) response to the Teacher's question or direction (usually closed questions). **Use Code 8 in all cases where there is doubt between 8 and 9.**
-9: Student Initiation (Student): Student VOLUNTARILY initiates: 
-    A) Response to an open-ended teacher question (e.g., "What are the limitations of the linear regression model?"). 
-    B) Student adds voluntary/independent information to the response (turns an 8 into a 9). 
-    C) Raises a new question, counter-argument (e.g., "But wouldn't using a larger dataset increase the risk of concept drift?"), or makes an off-target/resistance comment.
+2: Praise or Encouragement (Teacher): Praise (e.g., "Tốt lắm", "Đúng rồi"). Code more than once if extended.
+3: Accepts or Uses Ideas of Student (Teacher): Acknowledges, modifies, applies, compares, or summarizes student ideas. (e.g., "Ý kiến của em về X rất hay...").
+4: Asks Questions (Teacher): Teacher poses a question expecting an answer.
+5: Lecturing (Teacher): Delivering content, facts, opinions (e.g., "Hôm nay chúng ta học về..."). This is the most common category for Teacher.
+6: Giving Directions (Teacher): Instructions or commands.
+7: Criticizing (Teacher): Criticizing behavior (Rare).
+8: Student Response (Student): Passive response to Teacher's question (e.g., answering a definition). **Use Code 8 if in doubt between 8 and 9.**
+9: Student Initiation (Student): Active initiation:
+    A) Answering an open-ended question.
+    B) Adding voluntary information.
+    C) Raising a NEW question or counter-argument (e.g., "Nhưng thưa thầy, tại sao...?").
 [OUTPUT FORMAT] Only a single digit (1-9).
 """
 
@@ -97,14 +105,12 @@ def calculate_fias_metrics(labeled_data):
     # Total Teacher Talk
     # TT Numerator (FIAS 1-4: Indirect Influence, FIAS 5-7: Direct Influence)
     teacher_talk_count = fias_counts[1] + fias_counts[2] + fias_counts[3] + fias_counts[4] + \
-                         fias_counts[5] + fias_counts[6] + fias_counts[7]
-                         
+                             fias_counts[5] + fias_counts[6] + fias_counts[7]
+                             
     # Total Student Talk
     student_talk_count = fias_counts[8] + fias_counts[9]
 
     # Teacher Talk Ratio (TT): Teacher Talk / (Teacher Talk + Student Talk)
-    # Note: The SimClass paper defines TT as (1-4) / (1-7), but the classical formula is T / (T+S)
-    # We use the TT definition in the context of SimClass: T/(T+S)
     if teacher_talk_count + student_talk_count > 0:
         tt_ratio = teacher_talk_count / (teacher_talk_count + student_talk_count)
         st_ratio = student_talk_count / (teacher_talk_count + student_talk_count)
@@ -130,11 +136,11 @@ def calculate_fias_metrics(labeled_data):
 # ==========================================
 
 def run_fias_analysis():
-    # Find the latest log file
+    # Find the latest log file matching the updated pattern
     list_of_files = glob.glob(LOG_FILE_PATTERN)
     if not list_of_files:
         print(f"ERROR: No log file found matching pattern '{LOG_FILE_PATTERN}'.")
-        print("Please run 'simclass_replication_v2.py' first.")
+        print("Please run 'main_course_simulator.py' first.")
         return
 
     latest_log_file = max(list_of_files, key=os.path.getctime)
@@ -200,14 +206,14 @@ def run_fias_analysis():
     print("\n--- NHẬN XÉT VÀ KẾT LUẬN ---")
     print("Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.")
     if metrics['Student Initiation Ratio (SIR)'] >= EXPECTED_SIR * 0.9:
-        print("Kết quả SIR RẤT TỐT, cho thấy Agent Deep Thinker đang khởi xướng thảo luận mạnh mẽ, tương đồng với nghiên cứu gốc.")
+        print("Kết quả SIR RẤT TỐT, cho thấy các Agent Học sinh (Deep Thinker, Mr. Clown...) đang khởi xướng thảo luận mạnh mẽ.")
     else:
-        print("SIR thấp hơn dự kiến, có thể cần tinh chỉnh prompt của Agent Deep Thinker để khuyến khích nó đặt câu hỏi ĐỘC LẬP hơn.")
+        print("SIR thấp hơn dự kiến, có thể cần tinh chỉnh prompt của các Agent Học sinh để khuyến khích đặt câu hỏi ĐỘC LẬP hơn.")
     
     if metrics['Teacher Talk (TT)'] > EXPECTED_TT * 1.05:
         print("TT cao hơn dự kiến, cho thấy Giáo sư X đang nói nhiều hơn và cần được khuyến khích tương tác gián tiếp (FIAS 2, 3, 4) thay vì chỉ giảng bài (FIAS 5).")
     elif metrics['Teacher Talk (TT)'] < EXPECTED_TT * 0.95:
-        print("TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn và cần truyền tải nhiều nội dung hơn.")
+        print("TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn hoặc bị ngắt lời quá nhiều.")
     else:
         print("TT nằm trong phạm vi chấp nhận được.")
 

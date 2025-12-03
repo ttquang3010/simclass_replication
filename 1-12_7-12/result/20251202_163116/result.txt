@@ -1,0 +1,17 @@
+==================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3)
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 65, 3: 33, 4: 1, 5: 393, 6: 9, 7: 0, 8: 1, 9: 123}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.802
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.198
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 0.992
+  (So sánh với SimClass gốc: ~0.896)
+==================================================
+
+--- NHẬN XÉT VÀ KẾT LUẬN ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+Kết quả SIR RẤT TỐT, cho thấy các Agent Học sinh (Deep Thinker, Mr. Clown...) đang khởi xướng thảo luận mạnh mẽ.
+TT nằm trong phạm vi chấp nhận được.
