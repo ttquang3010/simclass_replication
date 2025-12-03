@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 1,
+    "slide_content": "## 1. Giới thiệu: Hệ sinh thái AI\n\n* **Artificial Intelligence (AI):** Khoa học làm cho máy móc thực hiện những việc đòi hỏi trí thông minh.\n* **Machine Learning (ML):** Tập con của AI. Khả năng học hỏi từ dữ liệu mà không cần lập trình rõ ràng các quy tắc.\n* **Deep Learning (DL):** Tập con của ML. Sử dụng mạng nơ-ron đa lớp (Neural Networks) để học các đặc trưng phức tạp.\n\n**Mối quan hệ:** $DL \\subset ML \\subset AI$",
+    "teacher_script": "Chào cả lớp. Trước khi đi sâu vào thuật toán, chúng ta cần định vị lại bản đồ. Hãy hình dung AI là một vũ trụ bao la chứa đựng giấc mơ về những cỗ máy thông minh. Machine Learning (Học máy) là một thiên hà trong đó, nơi chúng ta không viết các quy tắc 'if-then' cứng nhắc, mà dạy máy học từ dữ liệu. Và sâu bên trong là Deep Learning, sử dụng các mạng nơ-ron nhân tạo mô phỏng não bộ. Hôm nay, chúng ta sẽ tập trung vào phần lõi của thiên hà này: Machine Learning cơ bản."
+  },
+  {
+    "concept_id": 2,
+    "slide_content": "## 2. Các thành phần của bài toán ML\n\nĐể xây dựng mô hình, ta cần 3 yếu tố:\n\n1.  **Dataset (Dữ liệu):** Tập hợp các ví dụ để học.\n2.  **Features (Đặc trưng - Input $X$):** Các thuộc tính dùng để dự đoán (ví dụ: diện tích nhà).\n3.  **Labels (Nhãn - Target $y$):** Kết quả cần dự đoán (ví dụ: giá nhà).\n\n**Mục tiêu:** Tìm hàm $f$ sao cho $y \\approx f(X)$.",
+    "teacher_script": "Để làm ML, chúng ta cần nguyên liệu. Đó là Dữ liệu. Trong dữ liệu, hai khái niệm quan trọng nhất là Features (ký hiệu là X) và Labels (ký hiệu là y). Ví dụ, nếu các em muốn dự đoán giá nhà, thì diện tích, số phòng ngủ, vị trí chính là Features (X). Còn giá bán thực tế của ngôi nhà đó chính là Label (y). Mục tiêu tối thượng của chúng ta là tìm ra một hàm số f, hay còn gọi là Model, để khi đưa X vào, nó sẽ tính ra được y chính xác nhất có thể."
+  },
+  {
+    "concept_id": 3,
+    "slide_content": "## 3. Phân loại Học máy (ML Paradigms)\n\nChúng ta chia ML thành 2 nhánh chính dựa trên sự tồn tại của $y$:\n\n1.  **Supervised Learning (Học có giám sát):** Dữ liệu có nhãn $(X, y)$. Máy học từ đáp án đúng.\n    * *Ví dụ:* Spam Filter, Price Prediction.\n2.  **Unsupervised Learning (Học không giám sát):** Dữ liệu không nhãn $(X)$. Máy tự tìm cấu trúc ẩn.\n    * *Ví dụ:* Customer Segmentation, Anomaly Detection.",
+    "teacher_script": "Dựa vào việc chúng ta có Label (y) hay không, ML được chia làm hai nhánh lớn. Nhánh thứ nhất là Supervised Learning - Học có giám sát. Hãy tưởng tượng như việc các em luyện thi có đáp án chi tiết; máy tính học bằng cách so sánh dự đoán của nó với đáp án đúng. Nhánh thứ hai là Unsupervised Learning - Học không giám sát. Lúc này, chúng ta chỉ ném cho máy một đống dữ liệu thô (X) mà không có nhãn. Nhiệm vụ của nó là tự tìm ra các mẫu (patterns) hoặc cấu trúc ẩn bên trong đống dữ liệu hỗn độn đó."
+  },
+  {
+    "concept_id": 4,
+    "slide_content": "## 4. Supervised Learning: Linear Regression (Hồi quy Tuyến tính)\n\n**Định nghĩa:** Bài toán dự đoán một giá trị liên tục ($y \\in \\mathbb{R}$).\n\n**Mô hình đơn giản nhất:** Đường thẳng.\n$$h_\\theta(x) = \\theta_0 + \\theta_1 x$$\n\n* $h_\\theta(x)$: Giá trị dự đoán (Hypothesis).\n* $\\theta_0$: Bias (Hệ số chặn).\n* $\\theta_1$: Weight (Trọng số/Độ dốc).",
+    "teacher_script": "Chúng ta bắt đầu với thuật toán đơn giản nhất của Supervised Learning: Linear Regression (Hồi quy tuyến tính). Bài toán này dùng để dự đoán các con số cụ thể, ví dụ như giá nhà hay doanh thu. Về mặt toán học, chúng ta giả định mối quan hệ giữa đầu vào x và đầu ra y là một đường thẳng. Công thức $h_\\theta(x) = \\theta_0 + \\theta_1 x$ chính là phương trình đường thẳng $y = ax + b$ mà các em học hồi cấp 2. Nhiệm vụ của ML là tìm ra $\\theta_0$ và $\\theta_1$ tốt nhất."
+  },
+  {
+    "concept_id": 5,
+    "slide_content": "## 5. Cost Function (Hàm mất mát)\n\nLàm sao biết đường thẳng nào là tốt nhất? Chúng ta đo sai số bằng **Mean Squared Error (MSE)**.\n\n$$J(\\theta_0, \\theta_1) = \\frac{1}{2m} \\sum_{i=1}^{m} (h_\\theta(x^{(i)}) - y^{(i)})^2$$\n\n* $m$: Số lượng mẫu dữ liệu.\n* $h_\\theta(x^{(i)}) - y^{(i)}$: Sai lệch giữa dự đoán và thực tế.\n\n**Mục tiêu:** $\\min_{\\theta_0, \\theta_1} J(\\theta_0, \\theta_1)$",
+    "teacher_script": "Nhưng vẽ đường thẳng thế nào cho chuẩn? Chúng ta cần một thước đo sai số, gọi là Cost Function (Hàm mất mát), ký hiệu là J. Phổ biến nhất là MSE - Trung bình bình phương sai số. Các em nhìn vào công thức: chúng ta lấy giá trị dự đoán trừ đi giá trị thực tế, bình phương lên để loại bỏ số âm, rồi cộng tổng lại và chia trung bình. Mục tiêu của việc 'học' chính là tìm ra bộ tham số $\\theta$ sao cho hàm J này đạt giá trị nhỏ nhất. J càng nhỏ, mô hình càng chính xác."
+  },
+  {
+    "concept_id": 6,
+    "slide_content": "## 6. Gradient Descent (Thuật toán tối ưu)\n\nLàm sao tìm được $\\min J$? Hãy tưởng tượng bạn đang đứng trên đỉnh núi và muốn xuống thung lũng nhanh nhất.\n\n**Quy tắc cập nhật:**\n$$\\theta_j := \\theta_j - \\alpha \\frac{\\partial}{\\partial \\theta_j} J(\\theta_0, \\theta_1)$$\n\n* $\\alpha$: Learning Rate (Tốc độ học).\n* $\\frac{\\partial}{\\partial \\theta_j} J$: Đạo hàm riêng (Hướng dốc xuống).",
+    "teacher_script": "Để tìm giá trị nhỏ nhất của J, chúng ta không thể thử mù quáng mọi con số. Chúng ta dùng thuật toán Gradient Descent (Xuống đồi). Hãy tưởng tượng đồ thị hàm J là một cái thung lũng. Chúng ta đang đứng trên sườn núi. Đạo hàm chính là độ dốc tại chỗ ta đứng. Chúng ta sẽ bước từng bước xuống dốc theo hướng ngược lại của đạo hàm. Kích thước mỗi bước đi được quyết định bởi Alpha - Learning Rate. Nếu Alpha quá lớn, ta có thể bước hụt qua bên kia thung lũng; nếu quá nhỏ, ta sẽ đi rất lâu mới tới đáy."
+  },
+  {
+    "concept_id": 7,
+    "slide_content": "## 7. Model Complexity: Overfitting vs. Underfitting\n\n* **Underfitting (High Bias):** Mô hình quá đơn giản, không nắm bắt được xu hướng dữ liệu (VD: Dùng đường thẳng cho dữ liệu hình parabol).\n* **Overfitting (High Variance):** Mô hình quá phức tạp, học thuộc lòng cả nhiễu (Noise) của dữ liệu huấn luyện, nhưng dự đoán kém trên dữ liệu mới.\n\n**Giải pháp:** Regularization, thêm dữ liệu, hoặc giảm độ phức tạp model.",
+    "teacher_script": "Khi huấn luyện, chúng ta thường gặp hai vấn đề. Thứ nhất là Underfitting: mô hình quá ngây thơ, ví dụ dữ liệu uốn lượn nhưng ta cứ ép nó là đường thẳng. Thứ hai nguy hiểm hơn là Overfitting: mô hình học vẹt. Nó cố gắng đi qua tất cả các điểm dữ liệu, kể cả những điểm nhiễu. Kết quả là nó làm bài tập về nhà (Training Data) rất tốt, nhưng khi đi thi (Test Data) thì điểm rất thấp vì không có khả năng tổng quát hóa (Generalization)."
+  },
+  {
+    "concept_id": 8,
+    "slide_content": "## 8. Supervised Learning: Classification (Bài toán Phân loại)\n\n**Định nghĩa:** Dự đoán nhãn rời rạc ($y \\in \\{0, 1\\}$ hoặc $y \\in \\{0, 1, ..., k\\}$).\n\n* **Binary Classification:** Email là Spam (1) hay Không (0)?\n* **Linear Regression không phù hợp:** Vì đường thẳng có thể cho giá trị $h_\\theta(x) > 1$ hoặc $< 0$, không có ý nghĩa xác suất.",
+    "teacher_script": "Chúng ta chuyển sang loại bài toán thứ hai của Supervised Learning: Classification (Phân loại). Khác với Regression dự đoán con số, Classification dự đoán nhãn. Ví dụ kinh điển: Email này là Spam (1) hay Không Spam (0)? Tại sao ta không dùng Linear Regression ở đây? Vì đường thẳng có thể trả về giá trị 1.5 hay -0.2, trong khi xác suất chỉ có thể nằm từ 0 đến 1. Do đó, ta cần một hàm số khác để 'ép' kết quả về khoảng này."
+  },
+  {
+    "concept_id": 9,
+    "slide_content": "## 9. Logistic Regression & Hàm Sigmoid\n\nĐể đưa kết quả về khoảng $(0, 1)$, ta sử dụng hàm **Sigmoid** (hay Logistic function):\n\n$$g(z) = \\frac{1}{1 + e^{-z}}$$\n\nKhi đó, Hypothesis trở thành:\n$$h_\\theta(x) = g(\\theta^T x) = \\frac{1}{1 + e^{-\\theta^T x}}$$\n\n**Ý nghĩa:** Xác suất $y=1$ khi biết $x$. ($P(y=1|x;\\theta)$).",
+    "teacher_script": "Giải pháp của chúng ta là Logistic Regression. Đừng để cái tên 'Regression' đánh lừa, nó dùng để phân loại. Chúng ta sử dụng hàm Sigmoid. Hàm này có hình chữ S đẹp mắt, giúp biến đổi mọi giá trị đầu vào thành một con số nằm chặt trong khoảng (0, 1). Kết quả $h_\\theta(x) = 0.7$ có nghĩa là: 'Dựa trên dữ liệu này, có 70% xác suất đây là Spam'."
+  },
+  {
+    "concept_id": 10,
+    "slide_content": "## 10. Decision Boundary (Ranh giới quyết định)\n\nChúng ta đưa ra quyết định dựa trên ngưỡng (Threshold), thường là $0.5$:\n\n* Nếu $h_\\theta(x) \\geq 0.5 \\rightarrow$ Dự đoán $y = 1$.\n* Nếu $h_\\theta(x) < 0.5 \\rightarrow$ Dự đoán $y = 0$.\n\nĐường phân chia vùng 0 và vùng 1 được gọi là **Decision Boundary**.",
+    "teacher_script": "Sau khi có xác suất, máy tính cần đưa ra quyết định cuối cùng: Yes hay No? Chúng ta thường chọn ngưỡng là 0.5. Nếu xác suất lớn hơn hoặc bằng 0.5, ta kết luận y=1. Ngược lại là y=0. Tập hợp các điểm mà tại đó xác suất bằng đúng 0.5 tạo thành 'Ranh giới quyết định' (Decision Boundary). Trong không gian 2D, nó có thể là một đường thẳng hoặc đường cong phân chia các điểm xanh và đỏ."
+  },
+  {
+    "concept_id": 11,
+    "slide_content": "## 11. Cost Function cho Logistic Regression\n\nTa không dùng MSE vì nó tạo ra hàm không lồi (non-convex) với Sigmoid. Ta dùng **Log Loss (Cross-Entropy)**:\n\n$$Cost(h_\\theta(x), y) = \\begin{cases} -\\log(h_\\theta(x)) & \\text{if } y=1 \\\\ -\\log(1 - h_\\theta(x)) & \\text{if } y=0 \\end{cases}$$\n\n**Tổng quát:**\n$$J(\\theta) = -\\frac{1}{m} \\sum [y^{(i)}\\log(h_\\theta(x^{(i)})) + (1-y^{(i)})\\log(1-h_\\theta(x^{(i)}))]$$",
+    "teacher_script": "Với Logistic Regression, chúng ta không dùng MSE như bài trước được nữa, vì nó sẽ tạo ra một hàm lồi lõm rất khó tìm đáy (non-convex). Thay vào đó, ta dùng Log Loss hay Cross-Entropy. Công thức trông có vẻ phức tạp, nhưng ý nghĩa rất đơn giản: Nếu đáp án đúng là 1 mà máy dự đoán xác suất gần 0, ta phạt thật nặng (Loss tiến tới vô cùng). Nếu máy dự đoán đúng, phạt rất nhẹ."
+  },
+  {
+    "concept_id": 12,
+    "slide_content": "## 12. Evaluation Metrics (Đánh giá mô hình phân loại)\n\nĐộ chính xác (Accuracy) không phải lúc nào cũng tốt (ví dụ: dữ liệu mất cân bằng).\n\n* **Precision (Độ chính xác):** Trong các mẫu dự đoán là True, bao nhiêu mẫu đúng? $\\frac{TP}{TP + FP}$\n* **Recall (Độ phủ):** Trong các mẫu thực tế là True, bao nhiêu mẫu được phát hiện? $\\frac{TP}{TP + FN}$\n* **F1-Score:** Trung bình điều hòa của Precision và Recall.",
+    "teacher_script": "Làm sao biết mô hình phân loại tốt hay không? Chỉ dùng Accuracy (tỷ lệ đúng) là chưa đủ. Hãy tưởng tượng bài toán phát hiện ung thư: chỉ có 1% người bị bệnh. Nếu máy đoán 'Tất cả mọi người đều khỏe', nó đúng 99% (Accuracy cao), nhưng lại vô dụng. Lúc này ta cần Precision và Recall. Precision trả lời câu hỏi: 'Khi máy báo bệnh, bao nhiêu % là bệnh thật?'. Recall trả lời: 'Trong tất cả người bệnh, máy phát hiện được bao nhiêu người?'. F1-Score là chỉ số cân bằng giữa hai yếu tố này."
+  },
+  {
+    "concept_id": 13,
+    "slide_content": "## 13. Chuyển tiếp: Unsupervised Learning\n\n**Vấn đề:** Không phải lúc nào dữ liệu cũng có nhãn ($y$). Việc gán nhãn rất tốn kém và tốn thời gian.\n\n**Giải pháp:** Học không giám sát. Tìm kiếm cấu trúc, gom nhóm, hoặc đơn giản hóa dữ liệu chỉ dựa trên $X$.\n\n**Ứng dụng:** Marketing (Segmentation), GenAI, Data Compression.",
+    "teacher_script": "Chúng ta đã đi qua Supervised Learning. Nhưng thực tế, dữ liệu có nhãn là một tài nguyên xa xỉ. Gán nhãn cho 1 triệu tấm ảnh cần rất nhiều tiền và nhân lực. Vậy với dữ liệu thô thì sao? Đó là lãnh địa của Unsupervised Learning. Ở đây, máy tính giống như một đứa trẻ tự chơi đồ chơi, tự học cách phân biệt hình tròn và hình vuông mà không cần ai bảo. Nó tự tìm ra cấu trúc nội tại của dữ liệu."
+  },
+  {
+    "concept_id": 14,
+    "slide_content": "## 14. Clustering: K-Means Algorithm (Phân cụm)\n\n**Mục tiêu:** Chia dữ liệu thành $K$ cụm (clusters) sao cho các điểm trong cùng cụm thì giống nhau.\n\n**Quy trình:**\n1.  Khởi tạo ngẫu nhiên $K$ điểm tâm (Centroids) $\\mu_1, ..., \\mu_K$.\n2.  **Gán cụm:** Gán mỗi điểm $x^{(i)}$ vào centroid gần nhất.\n3.  **Cập nhật:** Tính lại vị trí centroid bằng trung bình cộng các điểm trong cụm.\n4.  Lặp lại bước 2-3 cho đến khi hội tụ.",
+    "teacher_script": "Thuật toán kinh điển nhất của Unsupervised Learning là K-Means Clustering. Ý tưởng cực kỳ đơn giản nhưng mạnh mẽ. Giả sử ta muốn chia khách hàng thành 3 nhóm (K=3). Bước 1: Ta chọn bừa 3 điểm làm tâm. Bước 2: Với mỗi khách hàng, ta xem họ gần tâm nào nhất thì gán vào nhóm đó. Bước 3: Sau khi gán xong, ta tính lại vị trí trung bình của từng nhóm để dời tâm về chính giữa. Cứ lặp lại việc gán và dời tâm này cho đến khi mọi thứ ổn định."
+  },
+  {
+    "concept_id": 15,
+    "slide_content": "## 15. Toán học trong K-Means\n\n**Hàm mục tiêu (Distortion Function):**\n$$J(c, \\mu) = \\sum_{i=1}^{m} ||x^{(i)} - \\mu_{c^{(i)}}||^2$$\n\n* $c^{(i)}$: Chỉ số cụm của điểm $x^{(i)}$.\n* $\\mu_{c^{(i)}}$: Vị trí centroid của cụm đó.\n* $||.||$: Khoảng cách Euclidean.\n\nK-Means cố gắng tối thiểu hóa tổng bình phương khoảng cách từ các điểm đến tâm cụm của nó.",
+    "teacher_script": "Bên dưới sự đơn giản đó là toán học. K-Means thực chất cũng đang tối ưu hóa một hàm mất mát, gọi là Distortion Function. Hàm này tính tổng bình phương khoảng cách (Euclidean distance) từ mỗi điểm dữ liệu đến tâm cụm của nó. Thuật toán di chuyển các tâm cụm $\\mu$ sao cho tổng khoảng cách này là nhỏ nhất, tức là các cụm co cụm lại chặt chẽ nhất có thể."
+  },
+  {
+    "concept_id": 16,
+    "slide_content": "## 16. Chọn số cụm K (Elbow Method)\n\nLàm sao biết nên chia thành 3 hay 5 cụm?\n\n**Phương pháp khuỷu tay (Elbow Method):**\n1.  Chạy K-Means với $K=1, 2, ..., 10$.\n2.  Vẽ đồ thị giá trị Cost Function $J$ theo $K$.\n3.  Chọn $K$ tại điểm gập (khuỷu tay) - nơi việc tăng thêm cụm không làm giảm lỗi đáng kể nữa.",
+    "teacher_script": "Một câu hỏi hóc búa trong K-Means là: Chọn K bằng bao nhiêu? Chia khách hàng thành 3 nhóm hay 10 nhóm? Chúng ta dùng phương pháp 'Khuỷu tay' (Elbow Method). Ta chạy thuật toán với K tăng dần và vẽ biểu đồ lỗi. Khi K tăng, lỗi luôn giảm. Nhưng sẽ có một điểm mà tốc độ giảm lỗi đột ngột chững lại, tạo thành hình cái khuỷu tay. Đó chính là số cụm K tối ưu, cân bằng giữa độ nén và độ chính xác."
+  },
+  {
+    "concept_id": 17,
+    "slide_content": "## 17. Hierarchical Clustering (Phân cụm phân cấp)\n\nKhác với K-Means (cần chọn K trước), thuật toán này xây dựng một cây phân cấp.\n\n* **Agglomerative (Bottom-up):** Bắt đầu mỗi điểm là 1 cụm. Gộp 2 cụm gần nhất lại dần dần.\n* **Dendrogram:** Biểu đồ cây thể hiện quá trình gộp.\n* Không cần chọn $K$ trước, cắt Dendrogram ở độ cao mong muốn để có số cụm.",
+    "teacher_script": "Ngoài K-Means, ta còn có Hierarchical Clustering (Phân cụm phân cấp). Cách tiếp cận này thú vị ở chỗ nó không bắt ta chọn số cụm ngay từ đầu. Nó bắt đầu bằng cách coi mỗi điểm dữ liệu là một cụm riêng biệt, rồi cứ thế gộp hai cụm gần nhất lại với nhau, giống như xây kim tự tháp từ đáy lên. Kết quả là một biểu đồ cây gọi là Dendrogram. Muốn có bao nhiêu cụm, ta chỉ việc cắt ngang cái cây đó."
+  },
+  {
+    "concept_id": 18,
+    "slide_content": "## 18. Dimensionality Reduction (Giảm chiều dữ liệu)\n\n**Vấn đề:** Dữ liệu thực tế có thể có hàng ngàn Features (high-dimensional). Gây ra 'Lời nguyền của số chiều' (Curse of Dimensionality).\n\n**Mục tiêu:** Nén dữ liệu xuống số chiều thấp hơn (2D, 3D) để trực quan hóa hoặc tăng tốc độ training, nhưng vẫn giữ lại thông tin quan trọng nhất.\n\n**Thuật toán:** Principal Component Analysis (PCA).",
+    "teacher_script": "Một mảng khác của Unsupervised Learning là Giảm chiều dữ liệu (Dimensionality Reduction). Hãy tưởng tượng một file Excel có 1000 cột (Features). Máy tính sẽ bị quá tải, hiện tượng này gọi là 'Lời nguyền của số chiều'. Chúng ta cần nén 1000 cột đó xuống còn 2 hoặc 3 cột quan trọng nhất để có thể vẽ biểu đồ hoặc tính toán nhanh hơn, nhưng không được làm mất quá nhiều thông tin. Thuật toán nổi tiếng nhất cho việc này là PCA."
+  },
+  {
+    "concept_id": 19,
+    "slide_content": "## 19. Principal Component Analysis (PCA)\n\n**Ý tưởng:** Tìm một mặt phẳng (hoặc đường thẳng) mới sao cho khi chiếu dữ liệu lên đó, phương sai (variance) là lớn nhất.\n\n* **Principal Components:** Các hướng trực giao chứa nhiều thông tin nhất.\n* Dùng toán học đại số tuyến tính (Eigenvalues & Eigenvectors) để tìm các hướng này.",
+    "teacher_script": "PCA (Phân tích thành phần chính) hoạt động bằng cách xoay trục toạ độ. Nó tìm ra hướng nào dữ liệu biến thiên mạnh nhất (phương sai lớn nhất) và gọi đó là Thành phần chính thứ nhất. Sau đó tìm hướng vuông góc tiếp theo có biến thiên lớn nhì. Bằng cách giữ lại vài thành phần chính đầu tiên, ta có thể nén ảnh, nén dữ liệu gen di truyền mà vẫn giữ được đặc điểm cốt lõi của chúng."
+  },
+  {
+    "concept_id": 20,
+    "slide_content": "## 20. Anomaly Detection (Phát hiện bất thường)\n\n**Bài toán:** Tìm các điểm dữ liệu khác biệt so với phần còn lại.\n\n**Phương pháp thống kê:**\n* Mô hình hóa dữ liệu theo phân phối chuẩn (Gaussian Distribution) $\\mathcal{N}(\\mu, \\sigma^2)$.\n* Tính xác suất $p(x)$.\n* Nếu $p(x) < \\epsilon$ (ngưỡng) $\\rightarrow$ Bất thường (Anomaly).",
+    "teacher_script": "Ứng dụng thứ ba của Unsupervised Learning là Phát hiện bất thường (Anomaly Detection). Đây là công cụ đắc lực để chống gian lận ngân hàng hay bảo trì máy bay. Ý tưởng là xây dựng một mô hình xác suất của trạng thái 'bình thường'. Khi có một dữ liệu mới, ta tính xác suất xuất hiện của nó. Nếu xác suất quá thấp (nhỏ hơn Epsilon), ví dụ một giao dịch thẻ tín dụng lúc 3h sáng ở nước lạ, máy sẽ báo động đỏ ngay lập tức."
+  },
+  {
+    "concept_id": 21,
+    "slide_content": "## 21. Recommender Systems (Hệ gợi ý)\n\nMột ứng dụng lai, thường dùng các kỹ thuật Unsupervised (như Matrix Factorization).\n\n**Collaborative Filtering:**\n* \"Người dùng giống bạn cũng thích sản phẩm này\".\n* Dựa trên ma trận User-Item.\n\n**Content-Based Filtering:**\n* \"Sản phẩm này giống sản phẩm bạn đã thích\".\n* Dựa trên Features của sản phẩm.",
+    "teacher_script": "Không thể không nhắc đến Hệ gợi ý (Recommender Systems) - thuật toán đứng sau Netflix, TikTok, Shopee. Dù thường được coi là bài toán riêng, nó sử dụng rất nhiều kỹ thuật Unsupervised. Có hai cách tiếp cận: Lọc cộng tác (Collaborative Filtering) - gợi ý dựa trên sở thích của những người giống bạn. Và Lọc theo nội dung (Content-Based) - gợi ý những món đồ có tính chất giống món bạn đã mua. Matrix Factorization là thuật toán toán học đẹp đẽ đứng sau các hệ thống này."
+  },
+  {
+    "concept_id": 22,
+    "slide_content": "## 22. Tổng kết so sánh: Supervised vs. Unsupervised\n\n| Đặc điểm | Supervised Learning | Unsupervised Learning |\n| :--- | :--- | :--- |\n| **Dữ liệu** | Có nhãn $(X, y)$ | Không nhãn $(X)$ |\n| **Mục tiêu** | Dự đoán/Phân loại | Khám phá cấu trúc |\n| **Phản hồi** | Trực tiếp (Đúng/Sai) | Không có phản hồi rõ ràng |\n| **Độ khó** | Dễ đánh giá (Accuracy) | Khó đánh giá chất lượng |\n| **Ví dụ** | Regression, Classification | Clustering, PCA |",
+    "teacher_script": "Hãy tổng kết lại. Supervised Learning giống như học vẹt có thầy chấm điểm: dữ liệu có nhãn, mục tiêu là dự đoán, dễ đánh giá đúng sai. Unsupervised Learning giống như tự học và chiêm nghiệm: dữ liệu không nhãn, mục tiêu là khám phá, rất khó để nói kết quả là đúng hay sai tuyệt đối. Trong thực tế, các hệ thống AI hiện đại thường kết hợp cả hai, gọi là Semi-supervised Learning."
+  },
+  {
+    "concept_id": 23,
+    "slide_content": "## 23. Case Study Thảo luận: Phân loại Hoa Lan\n\n**Tình huống:** Các nhà thực vật học tìm thấy một hòn đảo mới với hàng ngàn bông hoa lan chưa từng được đặt tên.\n\n**Câu hỏi thảo luận:**\n1.  Nếu họ muốn gom các bông hoa giống nhau thành nhóm để nghiên cứu $\\rightarrow$ Dùng thuật toán nào?\n2.  Sau khi đã nghiên cứu và đặt tên (gán nhãn) cho 1000 bông hoa, họ muốn xây dựng app để tự động nhận diện các bông hoa còn lại $\\rightarrow$ Dùng thuật toán nào?",
+    "teacher_script": "Để kiểm tra kiến thức, chúng ta quay lại tình huống hoa lan. Giai đoạn 1: Khi mới lên đảo, chưa biết gì cả, muốn chia nhóm các bông hoa để nghiên cứu, ta dùng Clustering (K-Means) - đây là Unsupervised. Giai đoạn 2: Sau khi các giáo sư đã vất vả đặt tên (gán nhãn y) cho từng nhóm, ta muốn làm một cái App cho khách du lịch chụp ảnh nhận diện tên hoa. Lúc này ta đã có dữ liệu (X, y), nên ta chuyển sang dùng Supervised Learning (Classification). Các em thấy sự chuyển đổi linh hoạt này chưa?"
+  },
+  {
+    "concept_id": 24,
+    "slide_content": "## 24. Lời khuyên thực tế (Practical Advice)\n\n* **Dữ liệu là vua:** Thuật toán xịn đến mấy mà dữ liệu rác (Garbage In) thì kết quả cũng rác (Garbage Out).\n* **Bắt đầu đơn giản:** Luôn thử Linear/Logistic Regression trước khi nhảy vào Deep Learning.\n* **Feature Engineering:** Dành 80% thời gian để làm sạch và tạo đặc trưng dữ liệu.",
+    "teacher_script": "Trước khi kết thúc, thầy có vài lời gan ruột. Trong ML, Dữ liệu quan trọng hơn Thuật toán. Đừng vội vàng nhảy vào các mô hình Deep Learning phức tạp. Hãy bắt đầu từ những cái đơn giản nhất như Linear Regression. Và hãy nhớ, 80% thời gian của một Data Scientist không phải là ngầu lòi chỉnh sửa mô hình, mà là vật lộn làm sạch dữ liệu và tạo Features. Đó mới là nơi giá trị thực sự được tạo ra."
+  },
+  {
+    "concept_id": 25,
+    "slide_content": "## 25. Bước tiếp theo: Deep Learning?\n\n* Khi lượng dữ liệu tăng khổng lồ, các thuật toán ML truyền thống (Linear, SVM) bị bão hòa hiệu suất.\n* **Neural Networks (Deep Learning)** tỏa sáng với dữ liệu phi cấu trúc (Ảnh, Giọng nói, Văn bản).\n* **Hẹn gặp lại:** Trong học phần tiếp theo về Mạng Nơ-ron!",
+    "teacher_script": "Hành trình của chúng ta chưa dừng lại. Các thuật toán ML truyền thống rất tốt, nhưng khi dữ liệu lớn đến mức khổng lồ, hoặc khi xử lý ảnh và giọng nói, chúng bắt đầu đuối sức. Đó là lúc Deep Learning với các mạng nơ-ron sâu xuất hiện để tiếp quản cuộc chơi. Nhưng để hiểu được Neural Network, các em phải nắm chắc Gradient Descent và Cost Function mà chúng ta học hôm nay. Cảm ơn cả lớp đã tham gia buổi học!"
+  }
+]
