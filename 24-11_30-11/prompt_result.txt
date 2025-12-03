@@ -1,0 +1,212 @@
+Category 1: 
+- This is a rare event, the teacher must actually label the feeling to obtain this code
+Category 2: 
+- Avoid getting use to code habitually routine superficial exclamations of praise 
+- Code more than once if extended praise is given
+Category 3: 
+- Teacher can respond to pupil’s ideas as in a number of ways. 
+  - Acknowledge – creating norms and logical connections 
+  - Modify, rephrase 
+  - Apply it to solve a problem or make inference 
+  - Compare it with others 
+  - Summarise what is said 
+- Code 3 more than once if extended response given 
+- Restrained use in coding 3 appears to enhance its diagnostic utility 
+- Beware of teacher making too bigger abstraction from pupils statements (code 5) 
+- Beware of teacher ignoring pupils suggestion and asking for another (code 4)
+Category 4: 
+- Teacher must act as if he expects an answer (not rhetorical question) 
+- If teacher talk is to bring others into discussion e.g what do you think Joe, no need to code 4.
+Category 5: 
+- Lecturing, expressing opinions, giving facts, interjecting thoughts and off handed comments included. 
+- In traditional teaching approaches category 5 will be most common, catch all category and incorrect and correct tally for this category unlikely to distort teacher’s profile
+Category 6 & 7: 
+- Used to indicate close supervision and direction by the teacher 
+- Used for statements intended to produce compliance. To recognize during coding ask whether compliance will be result of statement 
+- Avoid confusion with announcements (code 5) 
+- Questions during teacher directed drill can be coded 6
+Categories 8 & 9: 
+- Making a choice between codes 8 & 9 should relate to the teachers preceding question. 
+Or Not = code 8 
+Pupil response to open teacher question e.g. what type of dressing should we use = code 9.
+Student response 8 can turn into 9 if the student embellishes or adds voluntary information or makes an independent judgment. 
+- Use 8 in all cases where there is doubt about 9 
+- Category 9 also used for students making off target remarks (resistance to compliance)
+
+====================================================================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3). Timestamp: 20251126_113549
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 4, 3: 16, 4: 4, 5: 56, 6: 0, 7: 0, 8: 0, 9: 40}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.667
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.333
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 1.000
+  (So sánh với SimClass gốc: ~0.896)
+====================================================================================================
+
+--- NHẬN XÉT ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+🎉 Kết quả SIR RẤT TỐT, cho thấy Agent Deep Thinker đang khởi xướng thảo luận mạnh mẽ, tương đồng với nghiên cứu gốc.
+⚠️ TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn và cần truyền tải nhiều nội dung hơn.
+
+--- KẾT LUẬN ---
+Teacher Talk: Quá Thấp. Giáo viên (Prof. X) đang nói ít hơn mức cần thiết.
+Student Initiation Ratio: Quá Cao. Học sinh (Deep Thinker) chỉ khởi xướng (Code 9), không bao giờ phản hồi (Code 8).
+Phân bố code: Không đồng đều. Đặc biệt Code 8 bằng 0.
+
+--- PHÂN TÍCH ---
+1. Code 1 (Accepts Feeling) & 7 (Criticizing): Các code này thường bằng 0 vì chúng là những hành vi cực đoan (cần dán nhãn cảm xúc hoặc chỉ trích). Hệ thống SimClass được thiết kế để tạo ra môi trường học tập tích cực, nên việc Agent tránh hành vi này là hợp lý.
+
+2. Code 6 (Giving Directions): Teacher Agent (Prof. X) được định nghĩa là một người giảng viên, tập trung vào kiến thức (Code 5) và tương tác (Code 2, 3, 4), không phải quản lý lớp học. Do đó, Code 6 (chỉ dẫn/ra lệnh) bằng 0 là hợp lý trong mô hình tương tác này.
+
+3. Code 8 (Student Response) = 0: Đây là nguyên nhân chính dẫn đến SIR = 1.000. Agent Deep Thinker chỉ tạo ra các lượt lời Khởi xướng (Code 9). Điều này xảy ra vì:
+- Prompt của Deep Thinker: Agent được hướng dẫn rõ ràng để "raise counterexamples or questions" (đặt câu hỏi hoặc phản biện), đây là định nghĩa điển hình của Code 9.
+
+- Kịch bản Tương tác: Không có bước nào buộc Deep Thinker phải trả lời một câu hỏi đóng, trực tiếp từ Giáo viên.
+
+4. SIR = 1.000 là không thực tế
+- SimClass Gốc (Nghiên cứu): SIR đo lường mức độ tham gia chủ động (Student Initiation) của Người dùng Thật (Human Users) trong môi trường LLM. Giá trị SIR cao (~0.896) cho thấy môi trường SimClass đã thành công trong việc khuyến khích học sinh chủ động.
+- Mô phỏng Hiện tại (LLM Agent): SIR = 1.000 chỉ ra rằng Agent Deep Thinker đang thực hiện chính xác 100% nhiệm vụ được giao (chỉ khởi xướng/phản biện) và không có hành vi "phản hồi theo kỳ vọng" (Code 8). Để tái tạo lại sự phân bố tương tác của con người, chúng ta cần làm cho Agent Deep Thinker bớt "hoàn hảo" trong việc khởi xướng và buộc nó phải tạo ra một tỷ lệ phản hồi (Code 8) nhất định.
+
+--- HƯỚNG CẢI THIỆN ---
+1. Cải thiện Teacher Talk: Tăng Code 5 & 3: Tăng cường độ chi tiết và độ dài của teacher_script. Yêu cầu Agent Teacher phải phản hồi chi tiết (Code 3/5) sau mỗi lượt lời của học sinh.
+
+2. Cân bằng Student Talk: Sử dụng Xác suất: Sau khi Giáo viên giảng xong một khái niệm, flow sẽ dùng xác suất để quyết định hành động tiếp theo của Học sinh hoặc Giáo viên, nhằm tạo ra cả Code 8 và Code 9:
+- Xác suất Cao (65%): Agent Deep Thinker thực hiện hành vi theo thiết kế ban đầu (khởi xướng - Code 9).
+- Xác suất Thấp (35%): Agent Deep Thinker không khởi xướng, buộc Giáo viên phải can thiệp bằng câu hỏi đóng (Code 4), dẫn đến phản hồi trực tiếp của Học sinh (Code 8).
+
+====================================================================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3). Timestamp: 20251126_171659
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 4, 3: 15, 4: 2, 5: 70, 6: 0, 7: 0, 8: 8, 9: 32}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.695
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.305
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 0.800
+  (So sánh với SimClass gốc: ~0.896)
+====================================================================================================
+
+--- NHẬN XÉT ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+SIR thấp hơn dự kiến, có thể cần tinh chỉnh prompt của Agent Deep Thinker để khuyến khích nó đặt câu hỏi ĐỘC LẬP hơn.
+TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn và cần truyền tải nhiều nội dung hơn.
+
+--- PHÂN TÍCH ---
+- TT hiện tại: 0.695, ST hiện tại: 0.305. Điều này cho thấy tổng khối lượng lời nói của học sinh (Student Talk) vẫn đang quá cao so với giáo viên, mặc dù đã áp dụng cơ chế xác suất.
+
+--- HƯỚNG CẢI THIỆN ---
+Để tăng Teacher Talk (TT) lên mức ~0.80 như SimClass và giảm Student Talk (ST), đề xuất thực hiện hai hành động:
+1. Cưỡng chế Khối lượng (Forced Output Length) cho Giáo viên (Codes 3 & 5):
+- Yêu cầu Agent Teacher phải tạo ra phản hồi dài hơn đáng kể (ví dụ: tối thiểu 100 từ) trong cả bài giảng (Code 5) và khi trả lời câu hỏi/xác nhận (Code 3) để tăng TT.
+
+2. Giảm Tần suất Tương tác (Break the Cycle):
+- Cơ chế hiện tại luôn dẫn đến một lượt nói của Học sinh sau bài giảng (hoặc Code 9 hoặc Code 8), khiến Student Talk không thể giảm xuống.
+- Thêm một xác suất "Im lặng/Không tương tác" (ví dụ 20%) sau khi Giáo viên giảng bài, mô phỏng việc học sinh đang suy ngẫm hoặc cảm thấy nội dung quá khó/quá dễ để phản hồi ngay lập tức. Nếu luồng "Im lặng" xảy ra, sẽ chuyển ngay sang slide tiếp theo, giúp giảm tần suất Code 8 và Code 9.
+
+
+====================================================================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3). Timestamp: 20251126_193712
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 1, 3: 8, 4: 7, 5: 67, 6: 0, 7: 0, 8: 9, 9: 23}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.722
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.278
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 0.719
+  (So sánh với SimClass gốc: ~0.896)
+====================================================================================================
+
+--- NHẬN XÉT ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+SIR thấp hơn dự kiến, có thể cần tinh chỉnh prompt của Agent Deep Thinker để khuyến khích nó đặt câu hỏi ĐỘC LẬP hơn.
+TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn và cần truyền tải nhiều nội dung hơn.
+
+--- PHÂN TÍCH ---
+1. Teacher Talk (TT) vẫn thiếu hụt: TT đạt 0.722, cần phải lên ~0.8. Điều này cho thấy yêu cầu "tối thiểu 100 từ" chưa đủ mạnh để cưỡng chế khối lượng nội dung từ Teacher.
+
+2. Student Initiation Ratio (SIR) thấp: SIR chỉ 0.719, cần phải lên ~0.89. Điều này chỉ ra rằng Agent Học sinh đang quá thường xuyên rơi vào trạng thái trả lời thụ động (Code 8) thay vì khởi xướng tích cực (Code 9).
+
+--- HƯỚNG CẢI THIỆN ---
+1. Cưỡng chế mạnh hơn để đạt TT phù hợp:
+- Tăng yêu cầu độ dài cho Giáo viên (Code 5) lên tối thiểu 200 từ và yêu cầu trình bày thành nhiều đoạn (multi-paragraph). Mục đích để đảm bảo Code 5 chiếm ưu thế tuyệt đối về tổng khối lượng lời nói.
+- Giữ nguyên độ dài cho Code 3 (Teacher Response) ở mức "detailed" nhưng không cưỡng chế số từ để tập trung tài nguyên vào Code 5.
+2. Cưỡng chế mạnh hơn để đạt SIR phù hợp:
+- Tăng xác suất cho luồng Học sinh Tự khởi xướng (Code 9) lên 80% trong tổng số các tương tác tích cực. Điều này sẽ đẩy chỉ số SIR lên gần mức baseline 0.896.
+3. Cấu hình Xác suất mới (V4):
+- Xác suất Im lặng/Skip: $0.15$ (15%)
+- Tương tác Kích hoạt (85%):
+  - Code 9 (Học sinh Khởi xướng): 80% của 85% = 68% tổng thể.
+  - Code 4→8 (Giáo viên Kiểm tra): 20% của 85% = 17% tổng thể.
+
+--- STARTING SIMCLASS REPLICATION (V3: FORCED TT) ---
+Model: gemini-2.0-flash | Sessions: 5
+Flow: 20% Silent, 48% Code 9, 32% Code 4->8. Teacher output forced to >100 words.
+-------------------------------------------------------
+
+--- STARTING SESSION 1/5 ---
+Session 1 completed. Total utterances: 27.
+--- STARTING SESSION 2/5 ---
+Session 2, Slide 3: No student interaction (Silent Turn).
+Session 2, Slide 7: No student interaction (Silent Turn).
+Session 2 completed. Total utterances: 22.
+--- STARTING SESSION 3/5 ---
+Session 3, Slide 6: No student interaction (Silent Turn).
+Session 3, Slide 8: No student interaction (Silent Turn).
+Session 3 completed. Total utterances: 21.
+--- STARTING SESSION 4/5 ---
+Session 4, Slide 4: No student interaction (Silent Turn).
+Session 4, Slide 8: No student interaction (Silent Turn).
+Session 4 completed. Total utterances: 22.
+--- STARTING SESSION 5/5 ---
+Session 5, Slide 4: No student interaction (Silent Turn).
+Session 5 completed. Total utterances: 25.
+
+COMPLETED: Ran 5 sessions. Total utterances: 117.
+  
+====================================================================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3). Timestamp: 20251126_200354
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 0, 3: 5, 4: 2, 5: 72, 6: 0, 7: 0, 8: 5, 9: 28}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.705
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.295
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 0.848
+  (So sánh với SimClass gốc: ~0.896)
+====================================================================================================
+
+--- NHẬN XÉT ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+Kết quả SIR RẤT TỐT, cho thấy Agent Deep Thinker đang khởi xướng thảo luận mạnh mẽ, tương đồng với nghiên cứu gốc.
+TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn và cần truyền tải nhiều nội dung hơn.  
+
+--- STARTING SIMCLASS REPLICATION (V4: EXTREME TT & HIGH SIR) ---
+Model: gemini-2.0-flash | Sessions: 5
+Flow: 15% Silent, 68% Code 9, 17% Code 4->8. Teacher Lecture forced to >200 words.
+-------------------------------------------------------
+
+--- STARTING SESSION 1/5 ---
+Session 1, Slide 6: No student interaction (Silent Turn).
+Session 1, Slide 7: No student interaction (Silent Turn).
+Session 1, Slide 8: No student interaction (Silent Turn).
+Session 1 completed. Total utterances: 19.
+--- STARTING SESSION 2/5 ---
+Session 2, Slide 2: No student interaction (Silent Turn).
+Session 2 completed. Total utterances: 24.
+--- STARTING SESSION 3/5 ---
+Session 3 completed. Total utterances: 26.
+--- STARTING SESSION 4/5 ---
+Session 4, Slide 5: No student interaction (Silent Turn).
+Session 4 completed. Total utterances: 23.
+--- STARTING SESSION 5/5 ---
+Session 5, Slide 5: No student interaction (Silent Turn).
+Session 5, Slide 8: No student interaction (Silent Turn).
+Session 5 completed. Total utterances: 20.
+
+COMPLETED: Ran 5 sessions. Total utterances: 112.
