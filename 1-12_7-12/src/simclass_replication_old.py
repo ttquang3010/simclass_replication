@@ -18,6 +18,13 @@ N_SESSIONS = 5  # Number of simulation runs
 # Reduced from 4 to 2 to increase Teacher Talk ratio and reduce noise/trivial interruptions
 N_INTERACTIONS_PER_SLIDE = 2 
 
+# --- CONTEXT WINDOW MANAGEMENT (Role-based) ---
+# DeepSeek limit: 131K tokens. Solution: Different window sizes per agent role.
+MAX_CONTEXT_TEACHER = 60        # Prof. X: Keep last 60 messages (lectures are long)
+MAX_CONTEXT_SUMMARY_SEEKER = None  # Summary Seeker: Keep ALL messages (needs full lecture)
+MAX_CONTEXT_PEERS = 40          # Other students: Keep last 40 messages
+MAX_CONTEXT_ASSISTANT = 40      # Clarity Guide: Keep last 40 messages
+
 # --- DUAL API CONFIGURATION (DeepSeek prioritized, Google Gemini fallback) ---
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", None)
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", None)
@@ -130,10 +137,11 @@ SIMULATED_USER_SYSTEM_PROMPT = """[role description] You are a real university s
 # ==========================================
 
 class SimAgent:
-    def __init__(self, name, system_prompt, model_name):
+    def __init__(self, name, system_prompt, model_name, max_context_window=None):
         self.name = name
         self.system_prompt = system_prompt
         self.model_name = model_name
+        self.max_context_window = max_context_window  # None = unlimited (for Summary Seeker)
         
         # Initialize based on API provider
         if API_PROVIDER == "google":
@@ -176,6 +184,13 @@ class SimAgent:
                     # DeepSeek API (OpenAI-compatible)
                     self.messages.append({"role": "user", "content": prompt_text})
                     
+                    # Apply sliding window if max_context_window is set
+                    if self.max_context_window is not None and len(self.messages) > (self.max_context_window + 1):
+                        # Keep system prompt + last N messages
+                        system_prompt_msg = self.messages[0]
+                        recent_messages = self.messages[-(self.max_context_window):]
+                        self.messages = [system_prompt_msg] + recent_messages
+                    
                     # Send all messages (system prompt already in self.messages[0])
                     response = client.chat.completions.create(
                         model=self.model_name,
@@ -203,8 +218,8 @@ class SimAgent:
 class SimulatedUser(SimAgent):
     """Represents a real shy student learning ML for the first time."""
     
-    def __init__(self, name, system_prompt, model_name):
-        super().__init__(name, system_prompt, model_name)
+    def __init__(self, name, system_prompt, model_name, max_context_window=None):
+        super().__init__(name, system_prompt, model_name, max_context_window)
         self.confusion_level = 0.0      # 0-1: How confused the student is
         self.courage_level = 0.0        # 0-1: Courage to speak up
         self.fear_level = 0.9           # 0-1: Fear (INCREASED for more shy behavior)
@@ -395,9 +410,16 @@ def write_logs_to_file(logs, mode='a'):
             f.write(json.dumps(log, ensure_ascii=False) + "\n")
 
 def run_single_session(session_id, agents, script):
-    """Execute a single simulation session with the new teacher-driven interaction flow."""
+    """Execute a single simulation session with the new teacher-driven interaction flow.
     
-    # Reset context for all agents
+    NOTE: Context is reset at the start of each session to:
+    1. Prevent DeepSeek context overflow (131K token limit)
+    2. Simulate realistic classroom behavior (each session = independent lecture)
+    3. Preserve Summary Seeker's role (summarizes within current lecture only)
+    """
+    
+    # Reset context for all agents (simulates starting a new lecture/class)
+    print(f"\n[CONTEXT RESET] All agents starting fresh for Session {session_id}")
     for agent in agents.values():
         agent.reset_context()
     
@@ -657,15 +679,16 @@ def run_multi_sessions():
     print("--- Interaction Language: Vietnamese (with English ML/AI term translations) ---")
     print("-------------------------------------------------------\n")
 
-    # Initialize ALL Agents with updated prompts including Simulated User
+    # Initialize ALL Agents with role-specific context windows
+    # Summary Seeker gets unlimited context to summarize FULL lecture
     agents = {
-        "Prof. X": SimAgent("Prof. X", TEACHER_SYSTEM_PROMPT, MODEL_NAME),
-        "Clarity Guide": SimAgent("Clarity Guide", ASSISTANT_SYSTEM_PROMPT, MODEL_NAME),
-        "Deep Thinker": SimAgent("Deep Thinker", DEEP_THINKER_SYSTEM_PROMPT, MODEL_NAME),
-        "Summary Seeker": SimAgent("Summary Seeker", NOTE_TAKER_SYSTEM_PROMPT, MODEL_NAME),
-        "Mr. Clown": SimAgent("Mr. Clown", CLASS_CLOWN_SYSTEM_PROMPT, MODEL_NAME),
-        "Curious Baby": SimAgent("Curious Baby", INQUISITIVE_MIND_SYSTEM_PROMPT, MODEL_NAME),
-        "Student": SimulatedUser("Student", SIMULATED_USER_SYSTEM_PROMPT, MODEL_NAME),
+        "Prof. X": SimAgent("Prof. X", TEACHER_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_TEACHER),
+        "Clarity Guide": SimAgent("Clarity Guide", ASSISTANT_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_ASSISTANT),
+        "Deep Thinker": SimAgent("Deep Thinker", DEEP_THINKER_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_PEERS),
+        "Summary Seeker": SimAgent("Summary Seeker", NOTE_TAKER_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_SUMMARY_SEEKER),  # None = unlimited
+        "Mr. Clown": SimAgent("Mr. Clown", CLASS_CLOWN_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_PEERS),
+        "Curious Baby": SimAgent("Curious Baby", INQUISITIVE_MIND_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_PEERS),
+        "Student": SimulatedUser("Student", SIMULATED_USER_SYSTEM_PROMPT, MODEL_NAME, max_context_window=MAX_CONTEXT_PEERS),
     }
     
     all_logs = []
