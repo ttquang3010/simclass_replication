@@ -1,4 +1,3 @@
-from openai import OpenAI
 import google.generativeai as genai
 import json
 import time
@@ -18,30 +17,22 @@ N_SESSIONS = 5  # Number of simulation runs
 # Reduced from 4 to 2 to increase Teacher Talk ratio and reduce noise/trivial interruptions
 N_INTERACTIONS_PER_SLIDE = 2 
 
-# --- DUAL API CONFIGURATION (DeepSeek prioritized, Google Gemini fallback) ---
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", None)
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", None)
+MODEL_NAME = "gemini-2.0-flash"
 
 # --- TIMESTAMP AND LOGGING ---
 TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 LOG_FILE = f"simulation_log_multi_agent_{TIMESTAMP}.jsonl"
 
-# Determine which API to use (prioritize DeepSeek)
-if DEEPSEEK_API_KEY:
-    API_PROVIDER = "deepseek"
-    MODEL_NAME = "deepseek-chat"
-    client = OpenAI(
-        api_key=DEEPSEEK_API_KEY,
-        base_url="https://api.deepseek.com"
-    )
-    print(f"[API CONFIG] Using DeepSeek API with model: {MODEL_NAME}")
-elif GOOGLE_API_KEY:
-    API_PROVIDER = "google"
-    MODEL_NAME = "gemini-2.0-flash"
-    genai.configure(api_key=GOOGLE_API_KEY)
-    print(f"[API CONFIG] Using Google Gemini API with model: {MODEL_NAME}")
+# --- API KEY HANDLING (Load from environment variables) ---
+# Get GOOGLE_API_KEY from environment variables (or .env file)
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "YOUR_API_KEY_NOT_SET")
+
+if GOOGLE_API_KEY == "YOUR_API_KEY_NOT_SET":
+    print("WARNING: GOOGLE_API_KEY not found in .env or environment variables. Please check your setup.")
+    # Raise an exception if the key is not set to prevent API calls from failing
+    raise Exception("GOOGLE_API_KEY not set.")
 else:
-    raise Exception("No API key found. Please set either DEEPSEEK_API_KEY or GOOGLE_API_KEY in .env file.")
+    genai.configure(api_key=GOOGLE_API_KEY)
 
 
 # --- COURSE SCRIPT CONFIGURATION AND HELPER FUNCTION ---
@@ -133,70 +124,39 @@ class SimAgent:
     def __init__(self, name, system_prompt, model_name):
         self.name = name
         self.system_prompt = system_prompt
-        self.model_name = model_name
-        
-        # Initialize based on API provider
-        if API_PROVIDER == "google":
-            self.model = genai.GenerativeModel(
-                model_name=model_name,
-                system_instruction=system_prompt
-            )
-            self.chat = self.model.start_chat(history=[])
-        else:  # deepseek
-            # For DeepSeek: include system prompt ONCE at initialization
-            self.messages = [
-                {"role": "system", "content": system_prompt}
-            ]
+        self.model = genai.GenerativeModel(
+            model_name=model_name,
+            system_instruction=system_prompt
+        )
+        self.chat = self.model.start_chat(history=[]) # Chat object for context history
 
     def reset_context(self):
         """Reset chat history for a new session."""
-        if API_PROVIDER == "google":
-            self.chat = self.model.start_chat(history=[])
-        else:  # deepseek
-            # Reset but keep system prompt
-            self.messages = [
-                {"role": "system", "content": self.system_prompt}
-            ]
+        self.chat = self.model.start_chat(history=[])
 
     def generate_response(self, prompt_text):
         """Send prompt to Agent to get a response."""
+        # Implementing exponential backoff logic
         MAX_RETRIES = 5
-        INITIAL_DELAY = 1
+        INITIAL_DELAY = 1   # Reduced to 1 second for faster simulation speed
         
-        # Rate limiting delay
-        # time.sleep(1)
+        # Hard sleep before every generation to avoid hitting rate limits (Abuse Prevention)
+        time.sleep(1) # Reduced to 1 second for faster simulation speed
 
         for attempt in range(MAX_RETRIES):
             try:
-                if API_PROVIDER == "google":
-                    # Google Gemini API
-                    response = self.chat.send_message(prompt_text)
-                    return response.text.strip()
-                else:
-                    # DeepSeek API (OpenAI-compatible)
-                    self.messages.append({"role": "user", "content": prompt_text})
-                    
-                    # Send all messages (system prompt already in self.messages[0])
-                    response = client.chat.completions.create(
-                        model=self.model_name,
-                        messages=self.messages,  # Already includes system prompt
-                        temperature=0.7,
-                        max_tokens=2000
-                    )
-                    
-                    assistant_message = response.choices[0].message.content.strip()
-                    self.messages.append({"role": "assistant", "content": assistant_message})
-                    return assistant_message
-                    
+                # Send message to the model. self.chat automatically maintains history.
+                response = self.chat.send_message(prompt_text)
+                return response.text.strip()
             except Exception as e:
                 if attempt < MAX_RETRIES - 1:
                     delay = INITIAL_DELAY * (2 ** attempt) + random.uniform(0, 1)
-                    print(f"  [API Error] {self.name} - Attempt {attempt + 1} failed: {e}. Retrying in {delay:.2f}s...")
+                    # print(f"Rate limit or API error for {self.name}. Retrying in {delay:.2f}s... (Attempt {attempt + 1}/{MAX_RETRIES})")
                     time.sleep(delay)
                 else:
-                    print(f"  [FATAL] {self.name} - All retries exhausted: {e}")
+                    # Print error but return error text for logging
+                    print(f"Error generating response for {self.name} after {MAX_RETRIES} attempts: {e}")
                     return f"[ERROR: {e}]"
-                    
         return "[ERROR: Failed to generate response after retries]"
 
 
@@ -207,7 +167,7 @@ class SimulatedUser(SimAgent):
         super().__init__(name, system_prompt, model_name)
         self.confusion_level = 0.0      # 0-1: How confused the student is
         self.courage_level = 0.0        # 0-1: Courage to speak up
-        self.fear_level = 0.9           # 0-1: Fear (INCREASED for more shy behavior)
+        self.fear_level = 0.8           # 0-1: Fear of asking questions
         self.understanding_level = 0.0  # 0-1: Actual comprehension
         self.questions_asked_count = 0  # Track participation
     
@@ -216,7 +176,7 @@ class SimulatedUser(SimAgent):
         super().reset_context()
         self.confusion_level = 0.0
         self.courage_level = 0.0
-        self.fear_level = 0.9           # High fear for shy student
+        self.fear_level = 0.8
         self.understanding_level = 0.0
         self.questions_asked_count = 0
     
@@ -238,20 +198,20 @@ class SimulatedUser(SimAgent):
         courage_boost = 0
         
         if peer_name == "Curious Baby":
-            courage_boost = 0.15  # Reduced - less boost for shy student
+            courage_boost = 0.25  # Relatable peer = big boost
         elif peer_name == "Mr. Clown":
-            courage_boost = 0.10  # Reduced
+            courage_boost = 0.15  # Humor = medium boost
         elif peer_name == "Deep Thinker":
             if question_complexity == "advanced":
-                courage_boost = 0.03  # Reduced
-                self.fear_level = min(1.0, self.fear_level + 0.15)  # More intimidating
+                courage_boost = 0.05  # Advanced = small boost
+                self.fear_level = min(1.0, self.fear_level + 0.10)  # Also intimidating
             else:
-                courage_boost = 0.07  # Reduced
+                courage_boost = 0.10
         elif peer_name == "Summary Seeker":
-            courage_boost = 0.03  # Reduced
+            courage_boost = 0.05  # Safe participation model
         
         self.courage_level = min(1.0, self.courage_level + courage_boost)
-        self.fear_level = max(0.0, self.fear_level - courage_boost * 0.5)  # Less fear reduction
+        self.fear_level = max(0.0, self.fear_level - courage_boost * 0.7)
     
     def apply_teacher_encouragement(self):
         """Teacher directly invites student to speak."""
@@ -266,35 +226,21 @@ class SimulatedUser(SimAgent):
     
     def should_speak(self):
         """Decide whether to speak based on internal state."""
-        confusion_threshold = 0.7  # Need to be MORE confused to speak
-        courage_threshold = 0.5    # Need MORE courage to speak
+        confusion_threshold = 0.6
+        courage_threshold = 0.4
         
         is_confused_enough = self.confusion_level > confusion_threshold
         has_enough_courage = self.courage_level > courage_threshold
         
         if is_confused_enough and has_enough_courage:
             speak_probability = (
-                self.confusion_level * 0.4 +  # Reduced weight
-                self.courage_level * 0.4 -     # Reduced weight
-                self.fear_level * 0.5          # Increased weight (more inhibiting)
+                self.confusion_level * 0.5 +
+                self.courage_level * 0.5 -
+                self.fear_level * 0.3
             )
             return random.random() < speak_probability
         
         return False
-    
-    def should_give_passive_response(self):
-        """Decide whether to give a passive (Code 8) vs active (Code 9) response.
-        Shy students often give short, safe answers when directly asked.
-        Returns True if should be passive (Code 8), False if should initiate (Code 9).
-        """
-        # High fear = more likely to be passive
-        # Low courage = more likely to be passive
-        passive_probability = (
-            self.fear_level * 0.7 +            # Increased from 0.6
-            (1.0 - self.courage_level) * 0.5   # Increased from 0.4
-        )
-        # Shy students are passive 70-85% of the time
-        return random.random() < max(0.70, min(0.85, passive_probability))
     
     def generate_response(self, prompt_text):
         """Override to inject current state into prompt."""
@@ -342,7 +288,7 @@ def estimate_slide_difficulty(slide_concept):
     
     return difficulty
 
-def _log_and_print(session_id, current_turn, speaker_name, response_text, log_list, type_of_turn, temp_buffer=None):
+def _log_and_print(session_id, current_turn, speaker_name, response_text, log_list, type_of_turn):
     """Helper function to log the entry and print status immediately."""
     log_entry = {
         "session_id": session_id,
@@ -353,12 +299,10 @@ def _log_and_print(session_id, current_turn, speaker_name, response_text, log_li
         "timestamp": datetime.now().isoformat()
     }
     log_list.append(log_entry)
-    if temp_buffer is not None:
-        temp_buffer.append(log_entry)
     
     # Print a concise log entry to the console without emojis
     snippet = response_text.replace('\n', ' ').split('.')[0][:100] + '...' if len(response_text) > 100 else response_text
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] S{session_id}|T{current_turn} ({type_of_turn}): {speaker_name}: \\\"{snippet}\\\"")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] S{session_id}|T{current_turn} ({type_of_turn}): {speaker_name}: \"{snippet}\"")
     
     return log_entry
 
@@ -388,12 +332,6 @@ def _get_student_prompt(agent_name, slide_concept, context="general"):
 # 5. SIMULATION LOOP (MULTI-AGENT RANDOM FLOW)
 # ==========================================
 
-def write_logs_to_file(logs, mode='a'):
-    """Write logs to file incrementally. Mode 'w' for new file, 'a' for append."""
-    with open(LOG_FILE, mode, encoding="utf-8") as f:
-        for log in logs:
-            f.write(json.dumps(log, ensure_ascii=False) + "\n")
-
 def run_single_session(session_id, agents, script):
     """Execute a single simulation session with the new teacher-driven interaction flow."""
     
@@ -413,8 +351,6 @@ def run_single_session(session_id, agents, script):
     
     classroom_history_log = []
     current_turn = 0
-    last_log_write_time = time.time()  # Track time for incremental writes
-    temp_buffer = []  # Buffer for logs since last write
     
     # Initial setup for context
     teacher.generate_response("Chuẩn bị bắt đầu bài giảng.") 
@@ -443,22 +379,14 @@ def run_single_session(session_id, agents, script):
         # Update Simulated User's confusion
         simulated_user.update_confusion(slide_difficulty, lecture_complexity)
         
-        # time.sleep(1)
+        time.sleep(1)
 
         # === PHASE 2: TEACHER CHECKS UNDERSTANDING (FIAS 4) ===
         current_turn += 1
         teacher_check = teacher.generate_response(f"You just taught '{slide_concept}'. Now ask the class if they understand. Be encouraging and welcoming of questions.")
-        _log_and_print(session_id, current_turn, teacher.name, teacher_check, classroom_history_log, "Teacher_Asks_4", temp_buffer)
+        _log_and_print(session_id, current_turn, teacher.name, teacher_check, classroom_history_log, "Teacher_Asks_4")
         
-        # PASSIVE RESPONSE SCENARIO: Simulated User gives short, safe answer (Code 8)
-        if simulated_user.should_give_passive_response() and random.random() < 0.5:  # 50% chance
-            current_turn += 1
-            passive_prompt = f"Teacher asked if you understand '{slide_concept}'. You're confused but too shy to ask. Give a SHORT passive response like 'Dạ, em hiểu rồi ạ' or 'Vâng ạ' (maximum 10 words)."
-            user_passive = simulated_user.generate_response(passive_prompt)
-            _log_and_print(session_id, current_turn, simulated_user.name, user_passive, classroom_history_log, "SimUser_Passive_8", temp_buffer)
-            print(f"    [Simulated User: Passive Response - Code 8]")
-        
-        # time.sleep(1)
+        time.sleep(1)
 
         # === PHASE 3: PEER RESPONSE PATTERNS ===
         # Roll dice for which pattern to follow
@@ -476,20 +404,20 @@ def run_single_session(session_id, agents, script):
             question_difficulty = classify_question_difficulty(curious_baby_question, 'Curious Baby')
             simulated_user.update_courage('Curious Baby', question_difficulty)
             
-            # time.sleep(1)
+            time.sleep(1)
             
             # Assistant answers if it's a simple factual question
             if is_asking_question(curious_baby_question):
                 current_turn += 1
                 assistant_response = assistant.generate_response(f"A student asked: \"{curious_baby_question}\". Provide a brief, warm, factual answer about '{slide_concept}'.")
                 _log_and_print(session_id, current_turn, assistant.name, assistant_response, classroom_history_log, "Assistant_3")
-                # time.sleep(1)
+                time.sleep(1)
             
             # Teacher elaborates
             current_turn += 1
             teacher_response = teacher.generate_response(f"Student 'Curious Baby' asked: \"{curious_baby_question}\". Elaborate on this with examples and confirm the assistant's response if given.")
             _log_and_print(session_id, current_turn, teacher.name, teacher_response, classroom_history_log, "Teacher_Elaborates_3_5")
-            # time.sleep(1)
+            time.sleep(1)
             
             # Check if Simulated User now wants to ask (35% chance after encouragement)
             if simulated_user.should_speak() or random.random() < 0.35:
@@ -497,19 +425,19 @@ def run_single_session(session_id, agents, script):
                 user_prompt = f"Your classmate just asked a basic question and received a warm response. You feel encouraged. You're confused about '{slide_concept}'. Ask a simple, apologetic follow-up question."
                 user_question = simulated_user.generate_response(user_prompt)
                 _log_and_print(session_id, current_turn, simulated_user.name, user_question, classroom_history_log, "SimUser_Question_9")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 # Warm response from assistant
                 current_turn += 1
                 assistant_warm = assistant.generate_response(f"A shy student asked: \"{user_question}\". Give a very warm, encouraging, clear answer.")
                 _log_and_print(session_id, current_turn, assistant.name, assistant_warm, classroom_history_log, "Assistant_3")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 # Teacher praises and elaborates
                 current_turn += 1
                 teacher_praise = teacher.generate_response(f"A shy student finally asked: \"{user_question}\". PRAISE them for asking ('Câu hỏi rất hay!'), then elaborate thoroughly.")
                 _log_and_print(session_id, current_turn, teacher.name, teacher_praise, classroom_history_log, "Teacher_Praise_2_5")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 simulated_user.apply_positive_response()
         
@@ -525,25 +453,25 @@ def run_single_session(session_id, agents, script):
             question_difficulty = classify_question_difficulty(deep_thinker_question, 'Deep Thinker')
             simulated_user.update_courage('Deep Thinker', question_difficulty)
             
-            # time.sleep(1)
+            time.sleep(1)
             
             # Teacher answers complex question
             current_turn += 1
             teacher_complex = teacher.generate_response(f"Deep Thinker asked a complex question: \"{deep_thinker_question}\". Provide a detailed, sophisticated answer.")
             _log_and_print(session_id, current_turn, teacher.name, teacher_complex, classroom_history_log, "Teacher_Response_5")
-            # time.sleep(1)
+            time.sleep(1)
             
             # Simulated User rarely asks after this (only 5% chance - intimidated)
             if simulated_user.confusion_level > 0.8 and random.random() < 0.05:
                 current_turn += 1
                 user_basic = simulated_user.generate_response(f"Everyone is discussing complex topics. You're very confused about basic terms in '{slide_concept}'. Nervously ask about a fundamental concept.")
                 _log_and_print(session_id, current_turn, simulated_user.name, user_basic, classroom_history_log, "SimUser_Question_9")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 current_turn += 1
                 teacher_patient = teacher.generate_response(f"A student asked a basic question after complex discussion: \"{user_basic}\". Be very patient and explain from fundamentals.")
                 _log_and_print(session_id, current_turn, teacher.name, teacher_patient, classroom_history_log, "Teacher_Response_3_5")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 simulated_user.apply_positive_response()
         
@@ -558,25 +486,25 @@ def run_single_session(session_id, agents, script):
             # Update Simulated User (reduces fear through laughter)
             simulated_user.update_courage('Mr. Clown', 'medium')
             
-            # time.sleep(1)
+            time.sleep(1)
             
             # Teacher responds with humor
             current_turn += 1
             teacher_humor = teacher.generate_response(f"Mr. Clown made an analogy: \"{clown_analogy}\". Respond with light humor, then clarify the concept seriously.")
             _log_and_print(session_id, current_turn, teacher.name, teacher_humor, classroom_history_log, "Teacher_Response_3_5")
-            # time.sleep(1)
+            time.sleep(1)
             
             # Simulated User might ask now (20% chance - tension broken)
             if simulated_user.should_speak() or random.random() < 0.20:
                 current_turn += 1
                 user_relaxed = simulated_user.generate_response(f"The class atmosphere is relaxed after humor. You're confused about '{slide_concept}'. Ask a simple question.")
                 _log_and_print(session_id, current_turn, simulated_user.name, user_relaxed, classroom_history_log, "SimUser_Question_9")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 current_turn += 1
                 teacher_response = teacher.generate_response(f"Student asked: \"{user_relaxed}\". Answer warmly.")
                 _log_and_print(session_id, current_turn, teacher.name, teacher_response, classroom_history_log, "Teacher_Response_3_5")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 simulated_user.apply_positive_response()
         
@@ -590,13 +518,13 @@ def run_single_session(session_id, agents, script):
             
             simulated_user.update_courage('Summary Seeker', 'basic')
             
-            # time.sleep(1)
+            time.sleep(1)
             
             # Teacher confirms
             current_turn += 1
             teacher_confirm = teacher.generate_response(f"Summary Seeker said: \"{summary_response}\". Confirm if correct and add any missing points.")
             _log_and_print(session_id, current_turn, teacher.name, teacher_confirm, classroom_history_log, "Teacher_Confirms_3")
-            # time.sleep(1)
+            time.sleep(1)
         
         # === PHASE 4: DIRECT TEACHER INVITATION (if Simulated User hasn't spoken and is very confused) ===
         if simulated_user.questions_asked_count == 0 and simulated_user.confusion_level > 0.7:
@@ -607,25 +535,25 @@ def run_single_session(session_id, agents, script):
             
             simulated_user.apply_teacher_encouragement()
             
-            # time.sleep(1)
+            time.sleep(1)
             
             # Simulated User responds
             if simulated_user.should_speak() or random.random() < 0.40:  # 40% chance to finally speak
                 current_turn += 1
                 user_breakthrough = simulated_user.generate_response(f"The teacher directly invited you to ask. You're very confused about '{slide_concept}'. Nervously ask your question.")
                 _log_and_print(session_id, current_turn, simulated_user.name, user_breakthrough, classroom_history_log, "SimUser_Question_9")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 # Warm response
                 current_turn += 1
                 assistant_support = assistant.generate_response(f"Student finally asked: \"{user_breakthrough}\". Give very supportive answer.")
                 _log_and_print(session_id, current_turn, assistant.name, assistant_support, classroom_history_log, "Assistant_3")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 current_turn += 1
                 teacher_celebrate = teacher.generate_response(f"The shy student finally asked: \"{user_breakthrough}\". CELEBRATE this courage ('Rất tốt khi em hỏi!'), then explain thoroughly.")
                 _log_and_print(session_id, current_turn, teacher.name, teacher_celebrate, classroom_history_log, "Teacher_Praise_2_5")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 simulated_user.apply_positive_response()
             else:
@@ -633,12 +561,12 @@ def run_single_session(session_id, agents, script):
                 current_turn += 1
                 user_scared = simulated_user.generate_response("Teacher asked if you have questions. You're too scared. Say 'Dạ em hiểu rồi ạ' even though you're confused.")
                 _log_and_print(session_id, current_turn, simulated_user.name, user_scared, classroom_history_log, "SimUser_Safe_8")
-                # time.sleep(1)
+                time.sleep(1)
                 
                 current_turn += 1
                 teacher_move_on = teacher.generate_response("Student said they understand. Acknowledge and transition to next topic.")
                 _log_and_print(session_id, current_turn, teacher.name, teacher_move_on, classroom_history_log, "Teacher_Transition_5")
-                # time.sleep(1)
+                time.sleep(1)
 
     print(f"\n[Session End] Simulated User asked {simulated_user.questions_asked_count} questions total.")
     return classroom_history_log
@@ -670,20 +598,18 @@ def run_multi_sessions():
     
     all_logs = []
     
-    # Create log file with header (first session in 'w' mode)
     for i in range(1, N_SESSIONS + 1):
         print(f"--- STARTING SESSION {i}/{N_SESSIONS} ---")
         session_logs = run_single_session(i, agents, script_data)
         all_logs.extend(session_logs)
-        
-        # Write logs incrementally after each session
-        write_mode = 'w' if i == 1 else 'a'
-        write_logs_to_file(session_logs, mode=write_mode)
-        print(f"  [LOG] Wrote {len(session_logs)} utterances to {LOG_FILE}")
-        
         print(f"--- SESSION {i} SUMMARY ---")
         print(f"Session {i} completed. Total utterances: {len(session_logs)}.")
         print(f"---------------------------\n")
+        time.sleep(1) # Reduced to 1s delay between sessions
+
+    with open(LOG_FILE, "w", encoding="utf-8") as f:
+        for log in all_logs:
+            f.write(json.dumps(log, ensure_ascii=False) + "\n")
             
     print(f"\nCOMPLETED: Ran {N_SESSIONS} sessions. Total utterances: {len(all_logs)}.")
     print(f"Conversation log saved to '{LOG_FILE}'")

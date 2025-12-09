@@ -15,3 +15,43 @@ Chỉ số Student Initiation Ratio (SIR): 0.992
 Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
 Kết quả SIR RẤT TỐT, cho thấy các Agent Học sinh (Deep Thinker, Mr. Clown...) đang khởi xướng thảo luận mạnh mẽ.
 TT nằm trong phạm vi chấp nhận được.
+
+==================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3)
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 21, 3: 16, 4: 120, 5: 319, 6: 1, 7: 0, 8: 0, 9: 100}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.827
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.173
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 1.000
+  (So sánh với SimClass gốc: ~0.896)
+==================================================
+
+--- NHẬN XÉT VÀ KẾT LUẬN ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+Kết quả SIR RẤT TỐT, cho thấy các Agent Học sinh (Deep Thinker, Mr. Clown...) đang khởi xướng thảo luận mạnh mẽ.
+TT nằm trong phạm vi chấp nhận được.
+
+09/12/2025
+[FATAL] Prof. X - All retries exhausted: Error code: 400 - {'error': {'message': "This model's maximum context length is 131072 tokens. However, you requested 135269 tokens (133269 in the messages, 2000 in the completion). Please reduce the length of the messages or completion.", 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}
+[15:18:12] S2|T146 (Teacher_Confirms_3): Prof. X: \"[ERROR: Error code: 400 - {'error': {'message': "This model's maximum context length is 131072 token...\"
+
+==================================================
+      KẾT QUẢ PHÂN TÍCH FIAS (Bước 4.3)
+==================================================
+Tần suất FIAS Codes (1-9): {1: 0, 2: 12, 3: 5, 4: 35, 5: 238, 6: 0, 7: 0, 8: 44, 9: 62}
+--------------------------------------------------
+Chỉ số Teacher Talk (TT): 0.732
+  (So sánh với SimClass gốc: ~0.816)
+Chỉ số Student Talk (ST): 0.268
+--------------------------------------------------
+Chỉ số Student Initiation Ratio (SIR): 0.585
+  (So sánh với SimClass gốc: ~0.896)
+==================================================
+
+--- NHẬN XÉT VÀ KẾT LUẬN ---
+Dựa trên kết quả này, bạn có thể so sánh mức độ tương tác giữa Agent bạn tạo với số liệu baseline của bài báo gốc.
+SIR thấp hơn dự kiến, có thể cần tinh chỉnh prompt của các Agent Học sinh để khuyến khích đặt câu hỏi ĐỘC LẬP hơn.
+TT thấp hơn dự kiến, Giáo sư X có thể đang quá ngắn gọn hoặc bị ngắt lời quá nhiều.

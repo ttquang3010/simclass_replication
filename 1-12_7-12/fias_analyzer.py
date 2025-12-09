@@ -1,3 +1,4 @@
+from openai import OpenAI
 import google.generativeai as genai
 import json
 import os
@@ -16,17 +17,26 @@ load_dotenv()
 LOG_FILE_PATTERN = "simulation_log_multi_agent_*.jsonl" 
 OUTPUT_LABELED_FILE = "fias_labeled_results.jsonl"
 
-MODEL_NAME = "gemini-2.0-flash"
+# --- DUAL API CONFIGURATION (DeepSeek prioritized, Google Gemini fallback) ---
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", None)
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", None)
 
-# --- API KEY HANDLING (Load from environment variables) ---
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "YOUR_API_KEY_NOT_SET")
-
-if GOOGLE_API_KEY == "YOUR_API_KEY_NOT_SET":
-    print("WARNING: GOOGLE_API_KEY not found in .env or environment variables. Please check your setup.")
-    # Raise an exception if the key is not set to prevent API calls from failing
-    raise Exception("GOOGLE_API_KEY not set.")
-else:
+# Determine which API to use (prioritize DeepSeek)
+if DEEPSEEK_API_KEY:
+    API_PROVIDER = "deepseek"
+    MODEL_NAME = "deepseek-chat"
+    client = OpenAI(
+        api_key=DEEPSEEK_API_KEY,
+        base_url="https://api.deepseek.com"
+    )
+    print(f"[FIAS ANALYZER] Using DeepSeek API with model: {MODEL_NAME}")
+elif GOOGLE_API_KEY:
+    API_PROVIDER = "google"
+    MODEL_NAME = "gemini-2.0-flash"
     genai.configure(api_key=GOOGLE_API_KEY)
+    print(f"[FIAS ANALYZER] Using Google Gemini API with model: {MODEL_NAME}")
+else:
+    raise Exception("No API key found. Please set either DEEPSEEK_API_KEY or GOOGLE_API_KEY in .env file.")
 
 
 # ==========================================
@@ -54,11 +64,7 @@ FIAS_ANALYST_SYSTEM_PROMPT = """[ROLE] You are an Educational Analyst responsibl
 [OUTPUT FORMAT] Only a single digit (1-9).
 """
 
-# Initialize Analyst Model
-analyst_model = genai.GenerativeModel(
-    model_name=MODEL_NAME,
-    system_instruction=FIAS_ANALYST_SYSTEM_PROMPT
-)
+# Analyst model will be called directly in get_fias_label() function
 
 def get_fias_label(speaker, text):
     """
@@ -66,12 +72,34 @@ def get_fias_label(speaker, text):
     """
     prompt = f"Speaker: {speaker}\nText: \"{text}\""
     
+    # Add 5 second delay before API call
+    time.sleep(5)
+    
     # Simple retry mechanism
     for attempt in range(3):
         try:
-            response = analyst_model.generate_content(prompt)
-            # Get the response and clean it to keep only the digit
-            label_text = response.text.strip()
+            if API_PROVIDER == "google":
+                # Google Gemini API
+                analyst_model = genai.GenerativeModel(
+                    model_name=MODEL_NAME,
+                    system_instruction=FIAS_ANALYST_SYSTEM_PROMPT
+                )
+                response = analyst_model.generate_content(prompt)
+                label_text = response.text.strip()
+            else:
+                # DeepSeek API (OpenAI-compatible)
+                response = client.chat.completions.create(
+                    model=MODEL_NAME,
+                    messages=[
+                        {"role": "system", "content": FIAS_ANALYST_SYSTEM_PROMPT},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.3,  # Lower temperature for more consistent classification
+                    max_tokens=10     # Only need 1 digit output
+                )
+                label_text = response.choices[0].message.content.strip()
+            
+            # Validate response
             if label_text.isdigit() and 1 <= int(label_text) <= 9:
                 return int(label_text)
             else:
