@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 51,
+    "slide_content": "## 1. Support Vector Machines (SVM)\n\nMột trong những thuật toán ML mạnh mẽ và phổ biến nhất.\n\n* **Mục tiêu:** Tìm một siêu phẳng (hyperplane) phân chia hai lớp dữ liệu sao cho **lề (margin)** là lớn nhất.\n* **Support Vectors:** Các điểm dữ liệu nằm gần ranh giới nhất, quyết định vị trí của siêu phẳng.",
+    "teacher_script": "Chào cả lớp. Hôm nay chúng ta sẽ học về SVM - Máy vector hỗ trợ. Nghe tên có vẻ nguy hiểm, nhưng ý tưởng rất đơn giản. Hãy tưởng tượng các em muốn kẻ một đường ranh giới để chia gà và vịt. SVM không chỉ tìm một đường bất kỳ, mà nó tìm con đường 'rộng nhất' có thể. Con đường này cách xa cả gà và vịt nhất có thể, để đảm bảo an toàn. Những con gà/vịt nằm sát đường biên nhất gọi là Support Vectors."
+  },
+  {
+    "concept_id": 52,
+    "slide_content": "## 2. Large Margin Intuition\n\nTại sao cần Margin lớn nhất?\n\n* **Margin lớn:** Tự tin hơn khi phân loại. Giảm thiểu rủi ro sai sót với dữ liệu mới.\n* **Margin nhỏ:** Ranh giới nằm quá sát dữ liệu, dễ bị Overfitting.",
+    "teacher_script": "Tại sao phải cần lề rộng? Vì lề càng rộng, ta càng tự tin. Nếu ranh giới nằm sát sạt, chỉ cần một con gà đi lạc một chút là bị nhầm thành vịt ngay. Lề rộng giúp mô hình tổng quát hóa tốt hơn với dữ liệu chưa từng gặp."
+  },
+  {
+    "concept_id": 53,
+    "slide_content": "## 3. Hard Margin vs. Soft Margin\n\n* **Hard Margin:** Bắt buộc phân loại đúng 100% mọi điểm. Nhạy cảm với nhiễu (Outliers).\n* **Soft Margin:** Chấp nhận sai sót một vài điểm để có Margin rộng hơn và mô hình tổng quát hơn.\n* **Tham số C:** Kiểm soát độ phạt lỗi.\n    * $C$ lớn: Phạt nặng lỗi $\\rightarrow$ Hard Margin (dễ Overfit).\n    * $C$ nhỏ: Chấp nhận lỗi $\\rightarrow$ Soft Margin (dễ Underfit).",
+    "teacher_script": "Đời không hoàn hảo, dữ liệu thường có nhiễu. Nếu ta cố chấp phân loại đúng 100% (Hard Margin), đường ranh giới sẽ bị méo mó vì một vài điểm nhiễu. SVM cho phép ta 'thả lỏng' (Soft Margin) - chấp nhận sai vài điểm để giữ được con đường rộng rãi, đẹp đẽ. Tham số C quyết định mức độ dễ tính này. C càng lớn, SVM càng khó tính."
+  },
+  {
+    "concept_id": 54,
+    "slide_content": "## 4. The Kernel Trick (1)\n\nLàm sao phân chia dữ liệu không tuyến tính (ví dụ: hình tròn)?\n\n* **Ý tưởng:** Chiếu dữ liệu từ không gian thấp (2D) lên không gian cao hơn (3D).\n* Ở không gian 3D, các điểm có thể phân chia được bằng một mặt phẳng.",
+    "teacher_script": "Nhưng nếu dữ liệu lồng vào nhau như lòng đỏ và lòng trắng trứng thì sao? Không đường thẳng nào cắt được. Đây là lúc SVM tỏa sáng với 'Kernel Trick'. Hãy tưởng tượng ta nhấc các điểm dữ liệu lên không gian 3D. Ở dưới 2D chúng lồng vào nhau, nhưng trên 3D ta có thể luồn một tờ giấy (mặt phẳng) vào giữa để tách chúng ra dễ dàng."
+  },
+  {
+    "concept_id": 55,
+    "slide_content": "## 5. The Kernel Trick (2)\n\nCác loại Kernel phổ biến:\n\n* **Linear Kernel:** Cho dữ liệu tuyến tính. Nhanh.\n* **Polynomial Kernel:** Chiếu lên không gian đa thức.\n* **RBF Kernel (Radial Basis Function):** Kernel phổ biến nhất. Có thể vẽ các đường cong phức tạp bao quanh dữ liệu.",
+    "teacher_script": "Chúng ta không cần thực sự tính toán trong không gian 3D (rất tốn kém), toán học giúp ta làm tắt (Trick). RBF Kernel là vũ khí mạnh nhất, nó có thể uốn lượn ranh giới bao quanh bất kỳ hình thù dữ liệu nào. Khi không biết dùng gì, hãy thử RBF."
+  },
+  {
+    "concept_id": 56,
+    "slide_content": "## 6. Decision Trees (Cây quyết định)\n\nMô hình mô phỏng cách con người ra quyết định.\n\n* **Cấu trúc:** Gốc (Root), Nút (Nodes), Lá (Leaves).\n* **Quy tắc:** Tại mỗi nút, đặt câu hỏi (ví dụ: $x_1 > 5$?) để chia dữ liệu thành 2 nhánh.\n* **Dễ diễn giải (Interpretability):** Có thể vẽ cây ra để giải thích.",
+    "teacher_script": "Chuyển sang Decision Trees. Đây là mô hình giống con người nhất. Ví dụ: Để quyết định có đi chơi không? Hỏi: Trời có mưa không? Nếu Không -> Đi. Nếu Có -> Hỏi tiếp: Có áo mưa không? Nếu Có -> Đi. Nếu Không -> Ở nhà. Máy tính sẽ tự học cách đặt các câu hỏi này."
+  },
+  {
+    "concept_id": 57,
+    "slide_content": "## 7. Xây dựng cây: Chọn câu hỏi nào?\n\nMục tiêu: Chia dữ liệu sao cho các nhóm con càng \"tinh khiết\" (pure) càng tốt.\n\n* **Entropy:** Đo độ hỗn loạn của dữ liệu.\n* **Information Gain:** Mức độ giảm Entropy sau khi chia.\n* Thuật toán chọn câu hỏi mang lại Information Gain lớn nhất.",
+    "teacher_script": "Làm sao máy biết nên hỏi 'Trời mưa không' trước hay 'Có áo mưa không' trước? Nó dùng Entropy - độ hỗn loạn. Mục tiêu là sau khi chia, các nhóm con phải sạch sẽ (tinh khiết) nhất có thể. Câu hỏi nào giúp phân loại rõ ràng nhất sẽ được chọn làm nút gốc."
+  },
+  {
+    "concept_id": 58,
+    "slide_content": "## 8. Gini Impurity\n\nMột thước đo khác thay cho Entropy (thường dùng trong CART algorithm).\n\n$$Gini = 1 - \\sum p_i^2$$\n\n* $p_i$: Xác suất của lớp $i$ trong nút.\n* Gini = 0: Nút thuần khiết (chỉ chứa 1 lớp).\n* Gini = 0.5: Nút hỗn loạn nhất (50-50).",
+    "teacher_script": "Ngoài Entropy, ta hay dùng Gini Impurity. Nó tính toán nhanh hơn một chút nhưng kết quả tương tự. Gini bằng 0 nghĩa là nhóm đó sạch bong, chỉ toàn gà hoặc toàn vịt. Gini cao nghĩa là gà vịt lẫn lộn."
+  },
+  {
+    "concept_id": 59,
+    "slide_content": "## 9. Overfitting trong Decision Trees\n\nCây có thể phát triển quá sâu, học thuộc lòng từng điểm dữ liệu.\n\n* **Pruning (Cắt tỉa):** Giới hạn độ sâu của cây (`max_depth`).\n* **Min Samples Split:** Số lượng mẫu tối thiểu để chia nút.\n* Cây càng nông $\\rightarrow$ Càng tổng quát (giảm Variance).",
+    "teacher_script": "Điểm yếu chết người của Decision Tree là Overfitting. Nếu để tự do, nó sẽ hỏi đến tận cùng ('Con gà này có 3 cái lông đuôi phải không?') để phân loại đúng 100% tập Train. Cây sẽ trở nên khổng lồ và vô dụng với dữ liệu mới. Giải pháp là 'Cắt tỉa' (Pruning) - ép cây không được mọc quá sâu."
+  },
+  {
+    "concept_id": 60,
+    "slide_content": "## 10. Ensemble Learning (Học kết hợp)\n\n\"Ba cây chụm lại nên hòn núi cao\".\n\n* **Ý tưởng:** Kết hợp nhiều mô hình yếu (Weak Learners) để tạo thành một mô hình mạnh (Strong Learner).\n* **Hai chiến lược chính:**\n    1.  **Bagging (Bootstrap Aggregating):** Học song song.\n    2.  **Boosting:** Học tuần tự.",
+    "teacher_script": "Thay vì cố tạo ra một cái cây hoàn hảo, tại sao không trồng cả một khu rừng? Đó là Ensemble Learning. Tư tưởng là 'Trí tuệ đám đông'. Một cái cây có thể sai, nhưng 100 cái cây bỏ phiếu thì xác suất sai sẽ thấp hơn nhiều. Có hai cách tổ chức đám đông này: Bagging và Boosting."
+  },
+  {
+    "concept_id": 61,
+    "slide_content": "## 11. Random Forest (Rừng ngẫu nhiên)\n\nỨng dụng của **Bagging** với Decision Trees.\n\n1.  Tạo nhiều tập dữ liệu con bằng cách lấy mẫu có hoàn lại (Bootstrapping).\n2.  Xây dựng một cây trên mỗi tập con.\n3.  **Randomness:** Tại mỗi nút, chỉ xét một tập hợp ngẫu nhiên các features.\n4.  **Kết quả:** Bầu chọn đa số (Classification) hoặc trung bình (Regression).",
+    "teacher_script": "Random Forest là đại diện của Bagging. Ta tạo ra hàng trăm cái cây. Mỗi cây học trên một phần ngẫu nhiên của dữ liệu và chỉ được nhìn thấy một phần ngẫu nhiên các features. Điều này làm cho các cây 'khác nhau' (đa dạng hóa). Khi dự đoán, ta cho cả rừng bỏ phiếu. Random Forest cực kỳ mạnh và khó bị Overfitting."
+  },
+  {
+    "concept_id": 62,
+    "slide_content": "## 12. Boosting\n\nChiến lược: \"Học từ sai lầm\".\n\n1.  Huấn luyện mô hình 1. Tìm các điểm bị dự đoán sai.\n2.  Huấn luyện mô hình 2, tập trung (tăng trọng số) vào các điểm sai của mô hình 1.\n3.  Lặp lại.\n4.  Kết hợp các mô hình lại (có trọng số).",
+    "teacher_script": "Boosting thì khác. Nó giống như làm việc nhóm theo dây chuyền. Người thứ nhất làm, chỗ nào sai thì đánh dấu lại. Người thứ hai tập trung sửa lỗi của người thứ nhất. Người thứ ba sửa lỗi của người thứ hai. Kết quả là một chuỗi các mô hình chuyên gia, mỗi người giỏi một mảng."
+  },
+  {
+    "concept_id": 63,
+    "slide_content": "## 13. Gradient Boosting Machines (GBM)\n\nSử dụng Gradient Descent để tối ưu hóa sai số của chuỗi mô hình.\n\n* Mỗi cây mới sinh ra để dự đoán phần dư (residual errors) của cây trước đó.\n* $Model_{new} = Model_{old} + LearningRate \\times Error$.",
+    "teacher_script": "GBM là thuật toán Boosting nổi tiếng. Cây sau sẽ cố gắng dự đoán phần sai số (residuals) của cây trước. Nó giống như việc đẽo tượng: nhát búa đầu tiên tạo hình thô, các nhát sau đẽo gọt chi tiết hơn, dần dần bức tượng hoàn chỉnh hiện ra."
+  },
+  {
+    "concept_id": 64,
+    "slide_content": "## 14. XGBoost, LightGBM, CatBoost\n\nCác thư viện Gradient Boosting hiện đại, tối ưu hóa tốc độ và hiệu suất.\n\n* **XGBoost:** Cực nhanh, xử lý tốt dữ liệu thiếu, Regularization tốt. \"Vua của các cuộc thi Kaggle\".\n* **LightGBM:** Của Microsoft. Nhanh hơn XGBoost, tốn ít RAM.\n* **CatBoost:** Của Yandex. Xử lý cực tốt dữ liệu dạng phân loại (Categorical).",
+    "teacher_script": "Trong thực tế và các cuộc thi Kaggle, người ta ít dùng GBM gốc mà dùng các phiên bản nâng cấp: XGBoost, LightGBM, CatBoost. Chúng được tối ưu cực tốt về tốc độ và khả năng xử lý dữ liệu lớn. Nếu muốn thắng giải Kaggle với dữ liệu bảng, XGBoost là lựa chọn đầu tiên."
+  },
+  {
+    "concept_id": 65,
+    "slide_content": "## 15. Demo: SVM với Scikit-learn\n\n```python\nfrom sklearn.svm import SVC\n\n# Kernel RBF mặc định\nmodel = SVC(kernel='rbf', C=1.0, gamma='scale')\nmodel.fit(X_train, y_train)\n```\n* `gamma`: Độ ảnh hưởng của một điểm dữ liệu đơn lẻ. Gamma lớn $\\rightarrow$ Ranh giới uốn lượn phức tạp.",
+    "teacher_script": "Code SVM rất đơn giản. Lưu ý tham số Gamma. Gamma cao làm ranh giới uốn éo rất ghê để ôm lấy dữ liệu (dễ Overfit). Gamma thấp thì ranh giới mượt hơn."
+  },
+  {
+    "concept_id": 66,
+    "slide_content": "## 16. Demo: Random Forest\n\n```python\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Rừng có 100 cây\nrf = RandomForestClassifier(n_estimators=100, max_depth=5)\nrf.fit(X_train, y_train)\n\n# Xem độ quan trọng của Features\nprint(rf.feature_importances_)\n```",
+    "teacher_script": "Random Forest không chỉ dự đoán tốt mà còn cho ta biết Feature nào quan trọng (Feature Importance). Ví dụ: để dự đoán giá nhà, nó sẽ bảo 'Diện tích' quan trọng hơn 'Màu sơn'. Rất hữu ích để hiểu dữ liệu."
+  },
+  {
+    "concept_id": 67,
+    "slide_content": "## 17. So sánh các mô hình (1)\n\n| Mô hình | Ưu điểm | Nhược điểm |\n|---|---|---|\n| **Logistic Regression** | Nhanh, dễ hiểu, xác suất. | Kém với dữ liệu phi tuyến. |\n| **SVM** | Chính xác cao, tốt với dữ liệu nhiều chiều. | Chậm với dữ liệu lớn, khó chỉnh tham số. |\n| **Decision Tree** | Dễ giải thích, không cần scale dữ liệu. | Rất dễ Overfit. |",
+    "teacher_script": "Hãy so sánh nhanh. Logistic Regression: Nhanh, gọn, dễ hiểu. SVM: Chính xác, mạnh mẽ nhưng chậm và khó chiều. Decision Tree: Trực quan nhưng hay học vẹt."
+  },
+  {
+    "concept_id": 68,
+    "slide_content": "## 18. So sánh các mô hình (2)\n\n| Mô hình | Ưu điểm | Nhược điểm |\n|---|---|---|\n| **Random Forest** | Rất chính xác, chống Overfit tốt, ít cần chỉnh sửa. | Chậm khi dự đoán, mô hình nặng (Black box). |\n| **XGBoost/GBM** | Thường có độ chính xác cao nhất (SOTA cho dữ liệu bảng). | Dễ Overfit nếu không chỉnh kỹ, nhiều tham số. |",
+    "teacher_script": "Random Forest: 'Mì ăn liền' cao cấp, cứ chạy là ngon, ít phải chỉnh. XGBoost: Vũ khí tối thượng, chính xác nhất nhưng cần kỹ năng tinh chỉnh cao (như lái xe đua F1)."
+  },
+  {
+    "concept_id": 69,
+    "slide_content": "## 19. Stacking (Ensemble nâng cao)\n\nKết hợp các mô hình khác loại (ví dụ: SVM + Random Forest + KNN).\n\n1.  Train các mô hình cơ sở (Level 0).\n2.  Dùng output của Level 0 làm input cho mô hình Level 1 (Meta-learner).\n3.  Meta-learner đưa ra quyết định cuối cùng.",
+    "teacher_script": "Còn một chiêu cuối: Stacking. Ta lấy SVM, Random Forest, KNN cùng dự đoán. Sau đó lấy kết quả của 3 ông này đưa cho một ông trùm cuối (Meta-learner) quyết định. Đây là cách thường dùng để vắt kiệt vài phần nghìn độ chính xác cuối cùng trong các cuộc thi."
+  },
+  {
+    "concept_id": 70,
+    "slide_content": "## 20. Thực hành: Phân loại hoa Iris\n\nSử dụng SVM và Random Forest để phân loại 3 loài hoa Iris.\n\n* So sánh Accuracy.\n* Vẽ Decision Boundary (nếu giảm xuống 2 chiều) để thấy sự khác biệt giữa SVM (đường cong mượt) và Random Forest (đường gấp khúc).",
+    "teacher_script": "Bài tập thực hành: Phân loại hoa Iris. Hãy thử chạy cả SVM và Random Forest. Nếu vẽ hình ra, các em sẽ thấy ranh giới của SVM rất mượt mà, còn Random Forest thì gấp khúc hình bậc thang (do bản chất cắt không gian thành hình chữ nhật của cây)."
+  },
+  {
+    "concept_id": 71,
+    "slide_content": "## 21. Khi nào dùng Deep Learning thay vì ML truyền thống?\n\n* **ML truyền thống (SVM, RF, XGBoost):** Vô địch trên dữ liệu bảng (Structured Data), dữ liệu nhỏ/trung bình.\n* **Deep Learning:** Vô địch trên dữ liệu phi cấu trúc (Ảnh, Text, Audio) và dữ liệu cực lớn.",
+    "teacher_script": "Câu hỏi triệu đô: Khi nào dùng Deep Learning? Nếu dữ liệu là bảng Excel, hãy dùng XGBoost hoặc Random Forest, chúng thường đánh bại Deep Learning. Nhưng nếu là ảnh, giọng nói, văn bản, thì Deep Learning là vua không đối thủ."
+  },
+  {
+    "concept_id": 72,
+    "slide_content": "## 22. No Free Lunch Theorem\n\n\"Không có bữa trưa nào miễn phí\".\n\n* Không có thuật toán nào là tốt nhất cho mọi bài toán.\n* Cách duy nhất là thử nghiệm (Trial and Error) và đánh giá.\n* Hiểu dữ liệu quan trọng hơn thuộc lòng thuật toán.",
+    "teacher_script": "Định lý 'Không có bữa trưa miễn phí' nói rằng không có thuật toán nào là bá chủ thiên hạ. XGBoost có thể thua Logistic Regression trên một tập dữ liệu cụ thể. Vì vậy, công việc của chúng ta là phải thử nghiệm, đánh giá và thấu hiểu dữ liệu."
+  },
+  {
+    "concept_id": 73,
+    "slide_content": "## 23. Tổng kết bài 3\n\n* **SVM:** Tìm Margin lớn nhất, dùng Kernel Trick cho phi tuyến.\n* **Decision Tree:** Dễ hiểu nhưng dễ Overfit.\n* **Random Forest:** Bagging (song song), giảm Variance.\n* **Boosting (XGBoost):** Boosting (tuần tự), giảm Bias, độ chính xác cực cao.",
+    "teacher_script": "Tổng kết bài 3. Chúng ta đã có trong tay những công cụ mạnh nhất của Supervised Learning. Từ sự tinh tế của SVM đến sức mạnh đám đông của Random Forest và XGBoost. Giờ đây các em đã đủ vũ khí để giải quyết hầu hết các bài toán ML dạng bảng."
+  },
+  {
+    "concept_id": 74,
+    "slide_content": "## 24. Bài tập về nhà\n\n* Tham gia một cuộc thi \"Getting Started\" trên Kaggle (ví dụ: House Prices hoặc Titanic).\n* Thử áp dụng Random Forest và XGBoost.\n* Tinh chỉnh Hyperparameters để xem kết quả thay đổi thế nào.",
+    "teacher_script": "Bài tập về nhà: Hãy lên Kaggle, chọn bài toán House Prices. Thử dùng Random Forest và XGBoost đua top xem sao. Hãy nghịch ngợm các tham số, các em sẽ học được rất nhiều từ việc đó."
+  },
+  {
+    "concept_id": 75,
+    "slide_content": "## 25. Chuẩn bị cho bài sau\n\n* Chúng ta sẽ rời xa thế giới có nhãn (Supervised).\n* Bài sau: **Unsupervised Learning**.\n* Làm sao máy học được khi không có đáp án? Làm sao gom nhóm khách hàng? Làm sao nén dữ liệu?",
+    "teacher_script": "Bài sau, chúng ta sẽ bước sang một thế giới khác: Unsupervised Learning. Không còn đáp án đúng sai, máy phải tự mò mẫm trong bóng tối. Sẽ rất thú vị đấy. Hẹn gặp lại các em!"
+  }
+]

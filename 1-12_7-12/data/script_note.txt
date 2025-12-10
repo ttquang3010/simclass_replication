@@ -1,0 +1,99 @@
+Bài giảng 1: Nền tảng Machine Learning & Quy trình làm việc (25 slides)
+- Mục tiêu: Cung cấp bức tranh toàn cảnh, định nghĩa các khái niệm cốt lõi và giới thiệu quy trình làm việc chuẩn của một dự án ML.
+- Nội dung chính:
+(Slide 1-5) Giới thiệu tổng quan:
+Phân biệt AI, Machine Learning, Deep Learning.
+Tại sao ML lại quan trọng trong thời đại số?
+Các loại hình học máy chính: Supervised, Unsupervised, và Reinforcement Learning (giới thiệu sớm).
+(Slide 6-10) Các thành phần của bài toán ML:
+Dữ liệu (Dataset), Đặc trưng (Features), Nhãn (Labels).
+Mục tiêu: Tìm hàm 
+y
+≈
+f
+(
+X
+)
+y≈f(X).
+Phân loại dữ liệu: Cấu trúc vs. Phi cấu trúc (Bảng tính vs. Hình ảnh, văn bản).
+(Slide 11-20) Quy trình một dự án ML từ A-Z:
+Bước 1: Thu thập dữ liệu (Data Collection).
+Bước 2: Tiền xử lý & Làm sạch dữ liệu (Data Preprocessing & Cleaning) - Xử lý giá trị thiếu, ngoại lệ.
+Bước 3: Kỹ thuật đặc trưng (Feature Engineering) - Tầm quan trọng của việc tạo ra features tốt.
+Bước 4: Phân chia dữ liệu (Train/Validation/Test split).
+Bước 5: Lựa chọn và Huấn luyện mô hình (Model Training).
+Bước 6: Đánh giá mô hình (Model Evaluation).
+Bước 7: Tinh chỉnh tham số (Hyperparameter Tuning).
+Bước 8: Triển khai (Deployment).
+(Slide 21-25) Công cụ và Tổng kết:
+Giới thiệu hệ sinh thái Python: Scikit-learn, Pandas, NumPy, Matplotlib.
+Tóm tắt bài học và giới thiệu các nội dung tiếp theo.
+Bài giảng 2: Học có giám sát - Hồi quy & Phân loại (25 slides)
+Mục tiêu: Đi sâu vào hai bài toán phổ biến nhất của học có giám sát.
+Nội dung chính:
+(Slide 26-38) Bài toán Hồi quy (Regression):
+Linear Regression: Mô hình, hàm mất mát (MSE), và thuật toán Gradient Descent.
+Trực quan hóa Gradient Descent: Ảnh hưởng của Learning Rate.
+Polynomial Regression: Khi nào đường thẳng là không đủ.
+Vấn đề Overfitting & Underfitting: High Bias vs. High Variance.
+Regularization: Kỹ thuật "phạt" mô hình phức tạp (L1-Lasso, L2-Ridge).
+Các chỉ số đánh giá hồi quy: MAE, RMSE, R-squared.
+(Slide 39-50) Bài toán Phân loại (Classification):
+Logistic Regression: Hàm Sigmoid, ý nghĩa xác suất.
+Ranh giới quyết định (Decision Boundary).
+Hàm mất mát cho phân loại: Cross-Entropy (Log Loss).
+Đánh giá mô hình phân loại:
+Ma trận nhầm lẫn (Confusion Matrix).
+Precision, Recall, và F1-Score (khi nào dùng chỉ số nào?).
+Đường cong ROC và chỉ số AUC.
+Giới thiệu một thuật toán phân loại khác: k-Nearest Neighbors (k-NN).
+Bài giảng 3: Các mô hình có giám sát nâng cao (25 slides)
+Mục tiêu: Giới thiệu các thuật toán mạnh mẽ và được sử dụng rộng rãi trong công nghiệp.
+Nội dung chính:
+(Slide 51-60) Support Vector Machines (SVM):
+Trực giác: Tìm "con đường" rộng nhất phân chia hai lớp.
+Khái niệm Margin: Hard Margin vs. Soft Margin.
+The Kernel Trick: Phép màu biến đổi không gian (Linear, Polynomial, RBF Kernel).
+Ứng dụng và khi nào nên dùng SVM.
+(Slide 61-75) Mô hình cây và Ensemble Learning:
+Decision Trees: Cách cây đưa ra quyết định, Entropy, Gini Impurity.
+Ưu và nhược điểm: Dễ diễn giải nhưng dễ overfitting.
+Ensemble Learning: Sức mạnh của số đông.
+Bagging: Random Forests - Tại sao nhiều cây "ngu" lại tốt hơn một cây "thông minh"?
+Boosting: Gradient Boosting Machines (GBM) - Người đi sau sửa lỗi cho người đi trước.
+Giới thiệu các thư viện Boosting hiện đại: XGBoost, LightGBM.
+Tổng kết và so sánh các mô hình.
+Bài giảng 4: Học không giám sát (25 slides)
+Mục tiêu: Khám phá các kỹ thuật tự tìm ra cấu trúc ẩn trong dữ liệu không có nhãn.
+Nội dung chính:
+(Slide 76-88) Phân cụm (Clustering):
+K-Means: Thuật toán, hàm méo (Distortion function).
+Cách chọn số cụm K: Elbow Method, Silhouette Score.
+Nhược điểm của K-Means (nhạy cảm với khởi tạo).
+Hierarchical Clustering: Xây dựng cây phả hệ cho dữ liệu (Dendrogram).
+DBSCAN: Phân cụm dựa trên mật độ, tự tìm ra nhiễu.
+(Slide 89-97) Giảm chiều dữ liệu (Dimensionality Reduction):
+"Lời nguyền của số chiều" (Curse of Dimensionality).
+Principal Component Analysis (PCA): Tìm các "trục thông tin" chính, trực quan hóa bằng Eigenvectors.
+t-SNE: Kỹ thuật giảm chiều để trực quan hóa dữ liệu phức tạp.
+(Slide 98-100) Các ứng dụng khác:
+Phát hiện bất thường (Anomaly Detection).
+Giới thiệu Hệ gợi ý (Recommender Systems).
+Bài giảng 5: Học tăng cường & Giới thiệu Deep Learning (25 slides)
+Mục tiêu: Mở ra cánh cửa đến hai lĩnh vực hiện đại và mạnh mẽ nhất của AI.
+Nội dung chính:
+(Slide 101-115) Học tăng cường (Reinforcement Learning):
+Các khái niệm cốt lõi: Tác nhân (Agent), Môi trường (Environment), Trạng thái (State), Hành động (Action), Phần thưởng (Reward).
+Vòng lặp RL: Agent học bằng cách thử và sai.
+Thế lưỡng nan: Khám phá hay Khai thác (Exploration vs. Exploitation).
+Quy trình quyết định Markov (MDPs): Ngôn ngữ toán học của RL.
+Q-Learning: Học giá trị của hành động trong từng trạng thái (Q-table).
+Từ Q-Learning đến Deep Q-Networks (DQN): Khi Deep Learning gặp gỡ Reinforcement Learning.
+Các ứng dụng đột phá: Game (AlphaGo), Robotics, Tự lái.
+(Slide 116-125) Cánh cửa tới Deep Learning:
+Khi nào ML truyền thống là không đủ? (Dữ liệu phi cấu trúc).
+Giới thiệu Mạng Nơ-ron nhân tạo (Artificial Neural Networks).
+Perceptron: Nền tảng của mạng nơ-ron.
+Mạng nơ-ron nhiều lớp và quá trình lan truyền ngược (Backpropagation).
+Các kiến trúc nổi tiếng: CNN cho ảnh, RNN/Transformers cho văn bản.
+Tổng kết toàn bộ khóa học và định hướng cho hành trình tiếp theo.

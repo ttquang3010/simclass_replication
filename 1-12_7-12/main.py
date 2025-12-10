@@ -91,42 +91,77 @@ def create_agents(prompts, model_name):
 
 
 def run_multi_sessions():
-    """Run multiple simulation sessions and save logs."""
+    """Run simulation for all lectures sequentially."""
     
     # Initialize
     model_name = initialize_api()
-    script_data = load_course_script(config.COURSE_SCRIPT_FILE)
     prompts = load_agent_prompts(config.AGENT_PROMPTS_FILE)
     
-    print(f"\n--- STARTING SIMCLASS MULTI-AGENT SIMULATION (WITH SIMULATED USER) ---")
-    print(f"Model: {model_name} | Sessions: {config.N_SESSIONS} | Slides: {len(script_data)}") 
+    # Determine which lectures to run
+    if config.RUN_ALL_LECTURES:
+        lecture_ids = range(config.START_LECTURE_ID, config.END_LECTURE_ID + 1)
+        print(f"\n{'='*80}")
+        print(f"SIMCLASS MULTI-LECTURE SIMULATION")
+        print(f"Running Lectures {config.START_LECTURE_ID} to {config.END_LECTURE_ID}")
+        print(f"{'='*80}")
+    else:
+        lecture_ids = [config.CURRENT_LECTURE_ID]
+        print(f"\n{'='*80}")
+        print(f"SIMCLASS SINGLE LECTURE SIMULATION")
+        print(f"Running Lecture {config.CURRENT_LECTURE_ID}")
+        print(f"{'='*80}")
+    
+    print(f"Model: {model_name}")
+    print(f"Sessions per lecture: {config.N_SESSIONS}")
+    print(f"Auto-save: Every {config.AUTO_SAVE_INTERVAL} seconds")
+    print(f"Shared log file: {config.SHARED_LOG_FILE}")
     print(f"Flow: Teacher checks understanding → Peer patterns → Simulated User encouraged to participate")
     print("Agents: Prof. X, Clarity Guide, Deep Thinker, Summary Seeker, Mr. Clown, Curious Baby, Student")
     print("Interaction Language: Vietnamese (with English ML/AI term translations)")
-    print("-------------------------------------------------------\n")
+    print(f"{'='*80}\n")
 
-    # Create agents
+    # Create agents once (will be reused across lectures with context reset)
     agent_instances = create_agents(prompts, model_name)
     
-    all_logs = []
+    total_utterances = 0
     
-    # Run sessions
-    for i in range(1, config.N_SESSIONS + 1):
-        print(f"\n--- STARTING SESSION {i}/{config.N_SESSIONS} ---")
-        session_logs = run_single_session(i, agent_instances, script_data, config.LOG_FILE)
-        all_logs.extend(session_logs)
-        
-        # Write logs incrementally after each session
-        write_mode = 'w' if i == 1 else 'a'
-        write_logs_to_file(session_logs, config.LOG_FILE, mode=write_mode)
-        print(f"  [LOG] Wrote {len(session_logs)} utterances to {config.LOG_FILE}")
-        
-        print(f"--- SESSION {i} SUMMARY ---")
-        print(f"Session {i} completed. Total utterances: {len(session_logs)}.")
-        print(f"---------------------------\n")
+    # Run simulations for each lecture
+    for lecture_id in lecture_ids:
+        lecture_file = config.COURSE_SCRIPTS.get(lecture_id)
+        if not lecture_file:
+            print(f"[WARNING] Lecture {lecture_id} not found. Skipping.")
+            continue
             
-    print(f"\nCOMPLETED: Ran {config.N_SESSIONS} sessions. Total utterances: {len(all_logs)}.")
-    print(f"Conversation log saved to '{config.LOG_FILE}'")
+        script_data = load_course_script(lecture_file)
+        
+        print(f"\n{'='*80}")
+        print(f"LECTURE {lecture_id}/{config.END_LECTURE_ID}: {lecture_file}")
+        print(f"Slides: {len(script_data)}")
+        print(f"{'='*80}\n")
+        
+        # Run session for this lecture
+        for session_num in range(1, config.N_SESSIONS + 1):
+            # Session ID format: lecture_id * 100 + session_num (e.g., 201 for lecture 2, session 1)
+            session_id = lecture_id * 100 + session_num
+            
+            print(f"\n--- LECTURE {lecture_id} - SESSION {session_num}/{config.N_SESSIONS} (ID: {session_id}) ---")
+            session_logs = run_single_session(session_id, agent_instances, script_data, config.SHARED_LOG_FILE)
+            total_utterances += len(session_logs)
+            
+            print(f"\n--- LECTURE {lecture_id} - SESSION {session_num} SUMMARY ---")
+            print(f"Session {session_id} completed. Utterances: {len(session_logs)}.")
+            print(f"Cumulative total: {total_utterances} utterances")
+            print(f"Logs appended to: {config.SHARED_LOG_FILE}")
+            print(f"---------------------------\n")
+        
+        print(f"\n[LECTURE {lecture_id} COMPLETED] Moving to next lecture...\n")
+            
+    print(f"\n{'='*80}")
+    print(f"ALL SIMULATIONS COMPLETED")
+    print(f"Total lectures run: {len(lecture_ids)}")
+    print(f"Total utterances: {total_utterances}")
+    print(f"Final log file: {config.SHARED_LOG_FILE}")
+    print(f"{'='*80}\n")
 
 
 if __name__ == "__main__":

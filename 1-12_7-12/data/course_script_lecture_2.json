@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 26,
+    "slide_content": "## 1. Supervised Learning: Linear Regression (Hồi quy Tuyến tính)\n\n**Định nghĩa:** Bài toán dự đoán một giá trị liên tục ($y \\in \\mathbb{R}$).\n\n**Mô hình đơn giản nhất:** Đường thẳng.\n$$h_\\theta(x) = \\theta_0 + \\theta_1 x$$\n\n* $h_\\theta(x)$: Giá trị dự đoán (Hypothesis).\n* $\\theta_0$: Bias (Hệ số chặn).\n* $\\theta_1$: Weight (Trọng số/Độ dốc).",
+    "teacher_script": "Chào mừng trở lại. Hôm nay chúng ta đi vào thuật toán đầu tiên: Linear Regression. Bài toán này dùng để dự đoán các con số cụ thể, ví dụ như giá nhà hay doanh thu. Về mặt toán học, chúng ta giả định mối quan hệ giữa đầu vào x và đầu ra y là một đường thẳng. Công thức $h_\\theta(x) = \\theta_0 + \\theta_1 x$ chính là phương trình đường thẳng $y = ax + b$ quen thuộc. Nhiệm vụ của ML là tìm ra $\\theta_0$ và $\\theta_1$ tốt nhất."
+  },
+  {
+    "concept_id": 27,
+    "slide_content": "## 2. Cost Function (Hàm mất mát)\n\nLàm sao biết đường thẳng nào là tốt nhất? Chúng ta đo sai số bằng **Mean Squared Error (MSE)**.\n\n$$J(\\theta_0, \\theta_1) = \\frac{1}{2m} \\sum_{i=1}^{m} (h_\\theta(x^{(i)}) - y^{(i)})^2$$\n\n* $m$: Số lượng mẫu dữ liệu.\n* $h_\\theta(x^{(i)}) - y^{(i)}$: Sai lệch giữa dự đoán và thực tế.\n\n**Mục tiêu:** $\\min_{\\theta_0, \\theta_1} J(\\theta_0, \\theta_1)$",
+    "teacher_script": "Nhưng vẽ đường thẳng thế nào cho chuẩn? Chúng ta cần một thước đo sai số, gọi là Cost Function (Hàm mất mát), ký hiệu là J. Phổ biến nhất là MSE - Trung bình bình phương sai số. Các em nhìn vào công thức: chúng ta lấy giá trị dự đoán trừ đi giá trị thực tế, bình phương lên để loại bỏ số âm, rồi cộng tổng lại và chia trung bình. Mục tiêu của việc 'học' chính là tìm ra bộ tham số $\\theta$ sao cho hàm J này đạt giá trị nhỏ nhất."
+  },
+  {
+    "concept_id": 28,
+    "slide_content": "## 3. Gradient Descent (Thuật toán tối ưu)\n\nLàm sao tìm được $\\min J$? Hãy tưởng tượng bạn đang đứng trên đỉnh núi và muốn xuống thung lũng nhanh nhất.\n\n**Quy tắc cập nhật:**\n$$\\theta_j := \\theta_j - \\alpha \\frac{\\partial}{\\partial \\theta_j} J(\\theta_0, \\theta_1)$$\n\n* $\\alpha$: Learning Rate (Tốc độ học).\n* $\\frac{\\partial}{\\partial \\theta_j} J$: Đạo hàm riêng (Hướng dốc xuống).",
+    "teacher_script": "Để tìm giá trị nhỏ nhất của J, chúng ta dùng thuật toán Gradient Descent (Xuống đồi). Hãy tưởng tượng đồ thị hàm J là một cái thung lũng. Chúng ta đang đứng trên sườn núi. Đạo hàm chính là độ dốc tại chỗ ta đứng. Chúng ta sẽ bước từng bước xuống dốc theo hướng ngược lại của đạo hàm. Kích thước mỗi bước đi được quyết định bởi Alpha - Learning Rate."
+  },
+  {
+    "concept_id": 29,
+    "slide_content": "## 4. Learning Rate ($\\alpha$)\n\n* **$\\alpha$ quá nhỏ:** Bước đi rất bé $\\rightarrow$ Hội tụ rất chậm.\n* **$\\alpha$ quá lớn:** Bước đi quá dài $\\rightarrow$ Có thể bước qua điểm cực tiểu, thậm chí phân kỳ (không bao giờ tìm được đáy).\n\n**Kinh nghiệm:** Thử các giá trị 0.001, 0.01, 0.1, 1.",
+    "teacher_script": "Chọn Alpha (Learning Rate) là một nghệ thuật. Nếu Alpha quá nhỏ, ta đi như kiến bò, rất lâu mới tới đích. Nếu Alpha quá lớn, ta bước những bước khổng lồ, có thể nhảy qua luôn điểm đáy thung lũng và văng ra xa. Vì vậy, việc tinh chỉnh Alpha là bước quan trọng khi huấn luyện."
+  },
+  {
+    "concept_id": 30,
+    "slide_content": "## 5. Polynomial Regression (Hồi quy đa thức)\n\nKhi dữ liệu không phải đường thẳng (phi tuyến).\n\n**Giải pháp:** Tạo thêm features mới là lũy thừa của feature cũ.\n$$h_\\theta(x) = \\theta_0 + \\theta_1 x + \\theta_2 x^2 + \\theta_3 x^3$$\n\n* Vẫn dùng Linear Regression, nhưng trên features mới $(x, x^2, x^3)$.",
+    "teacher_script": "Đời không phải lúc nào cũng thẳng. Nếu dữ liệu cong hình parabol thì sao? Ta dùng Polynomial Regression. Bí quyết ở đây rất hay: ta không cần thuật toán mới. Ta chỉ cần tạo ra feature mới bằng cách bình phương hoặc lập phương feature cũ ($x^2, x^3$), rồi đưa vào Linear Regression như bình thường. Máy sẽ học được đường cong."
+  },
+  {
+    "concept_id": 31,
+    "slide_content": "## 6. Bias vs. Variance Trade-off\n\n* **Bias (Độ chệch):** Sai số do giả định mô hình quá đơn giản (Underfitting).\n* **Variance (Phương sai):** Độ nhạy cảm của mô hình với nhiễu trong dữ liệu huấn luyện (Overfitting).\n\n**Mục tiêu:** Tìm điểm cân bằng (Sweet Spot) giữa Bias và Variance.",
+    "teacher_script": "Đây là khái niệm quan trọng nhất nhì trong ML: Bias-Variance Trade-off. Bias cao nghĩa là mô hình quá cứng nhắc (Underfitting). Variance cao nghĩa là mô hình quá nhạy cảm, dao động mạnh theo dữ liệu (Overfitting). Chúng ta luôn đi tìm điểm cân bằng 'Sweet Spot' ở giữa, nơi tổng sai số là thấp nhất."
+  },
+  {
+    "concept_id": 32,
+    "slide_content": "## 7. Regularization (Điều chuẩn)\n\nKỹ thuật chống Overfitting bằng cách \"phạt\" các tham số $\\theta$ lớn.\n\n$$J(\\theta) = MSE(\\theta) + \\lambda \\sum \\theta_j^2$$\n\n* $\\lambda$: Regularization parameter.\n* Nếu $\\lambda$ lớn $\\rightarrow$ $\\theta_j \\approx 0$ $\\rightarrow$ Mô hình đơn giản hơn.\n* **L2 Regularization (Ridge):** Phạt bình phương $\\theta$.\n* **L1 Regularization (Lasso):** Phạt trị tuyệt đối $|\\theta|$ (có thể làm $\\theta = 0$ để chọn feature).",
+    "teacher_script": "Làm sao trị bệnh Overfitting? Ta dùng Regularization. Ý tưởng là: ta thêm một khoản 'phạt' vào hàm Cost Function. Nếu mô hình cố gắng dùng các tham số $\\theta$ quá lớn để uốn lượn theo dữ liệu nhiễu, nó sẽ bị phạt nặng. Kết quả là mô hình buộc phải chọn các $\\theta$ nhỏ hơn, tạo ra đường cong mượt mà hơn, đơn giản hơn. Có hai loại phổ biến là Ridge (L2) và Lasso (L1)."
+  },
+  {
+    "concept_id": 33,
+    "slide_content": "## 8. Evaluation Metrics cho Regression\n\n* **MAE (Mean Absolute Error):** Trung bình trị tuyệt đối sai số. Dễ hiểu.\n* **RMSE (Root Mean Squared Error):** Căn bậc hai của MSE. Phạt nặng các sai số lớn.\n* **$R^2$ Score:** Đo độ phù hợp của mô hình (từ 0 đến 1). $R^2=1$ là hoàn hảo.",
+    "teacher_script": "Để chấm điểm bài toán Hồi quy, ta dùng MAE, RMSE và R-squared. MAE cho biết trung bình ta đoán sai bao nhiêu đơn vị. RMSE thì nhạy cảm hơn với các sai số lớn (do bình phương lên). Còn R-squared cho biết mô hình giải thích được bao nhiêu % sự biến thiên của dữ liệu. R-squared càng gần 1 càng tốt."
+  },
+  {
+    "concept_id": 34,
+    "slide_content": "## 9. Supervised Learning: Classification (Bài toán Phân loại)\n\n**Định nghĩa:** Dự đoán nhãn rời rạc ($y \\in \\{0, 1\\}$ hoặc $y \\in \\{0, 1, ..., k\\}$).\n\n* **Binary Classification:** Email là Spam (1) hay Không (0)?\n* **Linear Regression không phù hợp:** Vì đường thẳng có thể cho giá trị $h_\\theta(x) > 1$ hoặc $< 0$, không có ý nghĩa xác suất.",
+    "teacher_script": "Chuyển sang bài toán thứ hai: Classification (Phân loại). Ví dụ: Email là Spam hay không? Tại sao không dùng Linear Regression? Vì đường thẳng có thể trả về giá trị 1.5 hay -0.2, vô nghĩa về mặt xác suất. Ta cần một hàm số luôn trả về giá trị từ 0 đến 1."
+  },
+  {
+    "concept_id": 35,
+    "slide_content": "## 10. Logistic Regression & Hàm Sigmoid\n\nĐể đưa kết quả về khoảng $(0, 1)$, ta sử dụng hàm **Sigmoid**:\n\n$$g(z) = \\frac{1}{1 + e^{-z}}$$\n\nKhi đó: $h_\\theta(x) = g(\\theta^T x)$.\n\n**Ý nghĩa:** Xác suất $y=1$ khi biết $x$. ($P(y=1|x;\\theta)$).",
+    "teacher_script": "Giải pháp là Logistic Regression. Ta dùng hàm Sigmoid hình chữ S. Hàm này bóp méo mọi giá trị đầu vào về khoảng (0, 1). Nếu mô hình trả về 0.7, nghĩa là có 70% xác suất đây là Spam. Rất trực quan."
+  },
+  {
+    "concept_id": 36,
+    "slide_content": "## 11. Decision Boundary (Ranh giới quyết định)\n\nChúng ta đưa ra quyết định dựa trên ngưỡng (Threshold), thường là $0.5$:\n\n* Nếu $h_\\theta(x) \\geq 0.5 \\rightarrow$ Dự đoán $y = 1$.\n* Nếu $h_\\theta(x) < 0.5 \\rightarrow$ Dự đoán $y = 0$.\n\nĐường phân chia vùng 0 và vùng 1 được gọi là **Decision Boundary**.",
+    "teacher_script": "Máy tính cần đưa ra quyết định cuối cùng: Yes hay No? Ta chọn ngưỡng 0.5. Lớn hơn 0.5 là Yes (1), nhỏ hơn là No (0). Tập hợp các điểm mà xác suất bằng 0.5 tạo thành Ranh giới quyết định. Nó chia không gian thành hai vùng: vùng xanh và vùng đỏ."
+  },
+  {
+    "concept_id": 37,
+    "slide_content": "## 12. Cost Function cho Logistic Regression\n\nTa dùng **Log Loss (Cross-Entropy)**:\n\n$$J(\\theta) = -\\frac{1}{m} \\sum [y^{(i)}\\log(h_\\theta(x^{(i)})) + (1-y^{(i)})\\log(1-h_\\theta(x^{(i)}))]$$\n\n* Phạt cực nặng nếu dự đoán sai với độ tin cậy cao (ví dụ: $y=1$ mà dự đoán $h(x)=0.01$).",
+    "teacher_script": "Với Logistic Regression, ta dùng hàm Log Loss hay Cross-Entropy. Ý nghĩa đơn giản: Nếu đáp án là 1 mà máy dự đoán xác suất gần 0 (tức là máy rất tự tin là sai), ta phạt thật nặng. Hàm này đảm bảo việc tối ưu hóa sẽ tìm ra bộ tham số tốt nhất."
+  },
+  {
+    "concept_id": 38,
+    "slide_content": "## 13. Confusion Matrix (Ma trận nhầm lẫn)\n\nCông cụ chi tiết để đánh giá phân loại:\n\n| | Predicted Negative (0) | Predicted Positive (1) |\n|---|---|---|\n| **Actual Negative (0)** | True Negative (TN) | False Positive (FP) |\n| **Actual Positive (1)** | False Negative (FN) | True Positive (TP) |",
+    "teacher_script": "Để đánh giá chi tiết, ta dùng Confusion Matrix. Nó chia kết quả thành 4 loại: Đoán đúng là đúng (TP), Đoán đúng là sai (TN), Đoán nhầm sai thành đúng (FP - Báo động giả), và Đoán nhầm đúng thành sai (FN - Bỏ sót). Nhìn vào đây ta biết mô hình đang mắc lỗi kiểu gì."
+  },
+  {
+    "concept_id": 39,
+    "slide_content": "## 14. Precision & Recall\n\n* **Precision (Độ chính xác):** $\\frac{TP}{TP + FP}$. Khi máy báo True, bao nhiêu % là đúng?\n* **Recall (Độ phủ):** $\\frac{TP}{TP + FN}$. Máy phát hiện được bao nhiêu % ca True thực tế?\n* **Trade-off:** Tăng Precision thường làm giảm Recall và ngược lại.",
+    "teacher_script": "Từ ma trận trên, ta tính được Precision và Recall. Ví dụ phát hiện ung thư: Precision trả lời 'Khi máy báo bệnh, bao nhiêu % là bệnh thật?'. Recall trả lời 'Trong tất cả người bệnh, máy tìm ra được bao nhiêu người?'. Tùy bài toán mà ta ưu tiên cái nào. Với ung thư, ta cần Recall cao (thà bắt nhầm còn hơn bỏ sót)."
+  },
+  {
+    "concept_id": 40,
+    "slide_content": "## 15. F1-Score\n\nKhi cần cân bằng giữa Precision và Recall:\n\n$$F1 = 2 \\times \\frac{Precision \\times Recall}{Precision + Recall}$$\n\n* F1-Score là trung bình điều hòa (Harmonic Mean).\n* F1 cao chỉ khi cả Precision và Recall đều cao.",
+    "teacher_script": "Nếu muốn một con số đại diện cho cả hai, ta dùng F1-Score. Nó là trung bình điều hòa. F1 chỉ cao khi cả Precision và Recall đều tốt. Đây là chỉ số rất quan trọng khi dữ liệu bị mất cân bằng (Imbalanced Data)."
+  },
+  {
+    "concept_id": 41,
+    "slide_content": "## 16. ROC Curve & AUC\n\n* **ROC Curve:** Đồ thị biểu diễn khả năng phân loại ở các ngưỡng (thresholds) khác nhau.\n* **AUC (Area Under Curve):** Diện tích dưới đường cong ROC.\n    * AUC = 0.5: Đoán ngẫu nhiên.\n    * AUC = 1.0: Phân loại hoàn hảo.",
+    "teacher_script": "Một công cụ mạnh khác là ROC Curve và AUC. Nó cho ta biết mô hình hoạt động tốt thế nào ở mọi ngưỡng quyết định. AUC càng gần 1 thì mô hình càng xịn. Nếu AUC = 0.5 thì mô hình chẳng khác gì tung đồng xu."
+  },
+  {
+    "concept_id": 42,
+    "slide_content": "## 17. Multi-class Classification\n\nKhi $y$ có nhiều hơn 2 nhãn (ví dụ: phân loại chó, mèo, gà).\n\n* **One-vs-Rest (OvR):** Huấn luyện $k$ bộ phân loại nhị phân (Chó vs. Không phải Chó).\n* **Softmax Regression:** Tổng quát hóa của Logistic Regression cho nhiều lớp.",
+    "teacher_script": "Nếu có nhiều hơn 2 lớp (Chó, Mèo, Gà) thì sao? Ta dùng chiến thuật One-vs-Rest: biến bài toán lớn thành nhiều bài toán nhỏ (Chó vs Phần còn lại, Mèo vs Phần còn lại). Hoặc dùng hàm Softmax - phiên bản nâng cấp của Sigmoid cho nhiều lớp."
+  },
+  {
+    "concept_id": 43,
+    "slide_content": "## 18. k-Nearest Neighbors (k-NN)\n\nThuật toán đơn giản, không cần huấn luyện (Lazy Learning).\n\n* **Ý tưởng:** \"Gần mực thì đen, gần đèn thì sáng\".\n* Để dự đoán điểm mới, tìm $k$ điểm láng giềng gần nhất trong dữ liệu train.\n* Lấy đa số (Classification) hoặc trung bình (Regression).",
+    "teacher_script": "Giới thiệu thêm một thuật toán đơn giản nhưng hiệu quả: k-NN. Nguyên lý là 'Gần mực thì đen'. Muốn biết điểm mới là xanh hay đỏ, ta nhìn k ông hàng xóm gần nhất. Nếu đa số là đỏ thì ta kết luận nó là đỏ. k-NN không cần huấn luyện phức tạp, chỉ cần lưu dữ liệu lại là xong."
+  },
+  {
+    "concept_id": 44,
+    "slide_content": "## 19. Ưu nhược điểm của k-NN\n\n* **Ưu điểm:** Đơn giản, dễ hiểu, không cần giả định về phân phối dữ liệu.\n* **Nhược điểm:**\n    * Chậm khi dữ liệu lớn (phải tính khoảng cách tới tất cả điểm).\n    * Nhạy cảm với nhiễu và Features không quan trọng.\n    * Cần Feature Scaling.",
+    "teacher_script": "k-NN dễ nhưng có giá của nó. Khi dữ liệu lớn, nó chạy rất chậm vì phải đo khoảng cách tới cả triệu điểm mỗi lần dự đoán. Nó cũng rất nhạy cảm: nếu ta không chuẩn hóa dữ liệu (Scaling), k-NN sẽ sai bét."
+  },
+  {
+    "concept_id": 45,
+    "slide_content": "## 20. Demo: Logistic Regression với Scikit-learn\n\n```python\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(\"Accuracy:\", accuracy_score(y_test, y_pred))\nprint(\"Confusion Matrix:\\n\", confusion_matrix(y_test, y_pred))\n```",
+    "teacher_script": "Code Logistic Regression trong Scikit-learn cũng y hệt Linear Regression. Chỉ khác tên class. Các em thấy việc tính Accuracy và in Confusion Matrix cũng chỉ tốn vài dòng code. Rất tiện lợi."
+  },
+  {
+    "concept_id": 46,
+    "slide_content": "## 21. Demo: k-NN với Scikit-learn\n\n```python\nfrom sklearn.neighbors import KNeighborsClassifier\n\n# Chọn k=5\nknn = KNeighborsClassifier(n_neighbors=5)\nknn.fit(X_train, y_train)\n\nprint(\"Score:\", knn.score(X_test, y_test))\n```",
+    "teacher_script": "Tương tự với k-NN. Tham số quan trọng nhất ở đây là `n_neighbors` (số láng giềng k). Các em có thể thử thay đổi k xem kết quả thay đổi thế nào."
+  },
+  {
+    "concept_id": 47,
+    "slide_content": "## 22. Khi nào dùng thuật toán nào?\n\n* **Linear Regression:** Dự đoán số, quan hệ tuyến tính.\n* **Logistic Regression:** Phân loại đơn giản, cần biết xác suất, cần giải thích được (Explainable).\n* **k-NN:** Dữ liệu nhỏ, cấu trúc phức tạp phi tuyến tính.",
+    "teacher_script": "Vậy khi nào dùng cái nào? Linear cho dự đoán số. Logistic cho phân loại cơ bản, đặc biệt khi cần giải thích tại sao (ví dụ trong y tế, tài chính). k-NN dùng cho các bài toán nhỏ, dữ liệu lắt léo mà đường thẳng không cắt được."
+  },
+  {
+    "concept_id": 48,
+    "slide_content": "## 23. Thực hành: Titanic Survival Prediction\n\nBài toán kinh điển trên Kaggle.\n\n* **Input:** Thông tin hành khách (Tuổi, Giới tính, Hạng vé...).\n* **Output:** Sống sót (1) hay Không (0).\n* **Thách thức:** Xử lý dữ liệu thiếu (Tuổi), chuyển đổi dữ liệu chữ (Giới tính).",
+    "teacher_script": "Để luyện tập, thầy đề xuất bài toán Titanic. Dựa vào thông tin hành khách để đoán xem họ có sống sót không. Đây là bài toán nhập môn tuyệt vời để luyện kỹ năng xử lý dữ liệu thiếu và Encoding."
+  },
+  {
+    "concept_id": 49,
+    "slide_content": "## 24. Tổng kết bài 2\n\n* **Regression:** Dự đoán số liên tục. Cost function MSE.\n* **Classification:** Dự đoán nhãn. Cost function Log Loss.\n* **Metrics:** Accuracy không là tất cả. Chú ý Precision, Recall, F1.\n* **Overfitting:** Cân bằng Bias-Variance là chìa khóa.",
+    "teacher_script": "Tổng kết bài 2. Chúng ta đã nắm vững hai trụ cột của Supervised Learning. Chúng ta biết cách đo đếm sai số và đánh giá mô hình không chỉ bằng Accuracy. Và luôn nhớ cuộc chiến chống Overfitting."
+  },
+  {
+    "concept_id": 50,
+    "slide_content": "## 25. Chuẩn bị cho bài sau\n\n* Bài sau chúng ta sẽ học các mô hình mạnh mẽ hơn: **SVM** và **Decision Trees**.\n* Các mô hình này có thể xử lý dữ liệu phi tuyến tính phức tạp hơn nhiều so với Logistic Regression.\n* Hãy ôn lại kiến thức về Vector và Ma trận nhé!",
+    "teacher_script": "Bài sau, chúng ta sẽ trang bị những vũ khí hạng nặng hơn: SVM và Decision Trees. Chúng có thể giải quyết những bài toán mà Logistic Regression bó tay. Hãy chuẩn bị tinh thần nhé!"
+  }
+]

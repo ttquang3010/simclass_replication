@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 1,
+    "slide_content": "## 1. Giới thiệu: Bức tranh toàn cảnh AI\n\n* **Artificial Intelligence (AI):** Khoa học làm cho máy móc thực hiện những việc đòi hỏi trí thông minh.\n* **Machine Learning (ML):** Tập con của AI. Khả năng học hỏi từ dữ liệu mà không cần lập trình rõ ràng các quy tắc.\n* **Deep Learning (DL):** Tập con của ML. Sử dụng mạng nơ-ron đa lớp (Neural Networks) để học các đặc trưng phức tạp.\n\n**Mối quan hệ:** $DL \\subset ML \\subset AI$",
+    "teacher_script": "Chào cả lớp. Chào mừng các em đến với khóa học Machine Learning. Trước khi đi sâu vào thuật toán, chúng ta cần định vị lại bản đồ. Hãy hình dung AI là một vũ trụ bao la chứa đựng giấc mơ về những cỗ máy thông minh. Machine Learning (Học máy) là một thiên hà trong đó, nơi chúng ta không viết các quy tắc 'if-then' cứng nhắc, mà dạy máy học từ dữ liệu. Và sâu bên trong là Deep Learning, sử dụng các mạng nơ-ron nhân tạo mô phỏng não bộ."
+  },
+  {
+    "concept_id": 2,
+    "slide_content": "## 2. Tại sao Machine Learning quan trọng?\n\n* **Dữ liệu bùng nổ:** Chúng ta tạo ra 2.5 quintillion bytes dữ liệu mỗi ngày.\n* **Sức mạnh tính toán:** GPU và Cloud Computing giúp xử lý dữ liệu lớn nhanh chóng.\n* **Thuật toán cải tiến:** Các mô hình ngày càng chính xác và hiệu quả hơn.\n* **Ứng dụng thực tế:** Xe tự lái, trợ lý ảo, chẩn đoán y tế, gợi ý sản phẩm.",
+    "teacher_script": "Tại sao ML lại bùng nổ ngay bây giờ mà không phải 20 năm trước? Có 3 lý do chính: Thứ nhất, dữ liệu. Chúng ta đang sống trong kỷ nguyên Big Data. Thứ hai, phần cứng. GPU không chỉ để chơi game mà còn để tính toán ma trận cực nhanh. Thứ ba, thuật toán đã tiến bộ vượt bậc. Từ đó, ML len lỏi vào mọi ngóc ngách cuộc sống, từ chiếc điện thoại các em đang cầm đến những chiếc xe tự lái ngoài kia."
+  },
+  {
+    "concept_id": 3,
+    "slide_content": "## 3. Ba trụ cột của Machine Learning\n\n1.  **Supervised Learning (Học có giám sát):** Học từ dữ liệu có nhãn (đáp án). Ví dụ: Phân loại email spam.\n2.  **Unsupervised Learning (Học không giám sát):** Học từ dữ liệu không nhãn. Ví dụ: Phân nhóm khách hàng.\n3.  **Reinforcement Learning (Học tăng cường):** Học qua thử và sai để tối đa hóa phần thưởng. Ví dụ: Robot học đi, chơi cờ vây.",
+    "teacher_script": "Thế giới ML được chia thành 3 trụ cột chính. Supervised Learning giống như học có thầy giáo chấm điểm, biết đúng sai ngay. Unsupervised Learning giống như tự học, tự tìm ra quy luật của thế giới. Và Reinforcement Learning, một nhánh rất thú vị mà ta sẽ học ở bài cuối, giống như huấn luyện thú cưng: làm đúng thì được thưởng, làm sai thì bị phạt, từ đó nó học cách cư xử tối ưu."
+  },
+  {
+    "concept_id": 4,
+    "slide_content": "## 4. Các thành phần của bài toán ML (1)\n\nĐể xây dựng mô hình, ta cần nguyên liệu đầu vào:\n\n1.  **Dataset (Dữ liệu):** Tập hợp các mẫu (samples) để học.\n2.  **Features (Đặc trưng - Input $X$):** Các thuộc tính dùng để dự đoán (ví dụ: diện tích nhà, số phòng).\n3.  **Labels (Nhãn - Target $y$):** Kết quả cần dự đoán (ví dụ: giá nhà).",
+    "teacher_script": "Để làm ML, chúng ta cần nguyên liệu. Đó là Dữ liệu. Trong dữ liệu, hai khái niệm quan trọng nhất là Features (ký hiệu là X) và Labels (ký hiệu là y). Ví dụ, nếu các em muốn dự đoán giá nhà, thì diện tích, số phòng ngủ, vị trí chính là Features (X). Còn giá bán thực tế của ngôi nhà đó chính là Label (y). Đây là ngôn ngữ chung mà chúng ta sẽ dùng suốt khóa học."
+  },
+  {
+    "concept_id": 5,
+    "slide_content": "## 5. Các thành phần của bài toán ML (2)\n\n**Mục tiêu:** Tìm hàm $f$ sao cho $y \\approx f(X)$.\n\n* **Training Set:** Dữ liệu dùng để huấn luyện mô hình.\n* **Test Set:** Dữ liệu dùng để kiểm tra độ chính xác (chưa từng gặp).\n* **Model:** Biểu diễn toán học của hàm $f$ (ví dụ: đường thẳng, cây quyết định).",
+    "teacher_script": "Mục tiêu tối thượng của chúng ta là tìm ra một hàm số f, hay còn gọi là Model, để khi đưa X vào, nó sẽ tính ra được y chính xác nhất có thể. Nhưng làm sao biết nó chính xác? Chúng ta phải giấu đi một phần dữ liệu, gọi là Test Set. Máy chỉ được học trên Training Set thôi. Giống như đi thi vậy, đề thi (Test Set) không được trùng với bài tập về nhà (Training Set)."
+  },
+  {
+    "concept_id": 6,
+    "slide_content": "## 6. Dữ liệu: Cấu trúc vs. Phi cấu trúc\n\n* **Structured Data (Dữ liệu có cấu trúc):** Dạng bảng (Excel, SQL). Các cột là features, các hàng là samples. Dễ xử lý.\n* **Unstructured Data (Dữ liệu phi cấu trúc):** Hình ảnh, âm thanh, văn bản, video. Chiếm 80% dữ liệu thế giới. Khó xử lý hơn, thường cần Deep Learning.",
+    "teacher_script": "Dữ liệu không phải lúc nào cũng đẹp đẽ như bảng Excel. Đó là Structured Data. Nhưng thực tế, 80% dữ liệu trên thế giới là Unstructured Data: ảnh chụp, giọng nói, bài viết trên Facebook. Máy tính không hiểu ảnh là gì, nó chỉ thấy một ma trận các con số pixel. Xử lý loại dữ liệu này khó hơn nhiều và thường là sân chơi của Deep Learning."
+  },
+  {
+    "concept_id": 7,
+    "slide_content": "## 7. Quy trình dự án ML: Bước 1 - Thu thập dữ liệu\n\n**Data Collection:** Bước quan trọng nhất. \"Garbage In, Garbage Out\".\n\n* **Nguồn dữ liệu:** Web scraping, API, Database nội bộ, Public Datasets (Kaggle, UCI).\n* **Yêu cầu:** Dữ liệu phải đại diện (representative) và đủ lớn.",
+    "teacher_script": "Bây giờ chúng ta sẽ đi qua quy trình chuẩn của một dự án ML. Bước 1: Thu thập dữ liệu. Các em nhớ kỹ câu thần chú này: 'Garbage In, Garbage Out' - Rác vào thì rác ra. Thuật toán xịn đến mấy mà dữ liệu rác thì cũng vứt. Chúng ta có thể lấy dữ liệu từ nhiều nguồn, nhưng quan trọng nhất là nó phải phản ánh đúng thực tế bài toán cần giải quyết."
+  },
+  {
+    "concept_id": 8,
+    "slide_content": "## 8. Quy trình dự án ML: Bước 2 - Tiền xử lý (Preprocessing)\n\nDữ liệu thô thường rất \"bẩn\". Cần làm sạch:\n\n* **Missing Values:** Điền giá trị thiếu (Mean, Median) hoặc bỏ dòng đó.\n* **Outliers (Ngoại lệ):** Xử lý các điểm dữ liệu bất thường (do lỗi nhập liệu).\n* **Duplicates:** Loại bỏ dữ liệu trùng lặp.",
+    "teacher_script": "Dữ liệu thu về thường rất lộn xộn. Có ô bị bỏ trống, có ô nhập sai (ví dụ tuổi = 200). Bước 2 là Tiền xử lý. Chúng ta phải quyết định: điền gì vào ô trống? Trung bình cộng hay số 0? Xử lý các điểm ngoại lệ như thế nào? Đây là công việc tốn thời gian nhất nhưng quyết định chất lượng mô hình."
+  },
+  {
+    "concept_id": 9,
+    "slide_content": "## 9. Quy trình dự án ML: Bước 3 - Feature Engineering (1)\n\n**Feature Engineering:** Nghệ thuật tạo ra các đặc trưng mới giúp mô hình học tốt hơn.\n\n* **Feature Scaling:** Đưa các features về cùng một khoảng giá trị (ví dụ: 0-1 hoặc chuẩn hóa Z-score). Quan trọng cho các thuật toán dựa trên khoảng cách.",
+    "teacher_script": "Bước 3 là Feature Engineering - Kỹ thuật đặc trưng. Đây là nghệ thuật biến đổi dữ liệu. Ví dụ: Feature Scaling. Nếu một cột là 'Tuổi' (0-100) và một cột là 'Lương' (triệu đồng), máy tính sẽ bị thiên lệch về cột Lương vì số nó to hơn. Chúng ta cần co giãn chúng về cùng một hệ quy chiếu, ví dụ từ 0 đến 1, để công bằng."
+  },
+  {
+    "concept_id": 10,
+    "slide_content": "## 10. Quy trình dự án ML: Bước 3 - Feature Engineering (2)\n\n* **Encoding Categorical Data:** Chuyển dữ liệu dạng chữ sang số.\n    * *One-Hot Encoding:* Táo -> [1, 0, 0], Cam -> [0, 1, 0].\n    * *Label Encoding:* Táo -> 1, Cam -> 2.\n* **Feature Selection:** Chọn lọc các features quan trọng nhất, loại bỏ nhiễu.",
+    "teacher_script": "Máy tính chỉ hiểu số, không hiểu chữ. Làm sao đưa 'Màu sắc: Đỏ, Xanh' vào máy? Chúng ta dùng Encoding. One-Hot Encoding là cách phổ biến: tạo ra các cột riêng cho từng màu. Ngoài ra, không phải feature nào cũng có ích. Có những feature gây nhiễu. Chúng ta cần chọn lọc (Feature Selection) để giữ lại những gì tinh túy nhất."
+  },
+  {
+    "concept_id": 11,
+    "slide_content": "## 11. Quy trình dự án ML: Bước 4 - Data Splitting\n\nChia dữ liệu thành 3 tập:\n\n1.  **Training Set (60-80%):** Dùng để huấn luyện.\n2.  **Validation Set (10-20%):** Dùng để tinh chỉnh tham số trong quá trình huấn luyện.\n3.  **Test Set (10-20%):** Dùng để đánh giá cuối cùng. **Tuyệt đối không được cho mô hình nhìn thấy trong quá trình train.**",
+    "teacher_script": "Bước 4: Chia dữ liệu. Như thầy đã nói, ta cần tập Train và Test. Nhưng thực ra ta cần thêm tập Validation. Hãy tưởng tượng: Train là bài tập về nhà. Validation là bài thi thử - giúp các em biết mình yếu chỗ nào để ôn thêm. Test là bài thi Đại học - chỉ làm một lần duy nhất để lấy kết quả cuối cùng. Tuyệt đối không được gian lận bằng cách lấy đề thi thật ra ôn luyện nhé!"
+  },
+  {
+    "concept_id": 12,
+    "slide_content": "## 12. Quy trình dự án ML: Bước 5 - Model Training\n\nChọn thuật toán phù hợp và cho máy học.\n\n* **Input:** Training Data $(X_{train}, y_{train})$.\n* **Process:** Tối ưu hóa hàm mất mát (Loss Function) để tìm tham số mô hình.\n* **Output:** Trained Model.",
+    "teacher_script": "Bước 5: Huấn luyện. Đây là lúc máy tính làm việc nặng nhọc nhất. Chúng ta chọn một thuật toán (ví dụ Linear Regression), ném dữ liệu Train vào, và máy sẽ chạy các vòng lặp tối ưu hóa để tìm ra bộ tham số tốt nhất. Quá trình này có thể mất vài giây hoặc vài tuần tùy vào lượng dữ liệu."
+  },
+  {
+    "concept_id": 13,
+    "slide_content": "## 13. Quy trình dự án ML: Bước 6 - Model Evaluation\n\nĐánh giá xem mô hình có tốt không trên tập Test.\n\n* **Metrics (Chỉ số):**\n    * Regression: MSE, RMSE, MAE.\n    * Classification: Accuracy, Precision, Recall, F1-Score.\n* So sánh với Baseline (ví dụ: đoán ngẫu nhiên) để xem mô hình có thực sự học được gì không.",
+    "teacher_script": "Bước 6: Đánh giá. Sau khi học xong, ta lôi mô hình ra thi (trên tập Test). Ta dùng các thước đo (Metrics) như độ chính xác (Accuracy) hay sai số (Error). Một điều quan trọng là phải so sánh với Baseline. Nếu mô hình của em dự đoán đúng 90%, nhưng một con vẹt đoán bừa cũng đúng 89%, thì mô hình của em chưa tốt đâu."
+  },
+  {
+    "concept_id": 14,
+    "slide_content": "## 14. Quy trình dự án ML: Bước 7 - Hyperparameter Tuning\n\nTinh chỉnh các tham số cấu hình của thuật toán (Hyperparameters) để đạt hiệu suất cao nhất.\n\n* **Grid Search:** Thử tất cả các tổ hợp tham số (chậm nhưng vét cạn).\n* **Random Search:** Thử ngẫu nhiên (nhanh hơn).\n* Dùng tập **Validation** để đánh giá kết quả tinh chỉnh.",
+    "teacher_script": "Bước 7: Tinh chỉnh. Hầu hết thuật toán đều có các nút vặn (Hyperparameters) mà ta phải cài đặt trước, ví dụ như tốc độ học (Learning Rate). Làm sao biết số nào tốt nhất? Ta phải thử. Grid Search là thử hết mọi khả năng. Random Search là thử ngẫu nhiên. Ta dùng tập Validation để xem bộ tham số nào cho kết quả tốt nhất."
+  },
+  {
+    "concept_id": 15,
+    "slide_content": "## 15. Quy trình dự án ML: Bước 8 - Deployment (Triển khai)\n\nĐưa mô hình vào sử dụng thực tế.\n\n* **API:** Đóng gói mô hình thành API để các ứng dụng khác gọi.\n* **Monitoring:** Theo dõi hiệu suất mô hình theo thời gian (Model Drift - mô hình bị lỗi thời do dữ liệu thay đổi).\n* **Retraining:** Huấn luyện lại định kỳ.",
+    "teacher_script": "Bước cuối cùng: Triển khai. Mô hình nằm trên máy tính của em thì vô dụng. Phải đưa nó ra thế giới. Ta thường đóng gói nó thành API. Nhưng chưa hết, ta phải theo dõi nó (Monitoring). Dữ liệu thay đổi theo thời gian (ví dụ hành vi khách hàng thay đổi), làm mô hình bị 'lỗi thời' (Model Drift). Khi đó ta phải huấn luyện lại."
+  },
+  {
+    "concept_id": 16,
+    "slide_content": "## 16. Công cụ lập trình: Python Ecosystem\n\nPython là ngôn ngữ số 1 cho AI/ML.\n\n* **NumPy:** Tính toán ma trận, đại số tuyến tính.\n* **Pandas:** Xử lý dữ liệu dạng bảng (DataFrame).\n* **Matplotlib / Seaborn:** Vẽ biểu đồ, trực quan hóa dữ liệu.\n* **Scikit-learn:** Thư viện ML kinh điển (chứa hầu hết thuật toán cơ bản).",
+    "teacher_script": "Về công cụ, Python là vua. Các em cần thành thạo bộ tứ quyền lực: NumPy để tính toán, Pandas để xử lý bảng dữ liệu, Matplotlib để vẽ biểu đồ, và Scikit-learn - kho tàng chứa sẵn hầu hết các thuật toán ML mà chúng ta sẽ học. Gần như mọi Data Scientist đều dùng bộ công cụ này."
+  },
+  {
+    "concept_id": 17,
+    "slide_content": "## 17. Demo: NumPy & Pandas\n\n```python\nimport pandas as pd\nimport numpy as np\n\n# Tạo DataFrame\ndata = {'Area': [50, 60, 70], 'Price': [2, 2.5, 3]}\ndf = pd.DataFrame(data)\n\n# Tính toán với NumPy\nmean_price = np.mean(df['Price'])\nprint(f\"Giá trung bình: {mean_price}\")\n```",
+    "teacher_script": "Đây là ví dụ nhỏ. Pandas giúp ta tạo ra bảng dữ liệu giống hệt Excel ngay trong code. NumPy giúp ta tính toán các phép toán phức tạp trên toàn bộ cột dữ liệu chỉ với một dòng lệnh. Sự kết hợp này giúp Python xử lý dữ liệu cực nhanh và tiện lợi."
+  },
+  {
+    "concept_id": 18,
+    "slide_content": "## 18. Demo: Scikit-learn Workflow\n\n```python\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\n\n# 1. Chia dữ liệu\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)\n\n# 2. Khởi tạo mô hình\nmodel = LinearRegression()\n\n# 3. Huấn luyện\nmodel.fit(X_train, y_train)\n\n# 4. Dự đoán\npredictions = model.predict(X_test)\n```",
+    "teacher_script": "Còn đây là sức mạnh của Scikit-learn. Quy trình phức tạp nãy giờ thầy nói được gói gọn trong vài dòng code. Chia dữ liệu? Một dòng. Khởi tạo mô hình? Một dòng. Huấn luyện? Gọi hàm .fit(). Dự đoán? Gọi hàm .predict(). Scikit-learn đã chuẩn hóa mọi thứ để chúng ta tập trung vào logic bài toán thay vì viết code thuật toán từ đầu."
+  },
+  {
+    "concept_id": 19,
+    "slide_content": "## 19. Thách thức trong ML: Overfitting\n\n**Overfitting (Học vẹt):** Mô hình học quá kỹ dữ liệu Train, kể cả nhiễu.\n\n* **Biểu hiện:** Train Accuracy rất cao, nhưng Test Accuracy thấp.\n* **Nguyên nhân:** Mô hình quá phức tạp, dữ liệu quá ít.\n* **Khắc phục:** Thêm dữ liệu, giảm độ phức tạp, Regularization.",
+    "teacher_script": "Nhưng đời không như mơ. Kẻ thù lớn nhất của chúng ta là Overfitting. Giống như một học sinh học vẹt, thuộc lòng từng dấu chấm phẩy trong sách giáo khoa (Train set) nhưng khi ra thi gặp câu hỏi hơi khác một chút (Test set) là không làm được. Nếu thấy Train ngon mà Test dở, đích thị là Overfitting."
+  },
+  {
+    "concept_id": 20,
+    "slide_content": "## 20. Thách thức trong ML: Underfitting\n\n**Underfitting (Học chưa tới):** Mô hình quá đơn giản để nắm bắt quy luật dữ liệu.\n\n* **Biểu hiện:** Cả Train Accuracy và Test Accuracy đều thấp.\n* **Nguyên nhân:** Mô hình quá đơn giản (ví dụ dùng đường thẳng cho dữ liệu hình sin).\n* **Khắc phục:** Dùng mô hình phức tạp hơn, thêm features.",
+    "teacher_script": "Ngược lại là Underfitting - Học chưa tới. Giống như học sinh lười, kiến thức quá sơ sài. Biểu hiện là cả lúc học và lúc thi điểm đều thấp. Lúc này ta cần mô hình 'thông minh' hơn, phức tạp hơn, hoặc cung cấp thêm nhiều thông tin (features) hơn cho nó."
+  },
+  {
+    "concept_id": 21,
+    "slide_content": "## 21. Đạo đức trong AI (AI Ethics)\n\n* **Bias (Thiên kiến):** Dữ liệu huấn luyện có định kiến xã hội $\\rightarrow$ Mô hình phân biệt đối xử (ví dụ: tuyển dụng, vay vốn).\n* **Privacy (Riêng tư):** Bảo mật dữ liệu người dùng.\n* **Transparency (Minh bạch):** Khả năng giải thích quyết định của mô hình (Explainable AI).",
+    "teacher_script": "Làm AI không chỉ là kỹ thuật, mà còn là đạo đức. Nếu dữ liệu đầu vào có định kiến (ví dụ: ít tuyển nữ giới), mô hình sẽ học theo định kiến đó và phân biệt đối xử. Chúng ta phải cẩn trọng. Ngoài ra là vấn đề riêng tư và minh bạch: Tại sao mô hình từ chối hồ sơ vay vốn này? Chúng ta phải giải thích được."
+  },
+  {
+    "concept_id": 22,
+    "slide_content": "## 22. Lộ trình học tập (Learning Path)\n\n1.  **Toán nền tảng:** Đại số tuyến tính, Giải tích, Xác suất thống kê.\n2.  **Lập trình:** Python, SQL.\n3.  **ML cơ bản:** Các thuật toán trong khóa học này.\n4.  **Deep Learning:** Neural Networks, Computer Vision, NLP.\n5.  **MLOps:** Triển khai và vận hành hệ thống ML.",
+    "teacher_script": "Để trở thành kỹ sư ML, các em cần một lộ trình dài. Nền móng là Toán và Lập trình. Sau đó là ML cơ bản mà chúng ta đang học. Tiếp theo là Deep Learning cho các bài toán khó. Và cuối cùng là MLOps - kỹ năng đưa mô hình vào thực tế sản xuất. Đừng đốt cháy giai đoạn, hãy xây móng cho chắc."
+  },
+  {
+    "concept_id": 23,
+    "slide_content": "## 23. Tài nguyên tham khảo\n\n* **Sách:** \"Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow\" (Aurélien Géron).\n* **Khóa học:** Andrew Ng (Coursera), Fast.ai.\n* **Cộng đồng:** Kaggle, Stack Overflow, Reddit r/MachineLearning.",
+    "teacher_script": "Thầy giới thiệu vài tài nguyên 'gối đầu giường'. Cuốn sách của Aurélien Géron là kinh thánh cho thực hành. Khóa học của thầy Andrew Ng là kinh điển về lý thuyết. Và hãy tham gia Kaggle - đấu trường dữ liệu lớn nhất thế giới để cọ xát thực tế."
+  },
+  {
+    "concept_id": 24,
+    "slide_content": "## 24. Tổng kết bài 1\n\n* ML là dạy máy học từ dữ liệu.\n* 3 loại chính: Supervised, Unsupervised, Reinforcement.\n* Quy trình 8 bước: Từ thu thập dữ liệu đến triển khai.\n* Dữ liệu và Feature Engineering quan trọng hơn thuật toán.",
+    "teacher_script": "Tổng kết lại bài hôm nay. Chúng ta đã hiểu ML là gì, các loại hình của nó. Chúng ta đã nắm vững quy trình 8 bước xương sống của mọi dự án. Và quan trọng nhất: hãy nhớ Dữ liệu là vua. Bài sau, chúng ta sẽ bắt tay vào thuật toán đầu tiên: Linear Regression."
+  },
+  {
+    "concept_id": 25,
+    "slide_content": "## 25. Q&A - Thảo luận\n\n* Các em có câu hỏi gì về quy trình ML không?\n* Có ý tưởng ứng dụng ML nào các em muốn thực hiện?\n* **Bài tập về nhà:** Cài đặt môi trường Python (Anaconda/Miniconda) và chạy thử thư viện Pandas.",
+    "teacher_script": "Chúng ta dành thời gian còn lại cho Q&A. Có phần nào trong quy trình làm các em bối rối không? Hay các em có ý tưởng điên rồ nào muốn dùng ML để giải quyết? Đừng ngần ngại chia sẻ. Bài tập về nhà là cài đặt môi trường Python nhé, buổi sau chúng ta sẽ code thật đấy!"
+  }
+]

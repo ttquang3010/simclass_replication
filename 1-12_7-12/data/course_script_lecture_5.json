@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 101,
+    "slide_content": "## 1. Reinforcement Learning (Học tăng cường)\n\nNhánh thứ 3 của Machine Learning.\n\n* **Khác biệt:** Không có dữ liệu $(X, y)$ có sẵn. Máy phải tự tương tác với môi trường để thu thập dữ liệu.\n* **Cơ chế:** Học qua Thử và Sai (Trial and Error).\n* **Mục tiêu:** Tối đa hóa tổng phần thưởng (Reward) tích lũy theo thời gian.",
+    "teacher_script": "Chào mừng đến với bài cuối cùng! Hôm nay chúng ta bước vào lãnh địa của Reinforcement Learning (RL). Khác với hai loại trước, ở đây không có thầy giáo, cũng không có dữ liệu sẵn. Agent (nhân vật chính) giống như một đứa trẻ bị ném vào thế giới lạ lẫm. Nó phải tự đi lại, vấp ngã, đứng dậy (Thử và Sai) để học cách sinh tồn."
+  },
+  {
+    "concept_id": 102,
+    "slide_content": "## 2. Các thành phần của RL\n\n1.  **Agent (Tác nhân):** Người học và ra quyết định (ví dụ: Mario).\n2.  **Environment (Môi trường):** Thế giới mà Agent tương tác (ví dụ: Màn chơi game).\n3.  **State (Trạng thái - $s$):** Tình huống hiện tại (vị trí Mario, vị trí nấm).\n4.  **Action (Hành động - $a$):** Việc Agent làm (nhảy, đi trái, đi phải).\n5.  **Reward (Phần thưởng - $r$):** Phản hồi từ môi trường (ăn xu +10, chết -100).",
+    "teacher_script": "Hãy tưởng tượng ta dạy máy chơi Mario. Agent là Mario. Environment là màn chơi. State là những gì Mario nhìn thấy trên màn hình. Action là bấm nút nhảy hay chạy. Reward là điểm số: ăn xu thì cộng điểm, đụng rùa thì trừ điểm. Mục tiêu của Mario là làm sao để điểm tổng kết cuối màn là cao nhất."
+  },
+  {
+    "concept_id": 103,
+    "slide_content": "## 3. Vòng lặp RL (The RL Loop)\n\n1.  Agent quan sát State $s_t$.\n2.  Agent chọn Action $a_t$.\n3.  Environment chuyển sang State mới $s_{t+1}$ và trả về Reward $r_{t+1}$.\n4.  Agent cập nhật kiến thức và lặp lại.\n\n**Mục tiêu:** Tìm ra **Policy (Chiến thuật - $\\pi$)** tối ưu: Nhìn thấy $s$ thì nên làm $a$ gì?",
+    "teacher_script": "Quá trình này diễn ra liên tục theo vòng lặp. Nhìn -> Hành động -> Nhận kết quả -> Học. Cái mà Agent cần tìm ra gọi là Policy (Chiến thuật). Nó giống như cuốn bí kíp: 'Gặp rùa (State) thì phải Nhảy (Action)'. Policy tối ưu là cuốn bí kíp giúp Mario phá đảo với điểm cao nhất."
+  },
+  {
+    "concept_id": 104,
+    "slide_content": "## 4. Exploration vs. Exploitation\n\nThế lưỡng nan kinh điển:\n\n* **Exploitation (Khai thác):** Chọn hành động tốt nhất mà mình đã biết để ăn điểm ngay. (Tham lam).\n* **Exploration (Khám phá):** Thử hành động mới, có thể bị phạt, nhưng có thể tìm ra kho báu lớn hơn.\n* **Epsilon-Greedy:** Tung đồng xu. 90% Khai thác, 10% Khám phá.",
+    "teacher_script": "Trong RL có một bài toán đau đầu: Khám phá hay Khai thác? Giả sử em tìm được một quán phở ngon. Ngày mai em sẽ ăn tiếp quán đó (Khai thác - an toàn) hay thử quán mới (Khám phá - rủi ro nhưng có thể ngon hơn)? Agent cũng vậy. Nếu cứ tham lam ăn điểm nhỏ trước mắt, nó có thể bỏ lỡ kho báu lớn. Giải pháp thường dùng là Epsilon-Greedy: thỉnh thoảng hãy thử làm liều một chút."
+  },
+  {
+    "concept_id": 105,
+    "slide_content": "## 5. Markov Decision Process (MDP)\n\nNgôn ngữ toán học của RL.\n\n* Giả định Markov: Tương lai chỉ phụ thuộc vào hiện tại, không phụ thuộc vào quá khứ.\n* $P(s_{t+1} | s_t, a_t)$",
+    "teacher_script": "Để máy tính hiểu được, ta mô hình hóa mọi thứ bằng Quy trình quyết định Markov (MDP). Giả định quan trọng nhất là: Tương lai chỉ phụ thuộc vào hiện tại. Việc Mario có nhảy qua vực thẳm hay không chỉ phụ thuộc vào vị trí hiện tại của cậu ấy, không quan trọng trước đó cậu ấy đã chạy bao xa."
+  },
+  {
+    "concept_id": 106,
+    "slide_content": "## 6. Q-Learning (1)\n\nThuật toán RL cơ bản.\n\n* **Q-Value $Q(s, a)$:** Giá trị (tổng phần thưởng tương lai) của việc thực hiện hành động $a$ tại trạng thái $s$.\n* **Q-Table:** Bảng tra cứu lưu trữ tất cả các giá trị $Q(s, a)$.",
+    "teacher_script": "Thuật toán vỡ lòng là Q-Learning. Ta xây dựng một bảng cửu chương khổng lồ gọi là Q-Table. Hàng là các tình huống (State), cột là các hành động (Action). Ô giao nhau chứa điểm số Q-Value: 'Nếu đang ở tình huống này mà làm hành động kia thì tương lai sẽ sướng bao nhiêu?'."
+  },
+  {
+    "concept_id": 107,
+    "slide_content": "## 7. Q-Learning (2)\n\n**Công thức cập nhật Bellman:**\n\n$$Q(s, a) = Q(s, a) + \\alpha [R + \\gamma \\max Q(s', a') - Q(s, a)]$$\n\n* $\\alpha$: Learning Rate.\n* $\\gamma$: Discount Factor (Hệ số giảm giá). Trọng số của phần thưởng tương lai (0.9) so với hiện tại.\n* Ý nghĩa: Giá trị hiện tại = Phần thưởng tức thì + Giá trị tương lai tốt nhất.",
+    "teacher_script": "Làm sao điền số vào bảng Q? Ta dùng công thức Bellman. Ý nghĩa rất đời thường: Giá trị của một hành động bằng Phần thưởng nhận được ngay lập tức cộng với Viễn cảnh tương lai tốt nhất. Hệ số Gamma thể hiện độ kiên nhẫn: Gamma càng gần 1, Agent càng biết lo xa."
+  },
+  {
+    "concept_id": 108,
+    "slide_content": "## 8. Deep Q-Networks (DQN)\n\nKhi không gian trạng thái quá lớn (ví dụ: màn hình game có hàng triệu pixels), không thể lập bảng Q-Table.\n\n* **Giải pháp:** Dùng Neural Network để xấp xỉ hàm Q.\n* Input: State (ảnh màn hình) $\\rightarrow$ Neural Net $\\rightarrow$ Output: Q-values cho từng Action.\n* Đây là sự kết hợp giữa Deep Learning và RL.",
+    "teacher_script": "Nhưng nếu chơi game 3D, có hàng triệu trạng thái, cái bảng Q sẽ to bằng cả vũ trụ, không chứa nổi. Lúc này Deep Learning nhập cuộc. Ta thay cái bảng bằng một Mạng Nơ-ron. Mạng này sẽ học cách 'ước lượng' giá trị Q mà không cần lưu bảng. Đây chính là công nghệ Deep Q-Network (DQN) đã giúp AI chơi điện tử giỏi hơn con người."
+  },
+  {
+    "concept_id": 109,
+    "slide_content": "## 9. AlphaGo & AlphaZero\n\nĐỉnh cao của RL.\n\n* **AlphaGo:** Kết hợp Supervised Learning (học từ ván cờ con người) + Reinforcement Learning (tự chơi với chính mình).\n* **AlphaZero:** Chỉ dùng RL (tự chơi từ con số 0). Đánh bại AlphaGo sau vài giờ huấn luyện.\n* Chứng minh sức mạnh của việc máy tự khám phá chiến thuật mới.",
+    "teacher_script": "Đỉnh cao là AlphaGo. Ban đầu nó học từ các ván cờ của cao thủ (Supervised). Sau đó nó tự chơi với chính mình hàng triệu ván (RL) để luyện công. Phiên bản sau là AlphaZero thậm chí không cần học từ người, nó tự ngộ ra chân lý cờ vây từ con số 0 và đánh bại tất cả. Nó đã sáng tạo ra những nước đi mà con người chưa từng nghĩ tới."
+  },
+  {
+    "concept_id": 110,
+    "slide_content": "## 10. Ứng dụng của RL\n\n* **Robotics:** Robot học đi, cầm nắm đồ vật.\n* **Xe tự lái:** Ra quyết định trong tình huống giao thông phức tạp.\n* **Tài chính:** Giao dịch chứng khoán tự động (Algorithmic Trading).\n* **Game:** NPC thông minh, AI chơi game.",
+    "teacher_script": "RL không chỉ để chơi cờ. Nó đang điều khiển robot trong nhà máy, lái xe tự hành ngoài đường phố, và thậm chí là chơi chứng khoán. Bất cứ đâu cần ra quyết định liên tiếp trong môi trường biến động, ở đó có RL."
+  },
+  {
+    "concept_id": 111,
+    "slide_content": "## 11. Deep Learning (Học sâu)\n\nQuay lại với \"Bộ não\" của AI hiện đại.\n\n* **Neural Networks (Mạng nơ-ron):** Mô phỏng cách các nơ-ron trong não bộ kết nối và truyền tin.\n* **Deep:** Có nhiều lớp ẩn (Hidden Layers) ở giữa Input và Output.\n* Khả năng tự động trích xuất đặc trưng (Automatic Feature Extraction).",
+    "teacher_script": "Bây giờ, hãy nói kỹ hơn về 'bộ não' đứng sau DQN và ChatGPT: Deep Learning. Nó mô phỏng não người với các nơ-ron kết nối chằng chịt. 'Deep' (Sâu) nghĩa là nó có rất nhiều lớp nơ-ron xếp chồng lên nhau. Điều kỳ diệu là nó tự biết cách tìm ra Features (như cạnh, góc, hình khối trong ảnh) mà con người không cần can thiệp."
+  },
+  {
+    "concept_id": 112,
+    "slide_content": "## 12. Perceptron\n\nTế bào nơ-ron nhân tạo đơn giản nhất.\n\n$$output = activation(\\sum w_i x_i + b)$$\n\n* $x_i$: Input.\n* $w_i$: Weights (Trọng số - độ quan trọng).\n* $b$: Bias.\n* **Activation Function:** Hàm kích hoạt (Sigmoid, ReLU) quyết định nơ-ron có \"bắn\" tín hiệu đi tiếp hay không.",
+    "teacher_script": "Đơn vị cơ bản nhất là Perceptron. Nó giống như một cái công tắc. Nó nhận tín hiệu đầu vào, nhân với trọng số (độ quan trọng), cộng lại. Nếu tổng tín hiệu vượt qua một ngưỡng nào đó (quyết định bởi hàm kích hoạt), nó sẽ 'bắn' tín hiệu sang nơ-ron tiếp theo. Hàng tỷ cái công tắc như vậy tạo nên trí thông minh."
+  },
+  {
+    "concept_id": 113,
+    "slide_content": "## 13. Backpropagation (Lan truyền ngược)\n\nThuật toán huấn luyện Neural Network.\n\n1.  **Forward Pass:** Tính toán output dự đoán.\n2.  **Loss Calculation:** Tính sai số so với thực tế.\n3.  **Backward Pass:** Truyền sai số ngược lại từ cuối về đầu để điều chỉnh trọng số $w$ (dùng Chain Rule của đạo hàm).\n* Giúp cả mạng lưới \"rút kinh nghiệm\".",
+    "teacher_script": "Làm sao huấn luyện cả tỷ cái công tắc đó? Nhờ thuật toán Backpropagation (Lan truyền ngược). Khi máy đoán sai, thuật toán này sẽ tính toán xem nơ-ron nào chịu trách nhiệm cho cái sai đó và điều chỉnh trọng số của nó. Nó truyền cái sai từ cuối mạng ngược về đầu mạng, giúp cả hệ thống cùng rút kinh nghiệm."
+  },
+  {
+    "concept_id": 114,
+    "slide_content": "## 14. Convolutional Neural Networks (CNN)\n\nChuyên gia xử lý **Hình ảnh**.\n\n* **Convolution Layer:** Dùng các bộ lọc (filters) để quét qua ảnh, trích xuất đặc trưng (cạnh, góc, mắt, mũi...).\n* **Pooling Layer:** Giảm kích thước ảnh nhưng giữ lại đặc trưng quan trọng.\n* Ứng dụng: Nhận diện khuôn mặt, xe tự lái, chẩn đoán X-quang.",
+    "teacher_script": "Với hình ảnh, ta dùng CNN. Nó hoạt động giống mắt người: quét qua bức ảnh để tìm các đường nét, góc cạnh, rồi ghép lại thành mắt, mũi, và cuối cùng là khuôn mặt. CNN là công nghệ lõi của FaceID và xe tự lái."
+  },
+  {
+    "concept_id": 115,
+    "slide_content": "## 15. Recurrent Neural Networks (RNN) & Transformers\n\nChuyên gia xử lý **Chuỗi** (Văn bản, Giọng nói).\n\n* **RNN/LSTM:** Có trí nhớ, xử lý từ này dựa trên từ trước đó. (Hạn chế: hay quên khi chuỗi dài).\n* **Transformers (Attention Mechanism):** Cơ chế \"Chú ý\". Có thể nhìn toàn bộ câu văn cùng lúc và biết từ nào quan trọng với từ nào.\n* Nền tảng của BERT, GPT (ChatGPT).",
+    "teacher_script": "Với ngôn ngữ, ta cần RNN và Transformers. RNN có trí nhớ ngắn hạn, đọc từ này nhớ từ trước. Nhưng Transformers mới là kẻ thay đổi cuộc chơi với cơ chế 'Attention' (Chú ý). Nó có thể đọc cả cuốn sách và biết liên kết các tình tiết xa nhau. Đây chính là trái tim của ChatGPT."
+  },
+  {
+    "concept_id": 116,
+    "slide_content": "## 16. Generative AI (GenAI)\n\nSự bùng nổ hiện tại.\n\n* **Discriminative AI:** Phân biệt Chó vs. Mèo (Cũ).\n* **Generative AI:** Vẽ ra con Chó, viết ra bài văn (Mới).\n* **LLMs (Large Language Models):** Các mô hình Transformer khổng lồ được huấn luyện trên toàn bộ Internet.",
+    "teacher_script": "Chúng ta đang sống trong kỷ nguyên GenAI. Ngày xưa AI chỉ biết phân biệt (Con này là chó hay mèo?). Ngày nay AI biết sáng tạo (Vẽ con chó, làm thơ về con mèo). Các mô hình ngôn ngữ lớn (LLM) như GPT đã học hết kiến thức trên internet để có thể trò chuyện như người."
+  },
+  {
+    "concept_id": 117,
+    "slide_content": "## 17. Demo: Neural Network với TensorFlow/Keras\n\n```python\nimport tensorflow as tf\n\nmodel = tf.keras.models.Sequential([\n  tf.keras.layers.Dense(128, activation='relu'),\n  tf.keras.layers.Dense(10, activation='softmax')\n])\n\nmodel.compile(optimizer='adam',\n              loss='sparse_categorical_crossentropy',\n              metrics=['accuracy'])\n```",
+    "teacher_script": "Code một mạng nơ-ron đơn giản bằng Keras rất dễ. Ta xếp chồng các lớp (Layers) lên nhau như xếp bánh sandwich. Chọn hàm kích hoạt (ReLU), chọn bộ tối ưu (Adam), và bấm nút chạy. Sức mạnh nằm ở sự đơn giản."
+  },
+  {
+    "concept_id": 118,
+    "slide_content": "## 18. Thách thức của Deep Learning\n\n* **Dữ liệu:** Cần lượng dữ liệu khổng lồ (Big Data).\n* **Phần cứng:** Cần GPU mạnh mẽ, tốn điện năng.\n* **Black Box:** Khó giải thích tại sao mạng đưa ra quyết định đó (Thiếu tính minh bạch).",
+    "teacher_script": "Nhưng Deep Learning cũng có điểm yếu. Nó 'ăn' dữ liệu rất khủng khiếp. Nó cần những siêu máy tính tốn điện năng bằng cả một thành phố. Và đáng sợ nhất: nó là một Hộp đen (Black Box). Đôi khi chúng ta không hiểu tại sao nó lại quyết định như vậy, điều này rất nguy hiểm trong y tế hay quân sự."
+  },
+  {
+    "concept_id": 119,
+    "slide_content": "## 19. Tương lai của AI\n\n* **AGI (Artificial General Intelligence):** AI có trí thông minh tổng quát như con người (chưa đạt được).\n* **AI for Good:** Dùng AI giải quyết biến đổi khí hậu, chữa bệnh ung thư.\n* **AI Safety:** Đảm bảo AI không gây hại cho nhân loại.",
+    "teacher_script": "Tương lai sẽ ra sao? Chúng ta đang hướng tới AGI - AI thông minh toàn diện như con người. Nhưng đi kèm đó là trách nhiệm. Làm sao dùng AI để chữa ung thư, cứu trái đất, và đảm bảo nó không quay lại làm hại chúng ta (AI Safety)? Đó là sứ mệnh của thế hệ các em."
+  },
+  {
+    "concept_id": 120,
+    "slide_content": "## 20. Tổng kết khóa học (1)\n\nChúng ta đã đi một chặng đường dài:\n\n1.  **Tổng quan:** AI/ML/DL, Quy trình dự án.\n2.  **Supervised:** Regression, Classification (Linear, Logistic, SVM, Trees).\n3.  **Unsupervised:** Clustering, PCA.",
+    "teacher_script": "Nhìn lại chặng đường đã qua. Từ những khái niệm mơ hồ ban đầu, giờ các em đã nắm trong tay bản đồ của thế giới AI. Từ những đường thẳng hồi quy đơn giản đến những khu rừng ngẫu nhiên phức tạp."
+  },
+  {
+    "concept_id": 121,
+    "slide_content": "## 21. Tổng kết khóa học (2)\n\n4.  **Reinforcement Learning:** Agent, Reward, Q-Learning.\n5.  **Deep Learning:** Neural Networks, CNN, RNN, GenAI.\n\nCác em đã có đủ nền tảng để bắt đầu sự nghiệp Data Science / AI Engineer.",
+    "teacher_script": "Đến những biên giới xa xôi của RL và Deep Learning. Kiến thức này là nền tảng vững chắc để các em bước chân vào ngành công nghiệp hấp dẫn nhất thế kỷ 21."
+  },
+  {
+    "concept_id": 122,
+    "slide_content": "## 22. Lời khuyên cuối cùng\n\n* **Thực hành, thực hành, thực hành:** Code quan trọng hơn lý thuyết suông.\n* **Đừng sợ toán:** Toán là bạn, nó giúp em hiểu bản chất.\n* **Luôn cập nhật:** Ngành này thay đổi hàng ngày (theo nghĩa đen).",
+    "teacher_script": "Lời khuyên cuối của thầy: Hãy code đi. Đừng chỉ đọc sách. Hãy làm bẩn tay với dữ liệu. Đừng sợ toán, hãy nhìn nó như ngôn ngữ của vẻ đẹp. Và hãy luôn học hỏi, vì kiến thức hôm nay có thể sẽ cũ vào ngày mai."
+  },
+  {
+    "concept_id": 123,
+    "slide_content": "## 23. Dự án cuối khóa (Gợi ý)\n\n* Xây dựng hệ thống gợi ý phim.\n* Nhận diện chữ viết tay (MNIST).\n* Dự đoán giá nhà khu vực em sống.\n* Tạo một Chatbot đơn giản.",
+    "teacher_script": "Để tốt nghiệp, hãy làm một dự án nhỏ. Làm một cái app gợi ý phim cho người yêu, hay dự đoán giá đất ở quê. Hãy biến kiến thức thành sản phẩm."
+  },
+  {
+    "concept_id": 124,
+    "slide_content": "## 24. Tài nguyên nâng cao\n\n* **Papers with Code:** Cập nhật các nghiên cứu mới nhất kèm code.\n* **Hugging Face:** Kho tàng các mô hình Transformer (NLP).\n* **OpenAI Blog / Google AI Blog.**",
+    "teacher_script": "Muốn đi xa hơn, hãy đọc Paper. Hãy lên Hugging Face để tải các mô hình xịn nhất về nghịch. Hãy theo dõi blog của các ông lớn. Thế giới phẳng, kiến thức là miễn phí cho người biết tìm."
+  },
+  {
+    "concept_id": 125,
+    "slide_content": "## 25. Cảm ơn và Tạm biệt\n\nCảm ơn các em đã đồng hành cùng khóa học.\n\nChúc các em thành công trên con đường chinh phục AI!\n\n**\"The best way to predict the future is to invent it.\" - Alan Kay**",
+    "teacher_script": "Cảm ơn cả lớp đã kiên nhẫn đến giây phút này. Thầy rất vinh dự được là người dẫn đường. Chúc các em thành công rực rỡ. Hãy nhớ: Cách tốt nhất để dự đoán tương lai là kiến tạo ra nó. Tạm biệt và hẹn gặp lại!"
+  }
+]

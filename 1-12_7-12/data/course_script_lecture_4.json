@@ -1,0 +1,127 @@
+[
+  {
+    "concept_id": 76,
+    "slide_content": "## 1. Unsupervised Learning (Học không giám sát)\n\n**Vấn đề:** Không phải lúc nào dữ liệu cũng có nhãn ($y$). Việc gán nhãn rất tốn kém và tốn thời gian.\n\n**Giải pháp:** Máy tự tìm kiếm cấu trúc, gom nhóm, hoặc đơn giản hóa dữ liệu chỉ dựa trên $X$.\n\n**Ứng dụng:** Marketing (Segmentation), GenAI, Data Compression.",
+    "teacher_script": "Chào cả lớp. Chúng ta đã đi qua Supervised Learning. Nhưng thực tế, dữ liệu có nhãn là một tài nguyên xa xỉ. Gán nhãn cho 1 triệu tấm ảnh cần rất nhiều tiền và nhân lực. Vậy với dữ liệu thô thì sao? Đó là lãnh địa của Unsupervised Learning. Ở đây, máy tính giống như một đứa trẻ tự chơi đồ chơi, tự học cách phân biệt hình tròn và hình vuông mà không cần ai bảo."
+  },
+  {
+    "concept_id": 77,
+    "slide_content": "## 2. Clustering (Phân cụm)\n\nBài toán phổ biến nhất của Unsupervised Learning.\n\n**Mục tiêu:** Chia dữ liệu thành các nhóm (clusters) sao cho:\n* Các điểm trong cùng một nhóm rất giống nhau (High intra-class similarity).\n* Các điểm khác nhóm rất khác nhau (Low inter-class similarity).",
+    "teacher_script": "Bài toán đầu tiên: Phân cụm (Clustering). Mục tiêu là chia dữ liệu thành các nhóm. Ví dụ: Trong một siêu thị, ta muốn gom khách hàng thành các nhóm: 'Khách VIP', 'Khách săn khuyến mãi', 'Khách vãng lai'. Máy sẽ tự nhìn vào hành vi mua sắm để gom nhóm mà không cần ta định nghĩa trước thế nào là VIP."
+  },
+  {
+    "concept_id": 78,
+    "slide_content": "## 3. K-Means Algorithm\n\n**Quy trình:**\n1.  Chọn số cụm $K$.\n2.  Khởi tạo ngẫu nhiên $K$ điểm tâm (Centroids) $\\mu_1, ..., \\mu_K$.\n3.  **Gán cụm:** Gán mỗi điểm $x^{(i)}$ vào centroid gần nhất.\n4.  **Cập nhật:** Tính lại vị trí centroid bằng trung bình cộng các điểm trong cụm.\n5.  Lặp lại bước 3-4 cho đến khi hội tụ.",
+    "teacher_script": "Thuật toán kinh điển nhất là K-Means. Ý tưởng cực kỳ đơn giản. Bước 1: Chọn bừa K tâm điểm. Bước 2: Ai gần tâm nào thì về đội đó. Bước 3: Tính lại tâm đội bằng trung bình cộng vị trí các thành viên. Cứ lặp lại việc 'chọn phe' và 'dời đô' này cho đến khi ổn định."
+  },
+  {
+    "concept_id": 79,
+    "slide_content": "## 4. K-Means Visualization\n\n* Ban đầu centroids ở vị trí ngẫu nhiên.\n* Sau mỗi vòng lặp, centroids di chuyển dần về phía trung tâm của các đám mây dữ liệu.\n* Thuật toán dừng khi centroids không di chuyển nữa.",
+    "teacher_script": "Hãy hình dung quá trình này. Ban đầu các tâm nằm lung tung. Nhưng sau vài vòng lặp, chúng như những thỏi nam châm, tự động trôi về phía trung tâm của các đám đông dữ liệu. Rất đẹp mắt và hiệu quả."
+  },
+  {
+    "concept_id": 80,
+    "slide_content": "## 5. Chọn số cụm K (Elbow Method)\n\nLàm sao biết nên chia thành 3 hay 5 cụm?\n\n**Phương pháp khuỷu tay (Elbow Method):**\n1.  Chạy K-Means với $K=1, 2, ..., 10$.\n2.  Vẽ đồ thị giá trị Cost Function (Tổng bình phương khoảng cách) theo $K$.\n3.  Chọn $K$ tại điểm gập (khuỷu tay) - nơi việc tăng thêm cụm không làm giảm lỗi đáng kể nữa.",
+    "teacher_script": "Câu hỏi hóc búa: Chọn K bằng bao nhiêu? Chia khách hàng thành 3 nhóm hay 10 nhóm? Ta dùng phương pháp 'Khuỷu tay'. Ta vẽ biểu đồ lỗi khi tăng K. Khi K tăng, lỗi luôn giảm. Nhưng sẽ có một điểm mà tốc độ giảm lỗi đột ngột chững lại, tạo thành hình cái khuỷu tay. Đó chính là K tối ưu."
+  },
+  {
+    "concept_id": 81,
+    "slide_content": "## 6. Nhược điểm của K-Means\n\n* Phải chọn $K$ trước.\n* Nhạy cảm với điểm khởi tạo (có thể rơi vào tối ưu cục bộ).\n* Chỉ hoạt động tốt với các cụm hình cầu (spherical). Không tách được các cụm hình dạng phức tạp (ví dụ: hình mặt trăng khuyết lồng vào nhau).",
+    "teacher_script": "K-Means không hoàn hảo. Nó bắt ta phải đoán số cụm K. Nó cũng rất ngây thơ: chỉ thích các cụm hình tròn tròn. Nếu dữ liệu hình xoắn ốc hay hình trăng khuyết lồng vào nhau, K-Means sẽ cắt bừa bãi và sai bét."
+  },
+  {
+    "concept_id": 82,
+    "slide_content": "## 7. Hierarchical Clustering (Phân cụm phân cấp)\n\nKhông cần chọn $K$ trước.\n\n* **Agglomerative (Bottom-up):** Bắt đầu mỗi điểm là 1 cụm. Gộp 2 cụm gần nhất lại dần dần.\n* **Dendrogram:** Biểu đồ cây thể hiện quá trình gộp.\n* Cắt Dendrogram ở độ cao mong muốn để có số cụm.",
+    "teacher_script": "Giải pháp thay thế là Hierarchical Clustering. Nó xây dựng một cây phả hệ. Ban đầu mỗi điểm là một nhà. Sau đó hai nhà gần nhất sáp nhập thành xóm. Hai xóm gần nhất thành làng. Cứ thế lên đến tỉnh. Kết quả là biểu đồ Dendrogram. Muốn chia mấy cụm, ta chỉ việc cắt ngang cái cây đó."
+  },
+  {
+    "concept_id": 83,
+    "slide_content": "## 8. DBSCAN (Density-Based Clustering)\n\nPhân cụm dựa trên mật độ.\n\n* **Ý tưởng:** Cụm là vùng có mật độ điểm cao, ngăn cách bởi vùng mật độ thấp.\n* **Ưu điểm:**\n    * Không cần chọn $K$.\n    * Phát hiện được cụm hình dạng bất kỳ.\n    * Tự động loại bỏ nhiễu (Noise points).",
+    "teacher_script": "Một thuật toán rất thông minh khác là DBSCAN. Nó định nghĩa cụm là nơi 'đất chật người đông'. Nó lan truyền từ điểm này sang điểm khác miễn là mật độ đủ dày đặc. Nó có thể tìm ra các cụm hình thù kỳ dị nhất và đặc biệt là biết từ chối các điểm nhiễu (coi là rác, không thuộc cụm nào)."
+  },
+  {
+    "concept_id": 84,
+    "slide_content": "## 9. Dimensionality Reduction (Giảm chiều dữ liệu)\n\n**Vấn đề:** Dữ liệu thực tế có thể có hàng ngàn Features (high-dimensional).\n\n**Curse of Dimensionality (Lời nguyền số chiều):**\n* Khi số chiều tăng, không gian trở nên thưa thớt.\n* Khoảng cách giữa các điểm trở nên vô nghĩa $\\rightarrow$ Các thuật toán dựa trên khoảng cách (như K-Means, k-NN) hoạt động kém.",
+    "teacher_script": "Chuyển sang mảng thứ hai: Giảm chiều dữ liệu. Hãy tưởng tượng file Excel có 1000 cột. Máy tính sẽ bị 'Lời nguyền của số chiều'. Trong không gian quá nhiều chiều, mọi điểm đều cách xa nhau, khái niệm 'gần gũi' trở nên vô nghĩa, làm các thuật toán bị tê liệt."
+  },
+  {
+    "concept_id": 85,
+    "slide_content": "## 10. Principal Component Analysis (PCA)\n\n**Mục tiêu:** Nén dữ liệu xuống số chiều thấp hơn (2D, 3D) nhưng giữ lại nhiều thông tin (phương sai) nhất có thể.\n\n* **Cách làm:** Tìm các trục mới (Principal Components) mà dữ liệu biến thiên mạnh nhất.\n* Chiếu dữ liệu lên các trục này.",
+    "teacher_script": "PCA là vua của giảm chiều. Nó xoay trục toạ độ để tìm ra góc nhìn nào dữ liệu tản ra rộng nhất (giữ được nhiều thông tin nhất). Nó giúp ta nén 1000 cột xuống còn 2-3 cột quan trọng nhất (Principal Components) để có thể vẽ biểu đồ hoặc tính toán nhanh hơn."
+  },
+  {
+    "concept_id": 86,
+    "slide_content": "## 11. Trực quan hóa PCA\n\n* **PC1:** Trục có phương sai lớn nhất.\n* **PC2:** Trục vuông góc với PC1 và có phương sai lớn nhì.\n* Loại bỏ các PC có phương sai thấp (ít thông tin).",
+    "teacher_script": "Hãy tưởng tượng một đám mây điểm hình cái bánh mì. PC1 chính là trục dọc theo chiều dài bánh mì. PC2 là chiều rộng. PC3 là chiều cao. Nếu ta ép bẹp cái bánh mì xuống mặt bàn (bỏ PC3), ta vẫn nhận ra đó là cái bánh mì. Đó là cách PCA nén dữ liệu."
+  },
+  {
+    "concept_id": 87,
+    "slide_content": "## 12. t-SNE (t-Distributed Stochastic Neighbor Embedding)\n\nKỹ thuật giảm chiều phi tuyến tính, chuyên dùng để **trực quan hóa** (Visualization).\n\n* Giữ gìn cấu trúc cục bộ (Local structure): Các điểm gần nhau ở không gian cao sẽ gần nhau ở không gian thấp.\n* Tạo ra các cụm rất đẹp mắt trên biểu đồ 2D/3D.",
+    "teacher_script": "PCA là thuật toán tuyến tính (đường thẳng). t-SNE là phi tuyến tính, mạnh hơn nhiều trong việc trực quan hóa. Nó cố gắng giữ cho những điểm hàng xóm của nhau thì vẫn đứng cạnh nhau khi chuyển nhà từ không gian cao xuống thấp. Kết quả là các cụm dữ liệu hiện lên cực kỳ rõ nét."
+  },
+  {
+    "concept_id": 88,
+    "slide_content": "## 13. Anomaly Detection (Phát hiện bất thường)\n\n**Bài toán:** Tìm các điểm dữ liệu khác biệt so với phần còn lại.\n\n**Ứng dụng:**\n* Phát hiện gian lận thẻ tín dụng.\n* Phát hiện xâm nhập mạng (Intrusion Detection).\n* Bảo trì dự đoán (Predictive Maintenance) trong công nghiệp.",
+    "teacher_script": "Ứng dụng thứ ba: Phát hiện bất thường. Đây là công cụ đắc lực của ngân hàng và an ninh mạng. Ý tưởng là xây dựng một mô hình 'bình thường'. Bất cứ cái gì lệch ra khỏi chuẩn bình thường đó (ví dụ một giao dịch lúc 3h sáng ở nước lạ) đều bị coi là bất thường (Anomaly)."
+  },
+  {
+    "concept_id": 89,
+    "slide_content": "## 14. Gaussian Distribution (Phân phối chuẩn)\n\nPhương pháp thống kê cho Anomaly Detection.\n\n* Mô hình hóa dữ liệu theo phân phối chuẩn $\\mathcal{N}(\\mu, \\sigma^2)$.\n* Tính xác suất $p(x)$.\n* Nếu $p(x) < \\epsilon$ (ngưỡng) $\\rightarrow$ Bất thường.",
+    "teacher_script": "Cách đơn giản nhất là dùng Phân phối chuẩn (hình cái chuông). Ta tính xác suất xuất hiện của một điểm dữ liệu. Nếu xác suất quá thấp (nhỏ hơn Epsilon), ta báo động đỏ."
+  },
+  {
+    "concept_id": 90,
+    "slide_content": "## 15. Isolation Forest\n\nThuật toán hiện đại cho Anomaly Detection.\n\n* **Ý tưởng:** Các điểm bất thường \"dễ bị cô lập\" hơn các điểm bình thường.\n* Dùng cây ngẫu nhiên để cắt dữ liệu. Điểm bất thường sẽ bị tách ra (vào lá) rất sớm (đường đi ngắn).",
+    "teacher_script": "Một thuật toán hay ho khác là Isolation Forest. Nó dựa trên triết lý: Kẻ khác biệt thì dễ bị cô lập. Nó cắt ngẫu nhiên dữ liệu. Những điểm bất thường thường đứng một mình nên chỉ cần vài nhát cắt là bị tách riêng ra. Những điểm bình thường đứng túm tụm nên cần cắt rất nhiều lần mới tách được."
+  },
+  {
+    "concept_id": 91,
+    "slide_content": "## 16. Recommender Systems (Hệ gợi ý)\n\nMột ứng dụng lai, thường dùng các kỹ thuật Unsupervised.\n\n* **Collaborative Filtering:** \"Người dùng giống bạn cũng thích sản phẩm này\". (Dựa trên ma trận User-Item).\n* **Content-Based Filtering:** \"Sản phẩm này giống sản phẩm bạn đã thích\". (Dựa trên Features sản phẩm).",
+    "teacher_script": "Hệ gợi ý (Recommender Systems) - thuật toán đứng sau Netflix, TikTok. Có hai phái: Lọc cộng tác (Collaborative) - gợi ý dựa trên sở thích của những người giống bạn. Và Lọc theo nội dung (Content-Based) - gợi ý những món đồ có tính chất giống món bạn đã mua."
+  },
+  {
+    "concept_id": 92,
+    "slide_content": "## 17. Matrix Factorization\n\nKỹ thuật cốt lõi của Collaborative Filtering.\n\n* Phân rã ma trận User-Item khổng lồ (rất thưa) thành tích của 2 ma trận nhỏ hơn (User Matrix và Item Matrix).\n* Giúp dự đoán đánh giá (rating) còn thiếu.",
+    "teacher_script": "Bí mật toán học của Netflix là Matrix Factorization. Nó phân rã bảng đánh giá phim khổng lồ thành các đặc trưng ẩn (Latent Factors). Ví dụ: nó tự phát hiện ra đặc trưng 'phim hành động' và 'người thích hành động' để ghép đôi họ với nhau."
+  },
+  {
+    "concept_id": 93,
+    "slide_content": "## 18. Demo: K-Means với Scikit-learn\n\n```python\nfrom sklearn.cluster import KMeans\n\n# Chọn K=3\nkmeans = KMeans(n_clusters=3)\nkmeans.fit(X)\n\n# Lấy nhãn cụm\nlabels = kmeans.labels_\n# Lấy tâm cụm\ncentroids = kmeans.cluster_centers_\n```",
+    "teacher_script": "Code K-Means cực dễ. Chỉ cần khai báo số cụm n_clusters và gọi fit. Lưu ý là ta chỉ đưa X vào, không có y nhé. Sau khi chạy xong, ta có thể lấy được nhãn cụm và vị trí các tâm."
+  },
+  {
+    "concept_id": 94,
+    "slide_content": "## 19. Demo: PCA với Scikit-learn\n\n```python\nfrom sklearn.decomposition import PCA\n\n# Giảm xuống 2 chiều\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X)\n\nprint(\"Original shape:\", X.shape)\nprint(\"Reduced shape:\", X_pca.shape)\n```",
+    "teacher_script": "PCA cũng vậy. Ta khai báo số chiều muốn giữ lại (n_components). Hàm fit_transform sẽ biến đổi dữ liệu gốc thành dữ liệu mới ít chiều hơn."
+  },
+  {
+    "concept_id": 95,
+    "slide_content": "## 20. Thực hành: Customer Segmentation\n\n* **Dataset:** Mall Customers (Tuổi, Thu nhập, Điểm chi tiêu).\n* **Nhiệm vụ:** Phân nhóm khách hàng để Marketing target.\n* **Các bước:**\n    1.  Elbow Method để chọn K.\n    2.  Chạy K-Means.\n    3.  Vẽ biểu đồ các cụm.\n    4.  Phân tích đặc điểm từng cụm (Ví dụ: Nhóm \"Thu nhập cao - Chi tiêu cao\").",
+    "teacher_script": "Bài tập thực hành: Phân khúc khách hàng. Các em sẽ đóng vai Data Scientist cho một trung tâm thương mại. Hãy tìm ra đâu là nhóm khách hàng tiềm năng nhất (kiểu đại gia chịu chơi) để gửi voucher khuyến mãi."
+  },
+  {
+    "concept_id": 96,
+    "slide_content": "## 21. Semi-supervised Learning\n\nKết hợp cả hai thế giới.\n\n* **Tình huống:** Có rất nhiều dữ liệu không nhãn, nhưng chỉ có một ít dữ liệu có nhãn.\n* **Cách làm:** Dùng Clustering để gom nhóm dữ liệu không nhãn, sau đó lan truyền nhãn từ số ít dữ liệu có nhãn sang các điểm lân cận trong cùng cụm.",
+    "teacher_script": "Trong thực tế, ta thường gặp tình huống dở khóc dở cười: dữ liệu thì nhiều nhưng nhãn thì ít. Đó là lúc dùng Semi-supervised Learning (Học bán giám sát). Ta dùng Clustering để gom nhóm trước, rồi lấy nhãn của vài điểm đã biết gán cho cả nhóm đó. Một mũi tên trúng hai đích."
+  },
+  {
+    "concept_id": 97,
+    "slide_content": "## 22. Self-Supervised Learning\n\nXu hướng mới nhất (nền tảng của ChatGPT, BERT).\n\n* Máy tự tạo ra nhãn từ chính dữ liệu.\n* Ví dụ: Che bớt một từ trong câu, bắt máy đoán từ đó.\n* Học được các biểu diễn (representations) cực tốt mà không cần con người gán nhãn.",
+    "teacher_script": "Và đỉnh cao hiện nay là Self-Supervised Learning - nền tảng của ChatGPT. Máy tự tạo ra bài tập cho chính mình. Ví dụ: nó lấy một câu văn, che bớt một từ, rồi tự đoán từ đó. Bằng cách này, nó học được cấu trúc ngôn ngữ mà không cần con người dạy bảo tí nào."
+  },
+  {
+    "concept_id": 98,
+    "slide_content": "## 23. Tổng kết bài 4\n\n* **Clustering:** K-Means (đơn giản), DBSCAN (mật độ).\n* **Dimensionality Reduction:** PCA (nén thông tin), t-SNE (trực quan hóa).\n* **Anomaly Detection:** Tìm kẻ khác biệt.\n* Unsupervised Learning là chìa khóa để khai thác kho dữ liệu khổng lồ chưa được gán nhãn.",
+    "teacher_script": "Tổng kết bài 4. Unsupervised Learning là chìa khóa để mở kho báu dữ liệu khổng lồ của nhân loại. Từ việc hiểu khách hàng đến phát hiện gian lận, nó âm thầm vận hành thế giới số."
+  },
+  {
+    "concept_id": 99,
+    "slide_content": "## 24. Bài tập về nhà\n\n* Thực hành bài toán Customer Segmentation.\n* Thử dùng PCA để nén ảnh (xem ảnh bị mờ đi thế nào khi giảm số chiều).\n* Đọc thêm về Recommender Systems.",
+    "teacher_script": "Bài tập về nhà: Hãy thử dùng PCA để nén ảnh. Các em sẽ thấy điều kỳ diệu: chỉ cần giữ lại 10% thông tin, ta vẫn nhận ra khuôn mặt trong ảnh. Đó chính là sức mạnh của việc trích xuất đặc trưng."
+  },
+  {
+    "concept_id": 100,
+    "slide_content": "## 25. Chuẩn bị cho bài cuối\n\n* Bài cuối cùng: Những biên giới mới.\n* **Reinforcement Learning:** Dạy máy chơi game.\n* **Deep Learning:** Mô phỏng não bộ.\n* Đây là những công nghệ đang tạo ra cơn sốt AI hiện nay.",
+    "teacher_script": "Bài sau là bài cuối cùng và cũng là bài hấp dẫn nhất. Chúng ta sẽ nói về những công nghệ đang làm mưa làm gió: Reinforcement Learning và Deep Learning. Hẹn gặp lại các em ở đỉnh cao công nghệ!"
+  }
+]

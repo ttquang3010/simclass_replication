@@ -19,8 +19,13 @@ Multi-agent AI classroom simulation system with shy student psychology modeling.
 │   └── simclass_replication_old.py  # Backup (monolithic version)
 │
 ├── 📁 data/                     # Input data
-│   ├── course_script.json       # Lecture content (25 slides)
-│   └── agent_prompts.json       # System prompts for 7 agents
+│   ├── course_script_lecture_1.json  # Lecture 1: ML Foundations & Workflow (25 slides)
+│   ├── course_script_lecture_2.json  # Lecture 2: Supervised Learning (25 slides)
+│   ├── course_script_lecture_3.json  # Lecture 3: Advanced Models (25 slides)
+│   ├── course_script_lecture_4.json  # Lecture 4: Unsupervised Learning (25 slides)
+│   ├── course_script_lecture_5.json  # Lecture 5: RL & Deep Learning (25 slides)
+│   ├── course_script.json            # Original lecture (kept as reference)
+│   └── agent_prompts.json            # System prompts for 7 agents
 │
 ├── 📁 logs/                     # Simulation output logs
 │   └── simulation_log_multi_agent_YYYYMMDD_HHMMSS.jsonl
@@ -52,6 +57,12 @@ python main.py
 ## Configuration
 
 Edit `src/config.py`:
+- `CURRENT_LECTURE_ID`: Select lecture (1-5) to run simulation
+  - 1: ML Foundations & Workflow
+  - 2: Supervised Learning (Regression & Classification)
+  - 3: Advanced Supervised Models (SVM, Trees, Ensembles)
+  - 4: Unsupervised Learning (Clustering, PCA)
+  - 5: Reinforcement Learning & Deep Learning
 - `N_SESSIONS`: Number of simulation runs (default: 2)
 - `MAX_CONTEXT_TEACHER`: Context window for teacher (60 messages)
 - `MAX_CONTEXT_SUMMARY_SEEKER`: Context for Note Taker (None = unlimited)

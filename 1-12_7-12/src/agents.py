@@ -20,7 +20,17 @@ class SimAgent:
         self.name = name
         self.system_prompt = system_prompt
         self.model_name = model_name
-        self.max_context_window = max_context_window  # None = unlimited (for Summary Seeker)
+        self.max_context_window = max_context_window
+    
+    def estimate_context_tokens(self):
+        """Estimate total tokens in current context (rough approximation)."""
+        if API_PROVIDER == "google":
+            return 0  # Google handles this internally
+        else:
+            # Rough estimate: 1 token ≈ 0.75 words (English) or 1.5 characters (Vietnamese)
+            total_chars = sum(len(msg.get('content', '')) for msg in self.messages)
+            estimated_tokens = int(total_chars / 1.5)  # Conservative estimate for Vietnamese
+            return estimated_tokens
         
         # Initialize based on API provider
         if API_PROVIDER == "google":

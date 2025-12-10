@@ -5,11 +5,13 @@ Handles the main classroom interaction flow with teacher-driven patterns
 
 import random
 import time
+from datetime import datetime
 from src.utils import (
     log_and_print, get_student_prompt, is_asking_question,
     classify_question_difficulty, estimate_slide_difficulty,
     calculate_lecture_complexity, write_logs_to_file
 )
+from src import config
 
 
 def run_single_session(session_id, agents, script, log_file):
@@ -19,6 +21,12 @@ def run_single_session(session_id, agents, script, log_file):
     print(f"\n[CONTEXT RESET] All agents starting fresh for Session {session_id}")
     for agent in agents.values():
         agent.reset_context()
+    
+    # Initialize auto-save tracking
+    # For lecture 2+ (session_id >= 200), always use append mode
+    last_save_time = time.time()
+    pending_logs = []
+    is_continuation = session_id >= 200  # Lectures 2-5
     
     teacher = agents['Prof. X']
     peer_agents = {
@@ -37,9 +45,23 @@ def run_single_session(session_id, agents, script, log_file):
     teacher.generate_response("Chuẩn bị bắt đầu bài giảng.") 
     assistant.generate_response("Sẵn sàng hỗ trợ.")
     
-    for slide in script:
+    print(f"[AUTO-SAVE] Enabled. Logs will be saved every {config.AUTO_SAVE_INTERVAL} seconds.\n")
+    
+    for slide_idx, slide in enumerate(script, 1):
         slide_concept = slide['slide_content'].split(':')[0]
         slide_difficulty = estimate_slide_difficulty(slide_concept)
+        
+        # Periodic context reset to prevent token overflow
+        if slide_idx % config.CONTEXT_RESET_INTERVAL == 0 and slide_idx > 1:
+            print(f"\n[PERIODIC CONTEXT RESET] Slide {slide_idx}: Clearing context for all agents to prevent overflow")
+            for agent_name, agent in agents.items():
+                token_count = agent.estimate_context_tokens()
+                print(f"  - {agent_name}: ~{token_count:,} tokens before reset")
+                agent.reset_context()
+            # Re-establish agent references after reset
+            teacher = agents['Prof. X']
+            assistant = agents['Clarity Guide']
+            simulated_user = agents['Student']
         
         print(f"\n--- SLIDE {slide['concept_id']}: {slide_concept} (Difficulty: {slide_difficulty:.2f}) ---")
         print(f"[Simulated User State] Confusion: {simulated_user.confusion_level:.2f}, "
@@ -109,7 +131,35 @@ def run_single_session(session_id, agents, script, log_file):
         if simulated_user.questions_asked_count == 0 and simulated_user.confusion_level > 0.7:
             _handle_teacher_invitation(current_turn, slide_concept, teacher, assistant, 
                                       simulated_user, classroom_history_log, session_id)
+        
+        # === AUTO-SAVE CHECK ===
+        current_time = time.time()
+        if current_time - last_save_time >= config.AUTO_SAVE_INTERVAL:
+            # Calculate new logs since last save
+            new_logs = classroom_history_log[len(pending_logs):]
+            if new_logs:
+                # Use append mode if: (1) we have pending logs OR (2) this is a continuation lecture
+                write_mode = 'a' if (pending_logs or is_continuation) else 'w'
+                write_logs_to_file(new_logs, log_file, mode=write_mode)
+                pending_logs = classroom_history_log.copy()
+                elapsed_minutes = int((current_time - last_save_time) / 60)
+                print(f"\n  [AUTO-SAVE] Saved {len(new_logs)} new utterances after {elapsed_minutes} minutes. Total: {len(classroom_history_log)}")
+                last_save_time = current_time
 
+    # Final save for any remaining logs
+    new_logs = classroom_history_log[len(pending_logs):]
+    if new_logs:
+        # Use append mode if: (1) we have pending logs OR (2) this is a continuation lecture
+        write_mode = 'a' if (pending_logs or is_continuation) else 'w'
+        write_logs_to_file(new_logs, log_file, mode=write_mode)
+        print(f"\n[FINAL SAVE] Saved {len(new_logs)} final utterances. Total session: {len(classroom_history_log)}")
+    
+    # Report final token usage
+    print(f"\n[FINAL TOKEN USAGE REPORT]")
+    for agent_name, agent in agents.items():
+        token_count = agent.estimate_context_tokens()
+        print(f"  - {agent_name}: ~{token_count:,} tokens (Max window: {agent.max_context_window or 'Unlimited'})")
+    
     print(f"\n[Session End] Simulated User asked {simulated_user.questions_asked_count} questions total.")
     return classroom_history_log
 
