@@ -15,6 +15,7 @@ from .scenarios import ScenarioExecutor
 from .evaluator import TeachingEvaluator
 from .data_loader import DataLoader
 from .result_saver import ResultSaver
+from . import reliability_metrics
 
 __all__ = [
     "APIClient",
@@ -24,4 +25,5 @@ __all__ = [
     "TeachingEvaluator",
     "DataLoader",
     "ResultSaver",
+    "reliability_metrics",
 ]

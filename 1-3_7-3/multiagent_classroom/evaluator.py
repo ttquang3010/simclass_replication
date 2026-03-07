@@ -5,7 +5,7 @@ Evaluates teaching effectiveness based on COPUS metrics.
 """
 
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from . import constants as const
 
@@ -237,3 +237,149 @@ class TeachingEvaluator:
             logger.info(f"  Characteristics: Teacher talks, students listen")
         elif "INTERACTIVE" in classroom_type:
             logger.info(f"  Characteristics: Q&A, discussion, two-way interaction")
+    
+    def compare_observers(
+        self,
+        observer1: Any,
+        observer2: Any,
+        coder1_name: str = "Observer 1",
+        coder2_name: str = "Observer 2"
+    ) -> Dict[str, Any]:
+        """
+        Compare two observers' COPUS coding using inter-rater reliability metrics.
+        
+        Calculates Jaccard similarity, Cohen's kappa, and percent agreement
+        between two observers' observations. Based on methodology from
+        Smith et al. (2013) COPUS paper.
+        
+        Args:
+            observer1: First COPUSObserver instance (or any object with .observations list)
+            observer2: Second COPUSObserver instance
+            coder1_name: Name/label for first observer (default: "Observer 1")
+            coder2_name: Name/label for second observer (default: "Observer 2")
+            
+        Returns:
+            Dictionary containing all reliability metrics:
+                - jaccard_similarity: Average Jaccard coefficient (0.0-1.0)
+                - cohens_kappa: Cohen's kappa coefficient (-1.0 to 1.0)
+                - kappa_interpretation: Text interpretation (e.g., "Substantial")
+                - percent_agreement: Percentage of perfect matches (0-100)
+                - n_segments: Number of segments compared
+                - disagreements: Detailed analysis of disagreement segments
+                - coder1_name: Name of first coder
+                - coder2_name: Name of second coder
+                
+        Raises:
+            ValueError: If observers have different numbers of observations
+            AttributeError: If observers don't have .observations attribute
+            
+        Example:
+            >>> evaluator = TeachingEvaluator()
+            >>> observer_human = COPUSObserver()
+            >>> observer_agent = COPUSObserver()
+            >>> # ... run coding ...
+            >>> metrics = evaluator.compare_observers(
+            ...     observer_human, observer_agent,
+            ...     coder1_name="Human", coder2_name="Agent"
+            ... )
+            >>> print(f"Kappa: {metrics['cohens_kappa']}")
+        """
+        # Get observations from both observers
+        try:
+            obs1: list = observer1.observations
+            obs2: list = observer2.observations
+        except AttributeError as e:
+            raise AttributeError(
+                f"Observers must have .observations attribute. "
+                f"Error: {str(e)}"
+            )
+        
+        # Validate observation counts match
+        if len(obs1) != len(obs2):
+            raise ValueError(
+                f"Observers have different numbers of observations: "
+                f"{coder1_name}={len(obs1)}, {coder2_name}={len(obs2)}. "
+                f"Both observers must code the same segments."
+            )
+        
+        if len(obs1) == 0:
+            logger.warning("No observations to compare.")
+            return {
+                "jaccard_similarity": 0.0,
+                "cohens_kappa": 0.0,
+                "kappa_interpretation": "No data",
+                "percent_agreement": 0.0,
+                "n_segments": 0,
+                "disagreements": {
+                    "disagreement_segments": [],
+                    "disagreement_count": 0,
+                    "disagreement_details": [],
+                    "common_confusions": []
+                },
+                "coder1_name": coder1_name,
+                "coder2_name": coder2_name
+            }
+        
+        # Import reliability_metrics locally to avoid circular import
+        from . import reliability_metrics
+        
+        # Calculate all reliability metrics
+        logger.info("="*60)
+        logger.info(f"INTER-RATER RELIABILITY ANALYSIS")
+        logger.info(f"Comparing: {coder1_name} vs {coder2_name}")
+        logger.info("="*60)
+        
+        analyzer = reliability_metrics.COPUSReliabilityAnalyzer(
+            obs1, obs2, coder1_name, coder2_name
+        )
+        metrics: Dict[str, Any] = analyzer.calculate_all_metrics()
+        
+        # Log summary
+        logger.info("\n" + "="*60)
+        logger.info("SUMMARY:")
+        logger.info(f"  Jaccard Similarity: {metrics['jaccard_similarity']:.3f}")
+        logger.info(
+            f"  Cohen's Kappa: {metrics['cohens_kappa']:.3f} "
+            f"({metrics['kappa_interpretation']})"
+        )
+        logger.info(f"  Percent Agreement: {metrics['percent_agreement']:.1f}%")
+        logger.info(f"  Segments with Disagreement: {metrics['disagreements']['disagreement_count']}")
+        
+        # Interpretation guidance
+        self._log_irr_interpretation(metrics['cohens_kappa'])
+        
+        # Log top confusions if any
+        if metrics['disagreements']['common_confusions']:
+            logger.info("\n  Top Code Confusions:")
+            for (code1, code2), count in metrics['disagreements']['common_confusions'][:5]:
+                logger.info(f"    {coder1_name}={code1} vs {coder2_name}={code2}: {count} times")
+        
+        logger.info("="*60)
+        
+        return metrics
+    
+    def _log_irr_interpretation(self, kappa: float) -> None:
+        """
+        Log interpretation guidance for Cohen's kappa value.
+        
+        Args:
+            kappa: Cohen's kappa coefficient
+        """
+        logger.info("\n  Interpretation Guidance (Landis & Koch, 1977):")
+        
+        if kappa >= 0.81:
+            logger.info("  [EXCELLENT] Almost perfect agreement")
+            logger.info("    Observer coding is highly reliable.")
+        elif kappa >= 0.61:
+            logger.info("  [GOOD] Substantial agreement")
+            logger.info("    Observer coding is reliable and acceptable.")
+        elif kappa >= 0.41:
+            logger.info("  [MODERATE] Moderate agreement")
+            logger.info("    Consider refining observer training or code definitions.")
+        elif kappa >= 0.21:
+            logger.info("  [FAIR] Fair agreement")
+            logger.info("    Significant improvement needed in observer training.")
+        else:
+            logger.info("  [POOR] Slight or no agreement")
+            logger.info("    Review observer protocol and code definitions urgently.")
+

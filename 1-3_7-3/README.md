@@ -50,20 +50,39 @@ Then edit the `.env` file and add:
 python main.py
 ```
 
-## Architecture
+## Run Tests
 
+```powershell
+# Run all tests with pytest
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_reliability_metrics.py -v
+
+# Run with coverage
+pytest tests/ --cov=multiagent_classroom --cov-report=html
 ```
-1-3_7-3/
-├── multiagent_classroom/   # Main package
-│   ├── __init__.py         # Package initialization
-│   ├── constants.py        # Configuration constants
-│   ├── api_client.py       # API initialization and management
-│   ├── agent.py            # LLM agent implementation
-│   ├── observer.py         # COPUS observation recording
-│   ├── scenarios.py        # Teaching scenario execution
-│   ├── evaluator.py        # Teaching effectiveness evaluation
+reliability_metrics.py  # Inter-rater reliability (IRR) metrics
 │   ├── data_loader.py      # Data loading and validation
 │   └── result_saver.py     # Results persistence
+├── tests/                  # Test suite
+│   ├── __init__.py         # Test package initialization
+│   └── test_reliability_metrics.py  # IRR metrics tests
+├── legacy/                 # Archived code
+│   └── copus_simulation.py # Original monolithic version
+├── main.py                 # Entry point
+├── requirements.txt        # Dependencies
+├── .env.template           # Template for API keys
+├── README.md               # This file
+├── data/
+│   ├── linear_regression_slides.json   # Lecture content (10 slides)
+│   ├── agent_prompts_vi.json           # Agent prompts (Vietnamese)
+│   └── agent_prompts_vi.py             # Agent prompts (Python format)
+├── results/
+│   └── copus_simulation_*.json         # Simulation results
+└── copus/
+    └── paper/
+        └── copus.md                     # COPUS papere
 ├── legacy/                 # Archived code
 │   └── copus_simulation.py # Original monolithic version
 ├── main.py                 # Entry point
@@ -140,16 +159,39 @@ python main.py
 - `execute_lec_only()`: Run lecture-based scenario
 - `execute_pq_only()`: Run question-driven scenario
 - `_get_slide_content()`: Extract slide content
-- `_get_slide_metadata()`: Extract topic and key terms
-- `_generate_lecture()`: Generate teacher lecture
-- `_generate_question()`: Generate teacher question
-- `_get_student_response()`: Coordinate student responses
-
-### 6. `evaluator.py`
-**Responsibility**: Teaching effectiveness evaluation
+- `_get_slide_metadata()`: Extract topic and key term and inter-rater reliability
 
 **Classes**:
 - `TeachingEvaluator`: Evaluates teaching methods using COPUS metrics
+
+**Key Methods**:
+- `evaluate()`: Main evaluation orchestrator
+- `compare_observers()`: Compare two observers using IRR metrics
+- `_calculate_metrics()`: Calculate percentage metrics
+- `_classify_classroom()`: Classify as DIDACTIC/INTERACTIVE/MIXED
+- `_build_evaluation_result()`: Construct result dictionary
+- `_log_irr_interpretation()`: Interpret Cohen's kappa values
+
+### 6a. `reliability_metrics.py`
+**Responsibility**: Inter-rater reliability (IRR) calculations
+
+**Classes**:
+- `COPUSReliabilityAnalyzer`: Calculates reliability metrics between two coders
+- `ConfusionMatrixBuilder`: Builds confusion matrices for code comparisons
+
+**Key Methods**:
+- `calculate_jaccard_similarity()`: Compute Jaccard similarity coefficient
+- `calculate_cohens_kappa()`: Compute Cohen's kappa using scikit-learn
+- `calculate_percent_agreement()`: Calculate perfect match percentage
+- `analyze_disagreements()`: Identify and analyze coding disagreements
+- `calculate_all_metrics()`: Convenience method for all metrics at once
+- `build_matrix()`: Generate confusion matrix for code patterns
+
+**Statistical Metrics**:
+- **Jaccard Similarity**: Measures code overlap between observers (0.0-1.0)
+- **Cohen's Kappa**: Measures agreement adjusted for chance (-1.0 to 1.0)
+- **Percent Agreement**: Percentage of segments with perfect code match
+- **Disagreement Analysis**: Identifies segments and codes with mismatchesUS metrics
 
 **Key Methods**:
 - `evaluate()`: Main evaluation orchestrator
@@ -241,44 +283,170 @@ Edit values in `multiagent_classroom/constants.py`:
 TURNS_PER_SESSION = 5    # Number of 2-minute intervals (default: 5 = 10 minutes)
 MAX_CONTEXT_TEACHER = 15  # Context window for instructor
 MAX_CONTEXT_STUDENT = 10  # Context window for students
-TEMPERATURE = 0.7         # AI creativity level
-MAX_TOKENS = 500          # Response length
-DIDACTIC_THRESHOLD = 80.0    # Threshold for didactic classification
-INTERACTIVE_THRESHOLD = 50.0  # Threshold for interactive classification
+TEMValidation and Reliability
+
+The system includes inter-rater reliability (IRR) analysis to validate COPUS coding accuracy:
+
+### Observer Comparison
+
+```python
+from multiagent_classroom.evaluator import TeachingEvaluator
+from multiagent_classroom.observer import COPUSObserver
+
+# Create two observers
+observer_human = COPUSObserver()
+observer_agent = COPUSObserver()
+
+# ... perform coding ...
+
+# Compare observers
+evaluator = TeachingEvaluator()
+metrics = evaluator.compare_observers(
+    observer_human, 
+    observer_agent380 lines - Teaching evaluation + IRR analysis
+- `reliability_metrics.py`: 520 lines - Inter-rater reliability metrics
+- `data_loader.py`: 190 lines - Data loading/validation
+- `result_saver.py`: 175 lines - Results persistence
+
+**Entry Point**:
+- `main.py`: 255 lines - Simulation orchestration
+
+**Testing**:
+- `tests/test_reliability_metrics.py`: 450+ lines - Comprehensive IRR testsilarity']}")
+print(f"Cohen's Kappa: {metrics['cohens_kappa']}")
+print(f"Interpretation: {metrics['kappa_interpretation']}")
+print(f"Percent Agreement: {metrics['percent_agreement']}%")
 ```
 
-## Extending the System
+### Reliability Metrics
 
+Based on Smith et al. (2013) COPUS paper methodology:
+
+- **Jaccard Similarity**: Measures code overlap (target: > 0.75)
+- **Cohen's Kappa**: Agreement adjusted for chance (target: > 0.70 for "Substantial")
+- **Percent Agreement**: Perfect segment matches (informative, not primary metric)
+
+### Kappa Interpretation (Landis & Koch, 1977)
+
+| Range | Interpretation |
+|-------|----------------|
+| < 0.00 | Poor |
+| 0.00-0.20 | Slight |
+| 0.21-0.40 | Fair |
+| 0.41-0.60 | Moderate |
+| 0.61-0.80 | Substantial |
+| 0.81-1.00 | Almost Perfect |
+
+## Benefits of Modular Architecture
+
+1. **Maintainability**: Each module has clear boundaries and responsibilities
+2. **Testability**: Individual modules can be tested in isolation with pytest
+3. **Reusability**: Modules can be imported and used independently
+4. **Scalability**: Easy to add new features without affecting existing code
+5. **Readability**: Clear separation makes code easier to understand
+6. **Single Responsibility**: Each function/class has one clear purpose
+7. **Reliability**: IRR metrics ensure consistent COPUS coding across observers
 ### Adding a New Scenario
 1. Add scenario method to `ScenarioExecutor` in `scenarios.py`
 2. Create observation recording method
 3. Update `COPUSSimulation` in `main.py` to run new scenario
 
-### Adding a New Agent Type
-1. Add prompt to `data/agent_prompts_vi.json`
-2. Update `_validate_prompts()` in `data_loader.py`
-3. Create agent in `_create_agents()` in `main.py`
+###Development Status
 
-### Customizing Evaluation
-1. Modify classification logic in `TeachingEvaluator._classify_classroom()`
-2. Update thresholds in `constants.py`
-3. Add new metrics in `_calculate_metrics()`
+### Completed (Phase 1)
+- Core simulation engine with Teacher and Student agents
+- Two baseline scenarios (Lec-only, PQ-only)
+- COPUS observation recording and classification
+- Inter-rater reliability metrics (Jaccard, Cohen's kappa)
+- Comprehensive test suite with pytest
+- Observer comparison functionality
 
-## Benefits of Modular Architecture
+### In Progress (Phase 2)
+- Manual coding tool for human COPUS coding
+- Validation experiments comparing Agent Observer vs Human Coder
+- Disagreement analysis and Observer prompt refinement
 
-1. **Maintainability**: Each module has clear boundaries and responsibilities
-2. **Testability**: Individual modules can be tested in isolation
-3. **Reusability**: Modules can be imported and used independently
-4. **Scalability**: Easy to add new features without affecting existing code
-5. **Readability**: Clear separation makes code easier to understand
-6. **Single Responsibility**: Each function/class has one clear purpose
+### Planned (Phase 3+)
+- Additional teaching scenarios (mixed methods, group work)
+- Real-time observation dashboard
+- Automated report generation with visualizations
+- Multi-language support expansion
+- Configuration file system (YAML/JSON)
+- Database storage for longitudinal analysis
 
-## Migration from Legacy Version
+## Future Improvements
 
-The legacy `copus_simulation.py` (664 lines, monolithic) has been refactored into a professional Python package:
+1. **Manual Coding Tool**: CLI/GUI for human COPUS coding to validate Agent Observer
+2. **Validation Framework**: Systematic comparison of Agent vs Human coding
+3. **Configuration File**: Move constants to YAML/JSON config file
+4. **Plugin System**: Allow dynamic scenario loading
+5. **Async Execution**: Run scenarios in parallel
+6. **Web Interface**: Add Flask/FastAPI web UI with real-time observation
+7. **Database Storage**: Store results in database instead of files
+8. **Advanced Analytics**: Interactive visualizations with confusion matrices
+9. **Report Generation**: Automated PDF/HTML reports with IRR metric
+3. Add new
 
-**Package Structure** (`multiagent_classroom/`):
-- `__init__.py`: Package initialization and exports
+The project uses **pytest** for automated testing with comprehensive test coverage for reliability metrics.
+
+### Test Structure
+
+```
+tests/
+├── __init__.py                      # Test package
+└── test_reliability_metrics.py     # IRR metrics tests (80+ test cases)
+```
+
+### Running Tests
+
+```powershell
+# Run all tests
+pytest tests/ -v
+
+# Run specific test class
+pytest tests/test_reliability_metrics.py::TestCOPUSReliabilityAnalyzer -v
+
+# Run with coverage report
+pytest tests/ --cov=multiagent_classroom --cov-report=html
+
+# Run tests matching pattern
+pytest tests/ -k "jaccard" -v
+```
+
+### Test Coverage
+
+**`test_reliability_metrics.py`** includes:
+
+1. **TestCOPUSReliabilityAnalyzer**: Initialization and configuration tests
+2. **TestJaccardSimilarity**: Jaccard coefficient calculation tests
+3. **TestCohensKappa**: Cohen's kappa calculation and interpretation tests
+4. **TestPercentAgreement**: Perfect match percentage tests
+5. **TestDisagreementAnalysis**: Disagreement identification and analysis tests
+6. **TestCalculateAllMetrics**: Comprehensive metrics calculation tests
+7. **TestConfusionMatrixBuilder**: Confusion matrix generation tests
+8. **TestEvaluatorIntegration**: Integration tests with COPUSObserver
+9. **TestConvenienceFunction**: Module-level convenience function tests
+
+### Test Scenarios
+
+Tests cover:
+- Perfect agreement (kappa = 1.0)
+- Partial agreement (0 < kappa < 1)
+- No agreement (kappa = 0)
+- Disagreement identification
+- Edge cases (empty observations, mismatched lengths)
+- Integration with COPUSObserver and TeachingEvaluator
+
+### Future Tests
+
+Planned test modules:
+- `test_api_client.py`: API initialization and provider selection
+- `test_agent.py`: LLM response generation and context management
+- `test_observer.py`: COPUS code recording and summarization
+- `test_scenarios.py`: Scenario execution and dialogue generation
+- `test_evaluator.py`: Teaching method classification
+- `test_data_loader.py`: Data loading and validation
+- `test_integration.py`: End-to-end simulation workflowization and exports
 - `constants.py`: 80 lines - Configuration constants
 - `api_client.py`: 105 lines - API management
 - `agent.py`: 210 lines - LLM agent implementation

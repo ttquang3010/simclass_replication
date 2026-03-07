@@ -6,6 +6,7 @@ Handles loading and validation of prompts and slides data.
 
 import json
 import logging
+import importlib
 from typing import Dict, List, Any
 
 from . import constants as const
@@ -24,33 +25,36 @@ class DataLoader:
         self.prompts: Dict[str, Any] = {}
         self.slides: List[Dict[str, Any]] = []
     
-    def load_prompts(self, file_path: str = const.AGENT_PROMPTS_PATH) -> Dict[str, Any]:
+    def load_prompts(self, module_name: str = const.AGENT_PROMPTS_MODULE) -> Dict[str, Any]:
         """
-        Load agent prompts from JSON file.
+        Load agent prompts from Python module.
         
         Args:
-            file_path: Path to prompts JSON file
+            module_name: Python module path (e.g., 'data.agent_prompts_vi')
             
         Returns:
             Dictionary of agent prompts
             
         Raises:
-            FileNotFoundError: If prompts file not found
-            json.JSONDecodeError: If JSON is invalid
+            ImportError: If module cannot be imported
+            AttributeError: If module doesn't have required attributes
         """
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                self.prompts = json.load(f)
+            # Import the prompts module dynamically
+            prompts_module = importlib.import_module(module_name)
             
-            logger.info(f"Loaded prompts from {file_path}")
+            # Get all agent configurations
+            self.prompts = prompts_module.get_all_agents()
+            
+            logger.info(f"Loaded prompts from Python module: {module_name}")
             self._validate_prompts()
             return self.prompts
             
-        except FileNotFoundError:
-            logger.error(f"Prompts file not found: {file_path}")
+        except ImportError as e:
+            logger.error(f"Failed to import prompts module '{module_name}': {e}")
             raise
-        except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON in prompts file: {e}")
+        except AttributeError as e:
+            logger.error(f"Prompts module missing required function 'get_all_agents()': {e}")
             raise
     
     def load_slides(

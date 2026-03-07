@@ -22,7 +22,7 @@ MAX_RETRIES: int = 3
 BRIEF_PAUSE: float = 0.5  # seconds
 
 # File Paths
-AGENT_PROMPTS_PATH: str = "data/agent_prompts_vi.json"
+AGENT_PROMPTS_MODULE: str = "data.agent_prompts_vi"  # Python module for agent prompts
 SLIDES_DATA_PATH: str = "data/linear_regression_slides.json"
 RESULTS_DIR: str = "results"
 
