@@ -4,7 +4,9 @@ COPUS Classroom Simulation - Main Entry Point
 Orchestrates the execution of classroom teaching scenarios with COPUS observation.
 """
 
+import os
 import logging
+from datetime import datetime
 from typing import Dict, List, Any, Optional
 
 from multiagent_classroom import (
@@ -20,11 +22,51 @@ from multiagent_classroom import constants as const
 
 
 # ============= Logging Setup =============
-logging.basicConfig(
-    level=logging.INFO,
-    format=const.LOG_FORMAT,
-    datefmt=const.LOG_DATE_FORMAT
-)
+def setup_logging() -> str:
+    """
+    Configure logging to both console and file.
+    
+    Returns:
+        Path to the log file
+    """
+    # Ensure logs directory exists
+    os.makedirs(const.LOGS_DIR, exist_ok=True)
+    
+    # Generate timestamp for log file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(const.LOGS_DIR, f"simulation_{timestamp}.log")
+    
+    # Configure root logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    
+    # Remove existing handlers
+    root_logger.handlers.clear()
+    
+    # Console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    console_formatter = logging.Formatter(
+        fmt=const.LOG_FORMAT,
+        datefmt=const.LOG_DATE_FORMAT
+    )
+    console_handler.setFormatter(console_formatter)
+    root_logger.addHandler(console_handler)
+    
+    # File handler
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
+    file_handler.setLevel(logging.INFO)
+    file_formatter = logging.Formatter(
+        fmt=const.LOG_FORMAT,
+        datefmt=const.LOG_DATE_FORMAT
+    )
+    file_handler.setFormatter(file_formatter)
+    root_logger.addHandler(file_handler)
+    
+    return log_file
+
+
+log_file_path = setup_logging()
 logger = logging.getLogger(__name__)
 
 
@@ -45,6 +87,7 @@ class COPUSSimulation:
         
         self.api_provider: Optional[str] = None
         self.client: Optional[Any] = None
+        self.google_client: Optional[Any] = None
         self.model_name: str = ""
         self.prompts: Dict[str, Any] = {}
         self.slides: List[Dict[str, Any]] = []
@@ -82,7 +125,7 @@ class COPUSSimulation:
     
     def _initialize_components(self) -> None:
         """Initialize API client and load data."""
-        self.api_provider, self.client, self.model_name = self.api_client.initialize()
+        self.api_provider, self.client, self.model_name, self.google_client = self.api_client.initialize()
         self.prompts, self.slides = self.data_loader.load_all()
         
         logger.info(f"[OK] Loaded {len(self.slides)} slides")
@@ -118,6 +161,7 @@ class COPUSSimulation:
             model_name=self.model_name,
             api_provider=self.api_provider,
             client=self.client,
+            google_client=self.google_client,
             max_context=max_context
         )
     

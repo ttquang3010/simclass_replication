@@ -60,14 +60,14 @@ class DataLoader:
     def load_slides(
         self, 
         file_path: str = const.SLIDES_DATA_PATH,
-        max_slides: int = const.TURNS_PER_SESSION
+        max_slides: int = None
     ) -> List[Dict[str, Any]]:
         """
         Load slides data from JSON file.
         
         Args:
             file_path: Path to slides JSON file
-            max_slides: Maximum number of slides to load
+            max_slides: Maximum number of slides to load (None = load all)
             
         Returns:
             List of slide dictionaries
@@ -80,7 +80,7 @@ class DataLoader:
             with open(file_path, "r", encoding="utf-8") as f:
                 slides_data: Dict[str, Any] = json.load(f)
             
-            self.slides = slides_data["slides"][:max_slides]
+            self.slides = slides_data["slides"] if max_slides is None else slides_data["slides"][:max_slides]
             
             logger.info(f"Loaded {len(self.slides)} slides from {file_path}")
             self._validate_slides()

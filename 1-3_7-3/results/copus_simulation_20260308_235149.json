@@ -1,0 +1,557 @@
+{
+  "scenario1_lec_only": {
+    "log": [
+      {
+        "segment": 1,
+        "teacher": "Chào mừng các bạn đến với bài học về Hồi Quy Tuyến Tính (Linear Regression). Đây là một trong những thuật toán cơ bản và quan trọng nhất trong Machine Learning (Học máy). Hôm nay chúng ta sẽ tìm hiểu: khái niệm, công thức toán học, và ứng dụng thực tế của nó.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 1,
+          "time_range": "2-4 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Hồi Quy Tuyến Tính. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 2,
+        "teacher": "Chào mừng các bạn đến với bài học về Hồi Quy Tuyến Tính (Linear Regression). Đây là một trong những thuật toán cơ bản và quan trọng nhất trong Machine Learning (Học máy). Hôm nay chúng ta sẽ tìm hiểu: khái niệm, công thức toán học, và ứng dụng thực tế của nó.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 2,
+          "time_range": "4-6 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Vấn Đề Thực Tế. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 3,
+        "teacher": "Chúng ta cùng xem một vấn đề thực tế: dự đoán giá nhà dựa trên diện tích. Dữ liệu cho thấy mối quan hệ tuyến tính: nhà 50m² giá 1 tỷ, 80m² giá 1.6 tỷ, và 100m² giá 2 tỷ. Câu hỏi đặt ra là: nếu một căn nhà có diện tích 120m², giá của nó sẽ là bao nhiêu? Đây chính là bài toán mà Hồi Quy Tuyến Tính có thể giải quyết.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 3,
+          "time_range": "6-8 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Khái Niệm Hồi Quy Tuyến Tính. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 4,
+        "teacher": "Chúng ta cùng xem một vấn đề thực tế: dự đoán giá nhà dựa trên diện tích. Dữ liệu cho thấy mối quan hệ tuyến tính: nhà 50m² giá 1 tỷ, 80m² giá 1.6 tỷ, và 100m² giá 2 tỷ. Câu hỏi đặt ra là: nếu một căn nhà có diện tích 120m², giá của nó sẽ là bao nhiêu? Đây chính là bài toán mà Hồi Quy Tuyến Tính có thể giải quyết.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 4,
+          "time_range": "8-10 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Phương Trình Toán Học. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 5,
+        "teacher": "Chúng ta đi vào khái niệm Hồi Quy Tuyến Tính (Linear Regression). Đây là phương pháp tìm mối quan hệ tuyến tính giữa biến độc lập (Independent variable) x, như diện tích, và biến phụ thuộc (Dependent variable) y, như giá nhà. Mục tiêu là tìm đường thẳng 'tốt nhất' để mô tả mối quan hệ này, với phương trình tổng quát: y = wx + b, trong đó w là hệ số góc (weight/slope) và b là hệ số chặn (bias/intercept).",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 5,
+          "time_range": "10-12 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Làm Thế Nào Để Tìm w và b?. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 6,
+        "teacher": "Chúng ta đi vào khái niệm Hồi Quy Tuyến Tính (Linear Regression). Đây là phương pháp tìm mối quan hệ tuyến tính giữa biến độc lập (Independent variable) x, như diện tích, và biến phụ thuộc (Dependent variable) y, như giá nhà. Mục tiêu là tìm đường thẳng 'tốt nhất' để mô tả mối quan hệ này, với phương trình tổng quát: y = wx + b, trong đó w là hệ số góc (weight/slope) và b là hệ số chặn (bias/intercept).",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 6,
+          "time_range": "12-14 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Gradient Descent - Thuật Toán Tối Ưu. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 7,
+        "teacher": "Chúng ta xem xét phương trình toán học cho dự đoán. Phương trình dự đoán là: ŷ = wx + b, trong đó ŷ (đọc là y-hat) là giá trị dự đoán, x là giá trị đầu vào (ví dụ diện tích 120m²), w là trọng số (weight) thể hiện độ dốc, và b là độ lệch (bias) hay điểm cắt trục y. Ví dụ, nếu w = 0.02 và b = 0, thì giá dự đoán cho nhà 120m² là ŷ = 0.02 × 120 = 2.4 tỷ đồng.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 7,
+          "time_range": "14-16 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Demo: Code Python. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 8,
+        "teacher": "Bây giờ chúng ta tìm hiểu làm thế nào để tìm w và b. Bước đầu tiên là tính sai số (Error), được định nghĩa là giá trị thực tế trừ đi giá trị dự đoán: Error = y - ŷ = y - (wx + b). Bước hai, chúng ta tính hàm mất mát (Loss Function), thường dùng MSE (Mean Squared Error - Sai số bình phương trung bình): MSE = (1/n) × Σ(y - ŷ)². Mục tiêu là tìm w và b sao cho MSE nhỏ nhất, từ đó có đường thẳng khớp nhất với dữ liệu.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 8,
+          "time_range": "16-18 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Ứng Dụng Thực Tế. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 9,
+        "teacher": "Bây giờ chúng ta tìm hiểu làm thế nào để tìm w và b. Bước đầu tiên là tính sai số (Error), được định nghĩa là giá trị thực tế trừ đi giá trị dự đoán: Error = y - ŷ = y - (wx + b). Bước hai, chúng ta tính hàm mất mát (Loss Function), thường dùng MSE (Mean Squared Error - Sai số bình phương trung bình): MSE = (1/n) × Σ(y - ŷ)². Mục tiêu là tìm w và b sao cho MSE nhỏ nhất, từ đó có đường thẳng khớp nhất với dữ liệu.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 9,
+          "time_range": "18-20 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Hạn Chế và Lưu Ý. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 10,
+        "teacher": "Chúng ta chuyển sang một công cụ quan trọng: Gradient Descent (Hạ Gradient). Đây là thuật toán tối ưu để tìm w và b tối ưu. Ý tưởng là di chuyển dần về hướng làm giảm giá trị hàm mất mát (Loss). Công thức cập nhật tham số là: w_new = w_old - α × ∂Loss/∂w và b_new = b_old - α × ∂Loss/∂b. Trong đó, α (alpha) là tốc độ học (learning rate), còn ∂Loss/∂w và ∂Loss/∂b là các đạo hàm riêng của Loss theo w và b.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 10,
+          "time_range": "20-22 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Tổng Kết. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 11,
+        "teacher": "Chúng ta chuyển sang một công cụ quan trọng: Gradient Descent (Hạ Gradient). Đây là thuật toán tối ưu để tìm w và b tối ưu. Ý tưởng là di chuyển dần về hướng làm giảm giá trị hàm mất mát (Loss). Công thức cập nhật tham số là: w_new = w_old - α × ∂Loss/∂w và b_new = b_old - α × ∂Loss/∂b. Trong đó, α (alpha) là tốc độ học (learning rate), còn ∂Loss/∂w và ∂Loss/∂b là các đạo hàm riêng của Loss theo w và b.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 11,
+          "time_range": "22-24 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on summary. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 12,
+        "teacher": "Bây giờ thầy sẽ demo bằng code Python. Chúng ta import thư viện numpy và LinearRegression từ sklearn. Dữ liệu đầu vào X là diện tích (50, 80, 100 m²) và y là giá thực tế (1.0, 1.6, 2.0 tỷ đồng). Sau khi tạo mô hình và huấn luyện bằng `model.fit(X, y)`, chúng ta dự đoán giá nhà 120m². Kết quả in ra sẽ là giá dự đoán, và mô hình sẽ tìm được các tham số w (khoảng 0.02) và b (khoảng 0).",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 12,
+          "time_range": "24-26 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on summary. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 13,
+        "teacher": "Cuối cùng, chúng ta xem xét các ứng dụng thực tế của Hồi Quy Tuyến Tính. Phương pháp này được áp dụng rộng rãi trong nhiều lĩnh vực như: Kinh tế để dự đoán doanh thu, Bất động sản để định giá nhà đất, Y tế để dự đoán cân nặng, Marketing để phân tích giá và lượng bán, và Tài chính để dự báo giá cổ phiếu. Có thể thấy, đây là một công cụ đơn giản nhưng rất mạnh mẽ và hữu ích.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 13,
+          "time_range": "26-28 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on summary. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 14,
+        "teacher": "Chúng ta cũng cần hiểu rõ các hạn chế và lưu ý của Hồi Quy Tuyến Tính. Thứ nhất, nó chỉ mô tả được mối quan hệ tuyến tính và không phù hợp với dữ liệu phi tuyến. Thứ hai, mô hình rất nhạy cảm với outliers (điểm dữ liệu bất thường). Thứ ba, nó giả định các biến độc lập không tương quan quá cao để tránh hiện tượng đa cộng tuyến (multicollinearity). Do đó, chúng ta cần kiểm tra các giả định này trước khi áp dụng mô hình.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 14,
+          "time_range": "28-30 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on summary. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 15,
+        "teacher": "Để tổng kết bài học hôm nay, chúng ta cần nhớ những điểm chính: Mô hình Hồi Quy Tuyến Tính có dạng y = wx + b, với mục tiêu là tối thiểu hóa MSE (Mean Squared Error) bằng thuật toán Gradient Descent. Đây là công cụ mạnh để dự đoán giá trị liên tục, nhưng có hạn chế là chỉ phù hợp với dữ liệu tuyến tính. Bài tập về nhà yêu cầu các em thực hành code Python, vẽ biểu đồ scatter plot với đường hồi quy, và tính MSE để đánh giá mô hình.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 15,
+          "time_range": "30-32 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on summary. Students listen and take notes."
+        }
+      }
+    ],
+    "copus_summary": {
+      "total_segments": 15,
+      "instructor_frequency": {
+        "Lec": "15/15 (100.0%)"
+      },
+      "student_frequency": {
+        "L": "15/15 (100.0%)"
+      },
+      "instructor_counts": {
+        "Lec": 15
+      },
+      "student_counts": {
+        "L": 15
+      }
+    },
+    "evaluation": {
+      "scenario": "Scenario 1: Lec-only",
+      "classroom_type": "DIDACTIC (Truyền thống)",
+      "lec_percentage": 100.0,
+      "pq_percentage": 0.0,
+      "student_listening_percentage": 100.0,
+      "student_answering_percentage": 0.0,
+      "student_asking_percentage": 0.0
+    }
+  },
+  "scenario2_pq_only": {
+    "log": [
+      {
+        "segment": 1,
+        "teacher": "Các em thân mến, để bắt đầu bài học hôm nay về Hồi Quy Tuyến Tính, thầy có một câu hỏi mở dành cho cả lớp: **\"Theo các bạn, trong thực tế, có những tình huống nào mà việc dự đoán một giá trị số (như giá nhà, doanh thu) lại quan trọng và chúng ta có thể làm điều đó dựa trên một hoặc vài thông tin đơn giản ban đầu?\"**",
+        "student": "Thưa thầy, em nghĩ một ví dụ thực tế là dự đoán giá thuê nhà dựa vào diện tích và vị trí ạ. Hoặc dự đoán doanh số bán kem dựa vào nhiệt độ trong ngày ạ.",
+        "copus": {
+          "segment": 1,
+          "time_range": "2-4 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 2,
+        "teacher": "**\"Các em nghĩ xem, nếu muốn dự đoán một đại lượng, điều kiện tiên quyết đầu tiên chúng ta cần có là gì, và tại sao việc tìm ra một mối quan hệ toán học (như một đường thẳng) giữa các đại lượng lại hữu ích?\"**",
+        "student": "Thưa thầy, em chưa hiểu rõ lắm ạ. Thầy có thể cho ví dụ cụ thể về \"đại lượng\" và \"mối quan hệ toán học\" được không ạ?",
+        "copus": {
+          "segment": 2,
+          "time_range": "4-6 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "SQ"
+          ],
+          "description": "Teacher poses question on Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 3,
+        "teacher": "**\"Trong ví dụ dự đoán giá nhà, ngoài diện tích (x), các em có thể nghĩ ra những biến độc lập (independent variables) nào khác có thể ảnh hưởng đến giá nhà (y), và liệu mối quan hệ của chúng với giá nhà có luôn là tuyến tính (linear) không?\"**",
+        "student": "Thưa thầy, em nghĩ còn có số phòng ngủ, khoảng cách đến trung tâm, và tuổi của ngôi nhà ạ. Nhưng em không chắc mối quan hệ có luôn tuyến tính không, ví dụ khoảng cách đến trung tâm có thể ảnh hưởng nhiều ở gần trung tâm nhưng ít hơn khi ở xa ạ.",
+        "copus": {
+          "segment": 3,
+          "time_range": "6-8 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Vấn Đề Thực Tế. Student responds."
+        }
+      },
+      {
+        "segment": 4,
+        "teacher": "**\"Giả sử chúng ta có một tập dữ liệu về mối quan hệ giữa hai đại lượng, làm thế nào để chúng ta, bằng trực quan hoặc phân tích, quyết định xem có nên sử dụng một mô hình tuyến tính (linear model) để mô tả mối quan hệ đó hay không?\"**",
+        "student": "Thưa thầy, em nghĩ là... chúng ta có thể vẽ biểu đồ phân tán (scatter plot) để xem các điểm dữ liệu có phân bố gần một đường thẳng hay không ạ. Nếu chúng nằm gần một đường thẳng thì có thể dùng mô hình tuyến tính, nhưng em không chắc lắm ạ.",
+        "copus": {
+          "segment": 4,
+          "time_range": "8-10 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Vấn Đề Thực Tế. Student responds."
+        }
+      },
+      {
+        "segment": 5,
+        "teacher": "**\"Trong phương trình hồi quy tuyến tính đơn giản y = wx + b, các em hãy thử diễn giải bằng lời ý nghĩa thực tế của hệ số góc w (weight) và hệ số chặn b (bias). Chúng cho chúng ta biết điều gì về mối quan hệ giữa biến độc lập x và biến phụ thuộc y?\"**",
+        "student": "Thưa thầy, em hiểu là hệ số góc w cho biết khi x tăng 1 đơn vị thì y sẽ thay đổi bao nhiêu đơn vị ạ. Còn hệ số chặn b là giá trị của y khi x bằng 0, nhưng trong thực tế như giá nhà thì b có thể không có ý nghĩa thực tế vì không có ngôi nhà nào có diện tích bằng 0 ạ.",
+        "copus": {
+          "segment": 5,
+          "time_range": "10-12 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Khái Niệm Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 6,
+        "teacher": "**\"Nếu trong một mô hình dự đoán, hệ số chặn b (bias) có giá trị rất lớn, điều đó có thể ngụ ý gì về mối quan hệ cơ bản giữa x và y, ngay cả khi x = 0?\"**",
+        "student": "Thưa thầy, em nghĩ là... khi x = 0 mà y vẫn có giá trị lớn (bias lớn), điều đó có thể ngụ ý rằng có những yếu tố khác ngoài x đang ảnh hưởng đến y ạ. Nhưng em không chắc lắm về cách giải thích ạ.",
+        "copus": {
+          "segment": 6,
+          "time_range": "12-14 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Khái Niệm Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 7,
+        "teacher": "**\"Chúng ta ký hiệu ŷ (y-hat) là giá trị dự đoán. Vậy theo các em, sự khác biệt giữa giá trị thực tế y và giá trị dự đoán ŷ nói lên điều gì về chất lượng của mô hình hồi quy tuyến tính mà chúng ta xây dựng?\"**",
+        "student": "Thưa thầy, sự khác biệt đó gọi là sai số ạ. Nếu sai số nhỏ, có nghĩa là mô hình dự đoán gần đúng với thực tế, chất lượng tốt. Còn nếu sai số lớn hoặc có nhiều điểm sai số lớn, thì mô hình chưa khớp tốt với dữ liệu ạ.",
+        "copus": {
+          "segment": 7,
+          "time_range": "14-16 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Phương Trình Toán Học. Student responds."
+        }
+      },
+      {
+        "segment": 8,
+        "teacher": "**\"Để tìm ra cặp tham số w và b tốt nhất, chúng ta cần một thước đo để đánh giá 'mức độ sai' của dự đoán. Vậy theo các em, tại sao chúng ta lại thường sử dụng bình phương của sai số (squared error) thay vì chỉ lấy giá trị tuyệt đối của sai số khi xây dựng hàm mất mát (loss function)?\"**",
+        "student": "Thưa thầy, em nghĩ là... việc bình phương sẽ phạt nặng hơn những sai số lớn, giúp mô hình chú ý hơn đến các điểm dữ liệu dự đoán sai nhiều ạ. Còn một lý do nữa là... em nghe nói việc bình phương sẽ giúp đạo hàm dễ tính hơn, nhưng em không rõ chi tiết ạ.",
+        "copus": {
+          "segment": 8,
+          "time_range": "16-18 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Làm Thế Nào Để Tìm w và b?. Student responds."
+        }
+      },
+      {
+        "segment": 9,
+        "teacher": "**\"Giả sử chúng ta có hai mô hình với các giá trị w và b khác nhau. Mô hình A có một vài sai số rất lớn, trong khi mô hình B có nhiều sai số nhỏ hơn nhưng phân tán đều. Theo các em, hàm MSE (Mean Squared Error) sẽ 'phạt' (penalize) mô hình nào nặng hơn, và điều này có ý nghĩa gì trong việc lựa chọn mô hình?\"**",
+        "student": "Thưa thầy, em nghĩ hàm MSE sẽ phạt mô hình A nặng hơn vì nó bình phương sai số, nên những sai số rất lớn sẽ bị phóng đại lên rất nhiều ạ. Điều này có nghĩa là khi chọn mô hình, chúng ta nên tránh những mô hình có dự đoán sai lệch quá xa ở một vài điểm, dù có thể nó tốt ở nhiều điểm khác ạ.",
+        "copus": {
+          "segment": 9,
+          "time_range": "18-20 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Làm Thế Nào Để Tìm w và b?. Student responds."
+        }
+      },
+      {
+        "segment": 10,
+        "teacher": "**\"Trong thuật toán Gradient Descent, tốc độ học (learning rate) đóng vai trò cực kỳ quan trọng. Các em hãy thử hình dung và giải thích điều gì sẽ xảy ra nếu chúng ta đặt tốc độ học quá lớn hoặc quá nhỏ trong quá trình tối ưu hóa (optimization)?\"**",
+        "student": "Thưa thầy, em nghĩ là... nếu tốc độ học quá lớn, các bước nhảy sẽ quá dài, có thể vượt qua điểm tối ưu và làm thuật toán phân kỳ ạ. Còn nếu quá nhỏ thì thuật toán sẽ hội tụ rất chậm, có thể không bao giờ đến được điểm tối ưu trong thời gian cho phép ạ.",
+        "copus": {
+          "segment": 10,
+          "time_range": "20-22 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Gradient Descent - Thuật Toán Tối Ưu. Student responds."
+        }
+      },
+      {
+        "segment": 11,
+        "teacher": "**\"Chúng ta biết Gradient Descent sử dụng đạo hàm (derivative) để tìm hướng đi xuống dốc nhanh nhất. Vậy theo các em, tại điểm cực tiểu của hàm mất mát (loss function), giá trị của đạo hàm sẽ như thế nào, và điều này ảnh hưởng gì đến bước cập nhật tham số của thuật toán?\"**",
+        "student": "Thưa thầy, tại điểm cực tiểu, đạo hàm sẽ bằng 0 hoặc gần bằng 0 ạ. Khi đó, bước cập nhật tham số sẽ rất nhỏ hoặc gần như dừng lại, vì thuật toán nhận thấy nó đã tìm được điểm thấp nhất rồi ạ.",
+        "copus": {
+          "segment": 11,
+          "time_range": "22-24 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Gradient Descent - Thuật Toán Tối Ưu. Student responds."
+        }
+      },
+      {
+        "segment": 12,
+        "teacher": "**\"Khi sử dụng thư viện scikit-learn với model = LinearRegression().fit(X, y), chúng ta chỉ cần một dòng code để 'huấn luyện' mô hình. Vậy theo các em, điều gì thực sự đang xảy ra đằng sau phương thức `.fit()` đó? Nó có thể đang sử dụng phương pháp giải tích (analytic solution) hay Gradient Descent mà chúng ta vừa học?\"**",
+        "student": "Thưa thầy, em nghĩ là... phương thức `.fit()` đó có thể đang giải phương trình đạo hàm bằng 0 để tìm nghiệm chính xác (analytic solution) ạ, vì đây là mô hình tuyến tính đơn giản. Nhưng em không chắc nó có dùng Gradient Descent hay không ạ.",
+        "copus": {
+          "segment": 12,
+          "time_range": "24-26 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Demo: Code Python. Student responds."
+        }
+      },
+      {
+        "segment": 13,
+        "teacher": "**\"Hồi quy tuyến tính là một công cụ mạnh mẽ cho phân tích dữ liệu (data analysis). Các em hãy thử đề xuất một tình huống thực tế trong cuộc sống hoặc ngành học của mình, nơi mà việc dự đoán (prediction) một giá trị số dựa trên một (hoặc nhiều) yếu tố khác sẽ mang lại lợi ích cụ thể?\"**",
+        "student": "Thưa thầy, trong ngành học của em, có thể dự đoán điểm tổng kết môn (y) dựa trên số giờ tự học mỗi tuần (x) ạ. Điều này giúp sinh viên biết được cần đầu tư bao nhiêu thời gian để đạt được mục tiêu điểm số, và nhà trường có thể hỗ trợ những bạn có dự đoán điểm thấp ạ.",
+        "copus": {
+          "segment": 13,
+          "time_range": "26-28 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Ứng Dụng Thực Tế. Student responds."
+        }
+      },
+      {
+        "segment": 14,
+        "teacher": "**\"Chúng ta đã thấy hồi quy tuyến tính có thể bị ảnh hưởng mạnh bởi các điểm dữ liệu ngoại lai (outliers). Vậy theo các em, tại sao chỉ một vài outliers lại có thể 'kéo' đường hồi quy đi xa khỏi xu hướng chung của phần lớn dữ liệu, và điều này liên quan thế nào đến cách hàm MSE (Mean Squared Error) hoạt động?\"**",
+        "student": "Thưa thầy, em nghĩ là... vì hàm MSE bình phương sai số, nên một điểm outlier có sai số rất lớn sẽ bị bình phương lên, làm cho giá trị mất mát tăng vọt. Để giảm tổng mất mát, thuật toán sẽ cố gắng \"kéo\" đường hồi quy về phía điểm outlier đó, dù phải hy sinh độ phù hợp với đa số dữ liệu còn lại ạ.",
+        "copus": {
+          "segment": 14,
+          "time_range": "28-30 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Hạn Chế và Lưu Ý. Student responds."
+        }
+      },
+      {
+        "segment": 15,
+        "teacher": "**\"Sau buổi học hôm nay về hồi quy tuyến tính, các em hãy thử suy nghĩ: Nếu phải giải thích toàn bộ quy trình từ dữ liệu thô đến một mô hình dự đoán hoàn chỉnh cho một người bạn không học chuyên ngành của mình, các em sẽ tóm tắt nó bằng những bước cốt lõi nào?\"**",
+        "student": "Thưa thầy, em sẽ giải thích theo 3 bước chính ạ. Đầu tiên là xác định mục tiêu muốn dự đoán (như giá nhà) và yếu tố ảnh hưởng (như diện tích). Thứ hai là tìm một đường thẳng phù hợp nhất với dữ liệu đã có. Cuối cùng là dùng đường thẳng đó để dự đoán giá trị mới khi biết yếu tố ảnh hưởng ạ.",
+        "copus": {
+          "segment": 15,
+          "time_range": "30-32 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Tổng Kết. Student responds."
+        }
+      }
+    ],
+    "copus_summary": {
+      "total_segments": 15,
+      "instructor_frequency": {
+        "PQ": "15/15 (100.0%)",
+        "AnQ": "15/15 (100.0%)"
+      },
+      "student_frequency": {
+        "AnQ": "14/15 (93.3%)",
+        "SQ": "1/15 (6.7%)"
+      },
+      "instructor_counts": {
+        "PQ": 15,
+        "AnQ": 15
+      },
+      "student_counts": {
+        "AnQ": 14,
+        "SQ": 1
+      }
+    },
+    "evaluation": {
+      "scenario": "Scenario 2: PQ-only",
+      "classroom_type": "INTERACTIVE (Tương tác)",
+      "lec_percentage": 0.0,
+      "pq_percentage": 100.0,
+      "student_listening_percentage": 0.0,
+      "student_answering_percentage": 93.33333333333333,
+      "student_asking_percentage": 6.666666666666667
+    }
+  }
+}

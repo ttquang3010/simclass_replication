@@ -6,9 +6,9 @@ Handles API initialization and client configuration for DeepSeek and Google Gemi
 
 import os
 import logging
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Any
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 from . import constants as const
@@ -24,6 +24,7 @@ class APIClient:
     Attributes:
         provider: API provider name ("deepseek" or "google")
         client: OpenAI client instance (for DeepSeek)
+        google_client: Google Genai client instance (for Google)
         model_name: Name of the model being used
     """
     
@@ -31,9 +32,10 @@ class APIClient:
         """Initialize APIClient with no configuration."""
         self.provider: Optional[str] = None
         self.client: Optional[OpenAI] = None
+        self.google_client: Optional[Any] = None
         self.model_name: str = ""
     
-    def initialize(self) -> Tuple[str, Optional[OpenAI], str]:
+    def initialize(self) -> Tuple[str, Optional[OpenAI], str, Optional[Any]]:
         """
         Initialize API client based on available API keys.
         
@@ -45,6 +47,7 @@ class APIClient:
                 - provider: API provider name ("deepseek" or "google")
                 - client: OpenAI client instance (None for Google)
                 - model_name: Model name being used
+                - google_client: Google Genai client instance (None for DeepSeek)
                 
         Raises:
             Exception: If no valid API key is found in .env file
@@ -64,7 +67,7 @@ class APIClient:
             logger.info(f"Using DeepSeek API: {self.model_name}")
         elif google_key:
             self.provider = "google"
-            genai.configure(api_key=google_key)
+            self.google_client = genai.Client(api_key=google_key)
             self.model_name = const.GOOGLE_MODEL
             logger.info(f"Using Google Gemini API: {self.model_name}")
         else:
@@ -72,7 +75,7 @@ class APIClient:
             logger.error(error_msg)
             raise Exception(error_msg)
         
-        return self.provider, self.client, self.model_name
+        return self.provider, self.client, self.model_name, self.google_client
     
     def get_provider(self) -> Optional[str]:
         """

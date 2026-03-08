@@ -61,42 +61,6 @@ pytest tests/test_reliability_metrics.py -v
 
 # Run with coverage
 pytest tests/ --cov=multiagent_classroom --cov-report=html
-```
-reliability_metrics.py  # Inter-rater reliability (IRR) metrics
-│   ├── data_loader.py      # Data loading and validation
-│   └── result_saver.py     # Results persistence
-├── tests/                  # Test suite
-│   ├── __init__.py         # Test package initialization
-│   └── test_reliability_metrics.py  # IRR metrics tests
-├── legacy/                 # Archived code
-│   └── copus_simulation.py # Original monolithic version
-├── main.py                 # Entry point
-├── requirements.txt        # Dependencies
-├── .env.template           # Template for API keys
-├── README.md               # This file
-├── data/
-│   ├── linear_regression_slides.json   # Lecture content (10 slides)
-│   ├── agent_prompts_vi.json           # Agent prompts (Vietnamese)
-│   └── agent_prompts_vi.py             # Agent prompts (Python format)
-├── results/
-│   └── copus_simulation_*.json         # Simulation results
-└── copus/
-    └── paper/
-        └── copus.md                     # COPUS papere
-├── legacy/                 # Archived code
-│   └── copus_simulation.py # Original monolithic version
-├── main.py                 # Entry point
-├── requirements.txt        # Dependencies
-├── .env.template           # Template for API keys
-├── README.md               # This file
-├── data/
-│   ├── linear_regression_slides.json   # Lecture content (10 slides)
-│   └── agent_prompts_vi.json           # Agent prompts (Vietnamese)
-├── results/
-│   └── copus_simulation_*.json         # Simulation results
-└── copus/
-    └── ...                              # COPUS documentation
-```
 
 ## Module Responsibilities
 
@@ -253,6 +217,14 @@ After running, you will see:
    - COPUS code frequencies
    - Class type classification (Didactic/Interactive/Mixed)
    - Comparison between 2 scenarios
+   - Filename format: `copus_simulation_YYYYMMDD_HHMMSS.json`
+
+3. **Log file** in `logs/` directory:
+   - Timestamped simulation execution log
+   - API calls and agent interactions
+   - COPUS observation recordings
+   - Error messages and warnings
+   - Filename format: `simulation_YYYYMMDD_HHMMSS.log`
 
 ## COPUS Codes Used
 

@@ -6,9 +6,10 @@ Defines agent classes for classroom simulation with LLM interaction.
 
 import time
 import logging
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 from . import constants as const
 
@@ -30,7 +31,7 @@ class SimpleAgent:
         max_context: Maximum messages to keep in context window
         api_provider: API provider ("deepseek" or "google")
         client: OpenAI client instance (for DeepSeek)
-        model: Google Gemini model instance (for Google)
+        google_client: Google Genai client instance (for Google)
         chat: Google Gemini chat session (for Google)
         messages: Message history (for DeepSeek/OpenAI)
     """
@@ -42,6 +43,7 @@ class SimpleAgent:
         model_name: str,
         api_provider: str,
         client: Optional[OpenAI] = None,
+        google_client: Optional[Any] = None,
         max_context: int = 10
     ) -> None:
         """
@@ -53,6 +55,7 @@ class SimpleAgent:
             model_name: LLM model name to use
             api_provider: API provider ("deepseek" or "google")
             client: OpenAI client instance (required if using DeepSeek)
+            google_client: Google Genai client instance (required if using Google)
             max_context: Maximum messages in context window (default: 10)
         """
         self.name: str = name
@@ -61,13 +64,15 @@ class SimpleAgent:
         self.max_context: int = max_context
         self.api_provider: str = api_provider
         self.client: Optional[OpenAI] = client
+        self.google_client: Optional[Any] = google_client
         
         if api_provider == "google":
-            self.model = genai.GenerativeModel(
-                model_name=model_name,
-                system_instruction=system_prompt
+            self.chat = google_client.chats.create(
+                model=model_name,
+                config=types.GenerateContentConfig(
+                    system_instruction=system_prompt
+                )
             )
-            self.chat = self.model.start_chat(history=[])
         else:
             self.messages: List[Dict[str, str]] = [
                 {"role": "system", "content": system_prompt}
@@ -202,6 +207,11 @@ class SimpleAgent:
     def clear_context(self) -> None:
         """Clear conversation history while preserving system prompt."""
         if self.api_provider == "google":
-            self.chat = self.model.start_chat(history=[])
+            self.chat = self.google_client.chats.create(
+                model=self.model_name,
+                config=types.GenerateContentConfig(
+                    system_instruction=self.system_prompt
+                )
+            )
         else:
             self.messages = [{"role": "system", "content": self.system_prompt}]

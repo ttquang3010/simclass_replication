@@ -1,0 +1,227 @@
+{
+  "scenario1_lec_only": {
+    "log": [
+      {
+        "segment": 1,
+        "teacher": "Chào mừng các bạn đến với bài học về Hồi Quy Tuyến Tính (Linear Regression).\\nĐây là một trong những thuật toán cơ bản và quan trọng nhất trong Machine Learning (Học Máy).\\nTrong buổi học hôm nay, chúng ta sẽ cùng tìm hiểu ba nội dung chính: khái niệm, công thức toán học, và các ứng dụng thực tế của nó.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 1,
+          "time_range": "2-4 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Hồi Quy Tuyến Tính. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 2,
+        "teacher": "Chúng ta hãy xem xét một vấn đề thực tế: dự đoán giá nhà dựa trên diện tích.\\nDữ liệu huấn luyện (training data) của chúng ta có thể là: nhà 50m² giá 1 tỷ, nhà 80m² giá 1.6 tỷ, và nhà 100m² giá 2 tỷ.\\nMục tiêu của Hồi Quy Tuyến Tính là tìm ra một mối quan hệ, hay một đường thẳng, để từ đó có thể dự đoán (predict) giá cho một căn nhà mới, chẳng hạn như 120m².",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 2,
+          "time_range": "4-6 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Vấn Đề Thực Tế. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 3,
+        "teacher": "Về mặt khái niệm, Hồi Quy Tuyến Tính (Linear Regression) là phương pháp tìm mối quan hệ tuyến tính giữa biến độc lập (independent variable) x (ví dụ: diện tích) và biến phụ thuộc (dependent variable) y (ví dụ: giá nhà).\\nMục tiêu của chúng ta là tìm một đường thẳng 'tốt nhất' để mô tả mối quan hệ này.\\nĐường thẳng đó được biểu diễn bằng phương trình toán học: y = wx + b, trong đó w là hệ số góc hay còn gọi là weight (hoặc slope), và b là hệ số chặn hay còn gọi là bias (hoặc intercept).",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 3,
+          "time_range": "6-8 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Khái Niệm Hồi Quy Tuyến Tính. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 4,
+        "teacher": "Chúng ta đi sâu vào phương trình toán học cho việc dự đoán.\\nPhương trình dự đoán (prediction equation) là: ŷ = wx + b, với ŷ (đọc là y-hat) là giá trị dự đoán, x là giá trị đầu vào (input), w là trọng số (weight) thể hiện độ dốc, và b là độ lệch (bias) hay điểm cắt trục y.\\nVí dụ, nếu chúng ta có w = 0.02 và b = 0, thì với đầu vào x = 120 (m²), giá trị dự đoán ŷ sẽ là 0.02 × 120 = 2.4 tỷ đồng.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 4,
+          "time_range": "8-10 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Phương Trình Toán Học. Students listen and take notes."
+        }
+      },
+      {
+        "segment": 5,
+        "teacher": "Câu hỏi trọng tâm là: làm thế nào để tìm được các tham số w và b tối ưu?\\nBước đầu tiên là tính sai số (Error) cho mỗi điểm dữ liệu, được định nghĩa là giá trị thực tế (y) trừ đi giá trị dự đoán (ŷ), hay Error = y - (wx + b).\\nBước thứ hai, chúng ta tổng hợp tất cả sai số này thông qua một hàm mất mát (Loss Function), phổ biến nhất là Sai số Bình phương Trung bình (Mean Squared Error - MSE), với công thức MSE = (1/n) × Σ(y - ŷ)².\\nMục tiêu của thuật toán là tìm bộ tham số w và b sao cho giá trị hàm MSE này là nhỏ nhất, từ đó cho ra đường thẳng khớp nhất (best-fit line) với dữ liệu.",
+        "students": "Listening and taking notes",
+        "copus": {
+          "segment": 5,
+          "time_range": "10-12 min",
+          "instructor_codes": [
+            "Lec"
+          ],
+          "student_codes": [
+            "L"
+          ],
+          "description": "Teacher lectures on Làm Thế Nào Để Tìm w và b?. Students listen and take notes."
+        }
+      }
+    ],
+    "copus_summary": {
+      "total_segments": 5,
+      "instructor_frequency": {
+        "Lec": "5/5 (100.0%)"
+      },
+      "student_frequency": {
+        "L": "5/5 (100.0%)"
+      },
+      "instructor_counts": {
+        "Lec": 5
+      },
+      "student_counts": {
+        "L": 5
+      }
+    },
+    "evaluation": {
+      "scenario": "Scenario 1: Lec-only",
+      "classroom_type": "DIDACTIC (Truyền thống)",
+      "lec_percentage": 100.0,
+      "pq_percentage": 0.0,
+      "student_listening_percentage": 100.0,
+      "student_answering_percentage": 0.0,
+      "student_asking_percentage": 0.0
+    }
+  },
+  "scenario2_pq_only": {
+    "log": [
+      {
+        "segment": 1,
+        "teacher": "Theo các bạn, tại sao chúng ta lại chọn hàm Sai số Bình phương Trung bình (MSE) làm hàm mất mát chính trong Hồi Quy Tuyến Tính, thay vì một phép đo sai số đơn giản khác như tổng giá trị tuyệt đối?",
+        "student": "Thưa thầy, em nghĩ là vì hàm MSE có đạo hàm đẹp và liên tục, dễ tính toán để tìm điểm tối ưu hơn so với hàm giá trị tuyệt đối ạ. Hàm giá trị tuyệt đối có đạo hàm không liên tục tại điểm 0, nên việc tối ưu sẽ phức tạp hơn.",
+        "copus": {
+          "segment": 1,
+          "time_range": "2-4 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 2,
+        "teacher": "Trong ví dụ dự đoán giá nhà, ngoài diện tích (x), theo các bạn còn có những biến độc lập (independent variables) nào khác có thể ảnh hưởng đến giá nhà (y) và liệu mối quan hệ của chúng có còn là tuyến tính đơn giản không?",
+        "student": "Thưa thầy, em chưa hiểu rõ lắm về \"mối quan hệ tuyến tính đơn giản\" ạ. Thầy có thể giải thích lại cụm từ này được không ạ?",
+        "copus": {
+          "segment": 2,
+          "time_range": "4-6 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "SQ"
+          ],
+          "description": "Teacher poses question on Vấn Đề Thực Tế. Student responds."
+        }
+      },
+      {
+        "segment": 3,
+        "teacher": "Hệ số chặn (bias/intercept) b trong phương trình y = wx + b có ý nghĩa thực tế là gì trong bài toán dự đoán giá nhà của chúng ta? Nếu b = 0, điều đó ngụ ý điều gì về mối quan hệ giữa diện tích và giá?",
+        "student": "Thưa thầy, em nghĩ hệ số b thể hiện giá trị cơ sở của ngôi nhà, tức là giá nhà khi diện tích bằng 0 ạ. Nếu b = 0, điều đó ngụ ý rằng khi diện tích bằng 0 thì giá nhà cũng bằng 0, tức là không có chi phí cố định nào như giá đất nền hay phí xây dựng cơ bản ạ.",
+        "copus": {
+          "segment": 3,
+          "time_range": "6-8 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Khái Niệm Hồi Quy Tuyến Tính. Student responds."
+        }
+      },
+      {
+        "segment": 4,
+        "teacher": "Giả sử chúng ta có một mô hình với w rất lớn (ví dụ: w = 1000) và b rất nhỏ. Theo các bạn, đường thẳng dự đoán sẽ trông như thế nào trên biểu đồ và nó phản ánh điều gì về độ nhạy của giá nhà đối với diện tích?",
+        "student": "Thưa thầy, em nghĩ đường thẳng sẽ rất dốc ạ. Có phải nó phản ánh rằng chỉ cần diện tích thay đổi một chút thôi thì giá nhà sẽ thay đổi rất nhiều không ạ?",
+        "copus": {
+          "segment": 4,
+          "time_range": "8-10 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Phương Trình Toán Học. Student responds."
+        }
+      },
+      {
+        "segment": 5,
+        "teacher": "Việc bình phương sai số (y - ŷ)² trong công thức MSE, thay vì chỉ lấy giá trị tuyệt đối, sẽ tạo ra sự khác biệt gì trong cách thuật toán \"trừng phạt\" những dự đoán sai lệch lớn so với sai lệch nhỏ?",
+        "student": "Thưa thầy, em nghĩ việc bình phương sẽ phóng đại ảnh hưởng của những sai lệch lớn hơn so với sai lệch nhỏ ạ. Ví dụ, một sai số gấp đôi sẽ bị \"phạt\" nặng gấp bốn lần, nên mô hình sẽ cố gắng tránh những dự đoán sai quá xa hơn là những sai số nhỏ ạ.",
+        "copus": {
+          "segment": 5,
+          "time_range": "10-12 min",
+          "instructor_codes": [
+            "PQ",
+            "AnQ"
+          ],
+          "student_codes": [
+            "AnQ"
+          ],
+          "description": "Teacher poses question on Làm Thế Nào Để Tìm w và b?. Student responds."
+        }
+      }
+    ],
+    "copus_summary": {
+      "total_segments": 5,
+      "instructor_frequency": {
+        "PQ": "5/5 (100.0%)",
+        "AnQ": "5/5 (100.0%)"
+      },
+      "student_frequency": {
+        "AnQ": "4/5 (80.0%)",
+        "SQ": "1/5 (20.0%)"
+      },
+      "instructor_counts": {
+        "PQ": 5,
+        "AnQ": 5
+      },
+      "student_counts": {
+        "AnQ": 4,
+        "SQ": 1
+      }
+    },
+    "evaluation": {
+      "scenario": "Scenario 2: PQ-only",
+      "classroom_type": "INTERACTIVE (Tương tác)",
+      "lec_percentage": 0.0,
+      "pq_percentage": 100.0,
+      "student_listening_percentage": 0.0,
+      "student_answering_percentage": 80.0,
+      "student_asking_percentage": 20.0
+    }
+  }
+}

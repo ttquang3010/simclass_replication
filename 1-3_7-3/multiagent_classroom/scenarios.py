@@ -113,17 +113,20 @@ class ScenarioExecutor:
     
     def _get_slide_content(self, slides: List[Dict[str, Any]], turn: int) -> str:
         """
-        Get slide content for current turn.
+        Get slide content for current turn using segment mapping.
         
         Args:
             slides: List of slides
-            turn: Current turn number
+            turn: Current turn number (0-indexed)
             
         Returns:
             Formatted slide content string
         """
-        if turn < len(slides):
-            slide: Dict[str, Any] = slides[turn]
+        segment: int = turn + 1  # Convert to 1-indexed segment number
+        slide_index: int = const.SLIDE_SEGMENT_MAPPING.get(segment, len(slides) - 1)
+        
+        if slide_index < len(slides):
+            slide: Dict[str, Any] = slides[slide_index]
             content: str = f"Slide {slide['slide_number']}: {slide['title']}\n"
             content += "\n".join(slide['content'])
             return content
@@ -135,17 +138,20 @@ class ScenarioExecutor:
         turn: int
     ) -> tuple[str, str]:
         """
-        Get slide topic and key terms.
+        Get slide topic and key terms using segment mapping.
         
         Args:
             slides: List of slides
-            turn: Current turn number
+            turn: Current turn number (0-indexed)
             
         Returns:
             Tuple of (topic, key_terms)
         """
-        if turn < len(slides):
-            slide: Dict[str, Any] = slides[turn]
+        segment: int = turn + 1  # Convert to 1-indexed segment number
+        slide_index: int = const.SLIDE_SEGMENT_MAPPING.get(segment, len(slides) - 1)
+        
+        if slide_index < len(slides):
+            slide: Dict[str, Any] = slides[slide_index]
             topic: str = slide['title']
             key_terms: str = ', '.join(slide.get('key_terms', []))
             return topic, key_terms
