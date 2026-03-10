@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "source_simulation": "copus_simulation_20260309_234010.json",
+    "scenario": "scenario1_lec_only",
+    "coder": "human",
+    "coded_at": "2026-03-10T22:54:11.385816",
+    "total_coded": 15
+  },
+  "observations": [
+    {
+      "segment": 1,
+      "time_range": "2-4 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 2,
+      "time_range": "4-6 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 3,
+      "time_range": "6-8 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 4,
+      "time_range": "8-10 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 5,
+      "time_range": "10-12 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 6,
+      "time_range": "12-14 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 7,
+      "time_range": "14-16 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 8,
+      "time_range": "16-18 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 9,
+      "time_range": "18-20 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 10,
+      "time_range": "20-22 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 11,
+      "time_range": "22-24 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 12,
+      "time_range": "24-26 min",
+      "instructor_codes": [
+        "Lec",
+        "D/V"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 13,
+      "time_range": "26-28 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 14,
+      "time_range": "28-30 min",
+      "instructor_codes": [
+        "Lec"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    },
+    {
+      "segment": 15,
+      "time_range": "30-32 min",
+      "instructor_codes": [
+        "Lec",
+        "Adm"
+      ],
+      "student_codes": [
+        "L"
+      ],
+      "note": ""
+    }
+  ]
+}

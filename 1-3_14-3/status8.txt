@@ -1,0 +1,48 @@
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   ../.gitignore
+	deleted:    ../1-3_7-3/.env.template
+	deleted:    ../1-3_7-3/README.md
+	deleted:    ../1-3_7-3/copus/The Classroom Observation Protocol for UndergraduateSTEM (COPUS) A New Instrument to CharacterizeUniversity STEM Classroom Practices.pdf
+	deleted:    ../1-3_7-3/copus/copus_note.txt
+	deleted:    ../1-3_7-3/copus/paper/_page_3_Figure_5.jpeg
+	deleted:    ../1-3_7-3/copus/paper/_page_7_Figure_1.jpeg
+	deleted:    ../1-3_7-3/copus/paper/_page_7_Figure_3.jpeg
+	deleted:    ../1-3_7-3/copus/paper/_page_7_Figure_5.jpeg
+	deleted:    ../1-3_7-3/copus/paper/copus.md
+	deleted:    ../1-3_7-3/copus/paper/paper_meta.json
+	deleted:    ../1-3_7-3/copus/paper1/paper1.json
+	deleted:    ../1-3_7-3/copus/paper1/paper1_meta.json
+	deleted:    ../1-3_7-3/data/agent_prompts_vi.json
+	deleted:    ../1-3_7-3/data/agent_prompts_vi.py
+	deleted:    ../1-3_7-3/data/linear_regression_slides.json
+	deleted:    ../1-3_7-3/data/prompt_template.py
+	deleted:    ../1-3_7-3/main.py
+	deleted:    ../1-3_7-3/multiagent_classroom/__init__.py
+	deleted:    ../1-3_7-3/multiagent_classroom/agent.py
+	deleted:    ../1-3_7-3/multiagent_classroom/api_client.py
+	deleted:    ../1-3_7-3/multiagent_classroom/constants.py
+	deleted:    ../1-3_7-3/multiagent_classroom/data_loader.py
+	deleted:    ../1-3_7-3/multiagent_classroom/evaluator.py
+	deleted:    ../1-3_7-3/multiagent_classroom/observer.py
+	deleted:    ../1-3_7-3/multiagent_classroom/reliability_metrics.py
+	deleted:    ../1-3_7-3/multiagent_classroom/result_saver.py
+	deleted:    ../1-3_7-3/multiagent_classroom/scenarios.py
+	deleted:    ../1-3_7-3/requirements.txt
+	deleted:    ../1-3_7-3/results/copus_analysis_20260308.md
+	deleted:    ../1-3_7-3/results/copus_simulation_20260308_230144.json
+	deleted:    ../1-3_7-3/results/copus_simulation_20260308_235149.json
+	deleted:    ../1-3_7-3/tests/__init__.py
+	deleted:    ../1-3_7-3/tests/test_reliability_metrics.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	../1-12_13-12/results/archive/Simulating Classroom Education with LLM-Empowered Agents.pdf
+	../1-12_13-12/results/archive/The-Instructional-Process-A-Review-of-Flanders-Interaction-Analysis-in-a-Classroom-Setting.pdf
+	./
+
+no changes added to commit (use "git add" and/or "git commit -a")

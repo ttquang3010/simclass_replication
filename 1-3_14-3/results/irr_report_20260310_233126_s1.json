@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-03-10T23:31:26.697086",
+  "agent_file": "copus_simulation_20260309_234010.json",
+  "human_file": "human_coded_20260309_234010_s1_20260310_223303.json",
+  "irr_metrics": {
+    "jaccard_similarity": 0.956,
+    "cohens_kappa": 0.933,
+    "kappa_interpretation": "Almost Perfect (0.81-1.00)",
+    "percent_agreement": 86.7,
+    "n_segments": 15,
+    "coder1_name": "Agent",
+    "coder2_name": "Human"
+  },
+  "disagreements": {
+    "disagreement_segments": [
+      12,
+      15
+    ],
+    "disagreement_count": 2,
+    "disagreement_details": [
+      {
+        "segment": 12,
+        "Agent_codes": [
+          "Lec",
+          "L"
+        ],
+        "Human_codes": [
+          "Lec",
+          "L",
+          "D/V"
+        ],
+        "agreement": [
+          "Lec",
+          "L"
+        ],
+        "only_Agent": [],
+        "only_Human": [
+          "D/V"
+        ],
+        "jaccard": 0.6666666666666666
+      },
+      {
+        "segment": 15,
+        "Agent_codes": [
+          "Lec",
+          "L"
+        ],
+        "Human_codes": [
+          "Lec",
+          "Adm",
+          "L"
+        ],
+        "agreement": [
+          "Lec",
+          "L"
+        ],
+        "only_Agent": [],
+        "only_Human": [
+          "Adm"
+        ],
+        "jaccard": 0.6666666666666666
+      }
+    ],
+    "common_confusions": []
+  }
+}
